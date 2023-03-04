@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class Dashboard extends CI_Controller {
+class Data_group_admin extends CI_Controller {
     function keluar(){
         $this->session->set_flashdata('pesan',
                 '<div class="alert alert-warning alert-dismissible" role="alert">
@@ -22,21 +22,17 @@ class Dashboard extends CI_Controller {
 
         if($this->session->userdata("role_user") != "0"){
             $this->keluar();
-        }
+        }   
     }
 
     public function index(){
-        $this->load->view('Admin/Template_admin/header');
-        $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/dashboard');
-        $this->load->view('Admin/Template_admin/footer');
-    }
-
-    public function under_development(){
-        $this->load->view('Admin/Template_admin/header');
-        $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/under_development');
-        $this->load->view('Admin/Template_admin/footer');
+        redirect("adm/dashboard/under_development");
+        // $data['data_user']         = $this->model_admin->tampil_data("ms_user", "username", "ASC")->result();
+        
+        // $this->load->view('Admin/Template_admin/header');
+        // $this->load->view('Admin/Template_admin/sidebar');
+        // $this->load->view('Admin/data_admin', $data);
+        // $this->load->view('Admin/Template_admin/footer');
     }
 }
 

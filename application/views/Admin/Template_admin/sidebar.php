@@ -71,6 +71,17 @@
 
             <!-- Data Dosen -->
             <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Penjualan</span>
+            </li>
+            <li class="menu-item">
+              <a href="<?php echo base_url('adm/penjualan'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <div data-i18n="Boxicons">Penjualan</div>
+              </a>
+            </li>
+
+            <!-- Data Dosen -->
+            <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Data Master</span>
             </li>
             <li class="menu-item">
@@ -92,13 +103,13 @@
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/data_admin'); ?>" class="menu-link">
+              <a href="<?php echo base_url('adm/data_admin'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Boxicons">Data Admin</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/data_group_admin'); ?>" class="menu-link">
+              <a href="<?php echo base_url('adm/data_group_admin'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Boxicons">Data Group Admin</div>
               </a>
