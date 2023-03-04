@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>SPK DOSEN TERBAIK | Dashboard</title>
+    <title>TOKO EMAS MURNI A1 | Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -54,6 +54,8 @@
     <link rel="stylesheet" href="<?php echo base_url('assets') ?>/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
     <link rel="stylesheet" href="<?php echo base_url('assets') ?>/assets/vendor/libs/apex-charts/apex-charts.css" />
+    
+    <link rel="stylesheet" href="<?php echo base_url('assets') ?>/assets/vendor/libs/datatables/datatables.min.css">
 
     <!-- Page CSS -->
 

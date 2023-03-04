@@ -1,0 +1,148 @@
+<?php 
+
+class Data_rak extends CI_Controller {
+    function keluar(){
+        $this->session->set_flashdata('pesan',
+                '<div class="alert alert-warning alert-dismissible" role="alert">
+                    Silahkan untuk login terlebih dahulu!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+            );  
+        $userdata = array('id_user', 'nama_admin');
+        $this->session->unset_userdata($userdata);
+        redirect('login');
+    }
+
+    public function __construct(){
+        parent::__construct();
+
+        if($this->session->userdata('id') == null){
+            $this->keluar();
+        }
+
+        if($this->session->userdata("role_user") != "0"){
+            $this->keluar();
+        }   
+    }
+
+    public function index(){
+        $data['data_rak']       = $this->model_admin->tampil_data("ms_rak", "id", "DESC")->result();
+        
+        $this->load->view('Admin/Template_admin/header');
+        $this->load->view('Admin/Template_admin/sidebar');
+        $this->load->view('Admin/data_rak', $data);
+        $this->load->view('Admin/Template_admin/footer');
+    }
+
+    public function tambah_data_rak(){
+        $data = array(
+            'nama_rak'      => strip_tags($this->input->post("nama_rak")),
+            'keterangan'    => strip_tags($this->input->post("keterangan")),
+            'usrid'         => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
+        );
+
+        $this->model_admin->tambah_data("ms_rak", $data);
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Data Bobot Telah Berhasil Ditambahkan!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_rak');
+    }
+
+    public function ubah_data_rak($Id = 0){
+        if($Id === 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Harap Memilih terlebih dahulu data yang ingin diubah!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        //Cek Dulu Ada Gak Datanya!
+        $where = array(
+            'id'       => $Id
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_rak')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda ubah tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        //Get Detail Data
+        $data['detail_data']        = $this->model_admin->get_data_from_uuid($where, "ms_rak")->row();
+
+        $this->load->view("Admin/Template_admin/header");
+        $this->load->view("Admin/Template_admin/sidebar");
+        $this->load->view("Admin/ubah/data_rak", $data);
+        $this->load->view('Admin/Template_admin/footer');
+    }
+
+    public function ubah_data_rak_aksi($Id = 0){
+        //Cek Dulu Ada Gak Datanya!
+        $where = array(
+            'id'       => $this->input->post("id_real")
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_rak')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda ubah tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        $data = array(
+            'nama_rak'       => $this->input->post("nama_rak"),
+            'keterangan'     => $this->input->post("keterangan"),
+            'usrid'          => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
+        );
+
+        $this->model_admin->ubah_data($where, $data, "ms_rak");
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Data Bobot Telah Berhasil Diubah!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_rak');
+    }
+
+    public function hapus_data_rak($Id = 0){
+        //Cek Dulu Ada Gak Datanya!
+        $where = array(
+            'id'       => $Id
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_rak')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda hapus tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        $this->model_admin->hapus_data($where, "ms_rak");
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Data Rak Telah Berhasil Dihapus!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_rak');
+
+    }
+}
+
+?>

@@ -26,6 +26,7 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/datatables/datatables.min.js"></script>
     <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/popper/popper.js"></script>
     <script src="<?php echo base_url('assets') ?>/assets/vendor/js/bootstrap.js"></script>
     <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -44,5 +45,9 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+        $("#table_ryan").DataTable()
+    </script>
   </body>
 </html>

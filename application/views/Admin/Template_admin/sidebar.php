@@ -50,7 +50,7 @@
                   </g>
                   </svg>
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2" style="font-size:16px;">spk dosen terbaik</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2" style="font-size:16px;">Toko Emas Murni A1</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -71,66 +71,36 @@
 
             <!-- Data Dosen -->
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Data Utama</span>
+              <span class="menu-header-text">Data Master</span>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/data_dosen'); ?>" class="menu-link">
+              <a href="<?php echo base_url('adm/data_rak'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Data Dosen</div>
+                <div data-i18n="Boxicons">Data Rak</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/data_validator_reviewer'); ?>" class="menu-link">
+              <a href="<?php echo base_url('adm/data_kadar'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Data Validator dan Reviewer</div>
-              </a>
-            </li>
-
-            <!-- Hasil SPK -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Hasil SPK</span></li>
-            <!-- Cards -->
-            <li class="menu-item">
-              <a href="<?php echo base_url('admin/hasil_perhitungan'); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Hasil Perhitungan</div>
+                <div data-i18n="Boxicons">Data Kadar</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/hasil_perangkingan'); ?>" class="menu-link">
+              <a href="<?php echo base_url('adm/data_barang'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Hasil Perangkingan</div>
-              </a>
-            </li>
-
-            <!-- Hasil SPK -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Bobot</span></li>
-            <!-- Cards -->
-            <li class="menu-item">
-              <a href="<?php echo base_url('admin/bobot_pendidikan'); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Pendidikan</div>
+                <div data-i18n="Boxicons">Data Barang</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/bobot_penelitian'); ?>" class="menu-link">
+              <a href="<?php echo base_url('admin/data_admin'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Penelitian</div>
+                <div data-i18n="Boxicons">Data Admin</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="<?php echo base_url('admin/bobot_pengabdian'); ?>" class="menu-link">
+              <a href="<?php echo base_url('admin/data_group_admin'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Pengabdian</div>
-              </a>
-            </li>
-
-            <!-- Konfigurasi -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Konfigurasi</span></li>
-            <!-- Cards -->
-            <li class="menu-item">
-              <a href="<?php echo base_url('admin/konfigurasi_umum'); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">Konfigurasi Umum</div>
+                <div data-i18n="Boxicons">Data Group Admin</div>
               </a>
             </li>
         </aside>

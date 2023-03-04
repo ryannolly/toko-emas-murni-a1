@@ -33,6 +33,15 @@ class Model_admin extends CI_Model {
         $this->db->where($where);
         $this->db->update($table, $data);
     }
+
+    public function tampil_data_barang(){
+        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar
+        FROM ms_barang bar
+        LEFT JOIN ms_rak rak ON rak.id = bar.id_rak
+        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar";
+
+        return $this->db->query($sql)->result();
+    }
 }
 
 ?>
