@@ -18,7 +18,7 @@
                               />
                             </div>
                           </div>
-                          <span class="fw-semibold d-block mb-1">Jumlah Dosen</span>
+                          <span class="fw-semibold d-block mb-1">Jumlah Penjualan</span>
                           <h3 class="card-title mb-2">0</h3>
                         </div>
                       </div>
@@ -35,7 +35,7 @@
                               />                            
                             </div>
                           </div>
-                          <span>Jumlah Nilai Terisi</span>
+                          <span>Total Penjualan</span>
                           <h3 class="card-title text-nowrap mb-1">0</h3>
                         </div>
                       </div>

@@ -63,7 +63,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+              <a href="<?php echo base_url('adm/dashboard'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -135,7 +135,7 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <h6 style="margin:0;">Selamat Datang, <?php echo $this->session->userdata("nama_admin"); ?>!</h6>
+                  <h6 style="margin:0;">Selamat Datang, <?php echo $this->session->userdata("username"); ?>!</h6>
                 </div>
               </div>
               <!-- /Search -->

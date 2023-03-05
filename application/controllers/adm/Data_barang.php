@@ -158,6 +158,16 @@ class Data_barang extends CI_Controller {
         ');
         redirect('adm/data_barang');
     }
+
+    public function print_qr($id = 0){
+        $where = array(
+            'id'    => $id
+        );
+
+        $data['detail_data']        = $this->model_admin->get_data_from_uuid($where, "ms_barang")->row();
+
+        $this->load->view("Admin/cetak_qr/qr_barang", $data);
+    }
 }
 
 ?>

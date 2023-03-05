@@ -37,13 +37,15 @@
                                     <td><?php echo $bp->nama_barang ?></td>
                                     <td><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
                                     <td>
-
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                       </tbody>
                     </table>
                   </div>
+                </div>
+                <div class="card-footer">
+                  <a href="<?php echo base_url("adm/penjualan/penjualan_proses/") ?>" ><button type="button" class="btn btn-info">Proses</button></a>
                 </div>
               </div>
               <!--/ Bordered Table -->
@@ -63,9 +65,41 @@
 <script>
     $('#QR_UUID').on("keypress", function(e) {
             if (e.keyCode == 13) {
-                // console.log($("#QR_UUID").val());
+                var uuid = $("#QR_UUID").val();
                 $("#QR_UUID").val("");
-                return false; // prevent the button click from happening
+                
+                
+                $.ajax({
+                    type : "POST",
+                    url : "<?= site_url('adm/penjualan/ajax_post_and_get') ?>",
+                    data : {
+                        "uuid" : uuid
+                    },
+                    success : function(response){
+                        var jawaban = JSON.parse(response);
+                        console.log(jawaban);
+
+                        var html = "";
+                        html += "<tr>";
+                        html += "<td>" + jawaban.data.Id + "</td>";
+                        html += "<td>" + jawaban.data.nama_barang + "</td>";
+                        html += "<td>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                        html += "<td></td></tr>";
+
+                        $('#body_tabel').append(html);
+                    },fail : function(){
+                        alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+                    },
+                    error : function(statusCode, errorThrown){
+                        if(statusCode.status == 0){
+                            alert("Koneksi Anda Terputus!");
+                        }
+                    },
+                    complete : function(){
+                        // $("#kode-ruang-section").show();
+                        // $('#gambar-loading-2').hide();
+                    }
+                })
             }
     });
 

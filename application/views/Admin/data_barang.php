@@ -116,6 +116,11 @@
                                                 <span class="tf-icons bx bx-trash"></span>
                                             </button>
                                         </a>
+                                        <a href="<?php echo base_url("adm/data_barang/print_qr/".$bp->Id) ?>">
+                                            <button type="button" class="btn btn-icon btn-warning">
+                                                Cetak
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
