@@ -70,6 +70,11 @@
                                     <td class="text-wrap"><?php echo $bp->keterangan ?></td>
                                     <td class="text-wrap"><?php echo $bp->usrid ?></td>
                                     <td>
+                                        <a href="<?php echo base_url("adm/data_kadar/cek_barang_pada_kadar/".$bp->id) ?>" target="_blank">
+                                            <button type="button" class="btn btn-icon btn-primary" title="Lihat Barang Pada Kadar">
+                                                <span class="tf-icons bx bx-basket"></span>
+                                            </button>
+                                        </a>
                                         <a href="<?php echo base_url("adm/data_kadar/ubah_data_kadar/".$bp->id) ?>">
                                             <button type="button" class="btn btn-icon btn-info">
                                                 <span class="tf-icons bx bx-edit"></span>

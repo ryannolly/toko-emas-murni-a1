@@ -140,6 +140,37 @@ class Data_kadar extends CI_Controller {
         ');
         redirect('adm/data_kadar');
     }
+
+    public function cek_barang_pada_kadar($Id = 0){
+        if($Id === 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Harap Memilih terlebih dahulu data yang ingin dicetak!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_kadar');
+        }
+
+        $where = array(
+            'Id'    => $Id
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_kadar')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda cetak tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_kadar');
+        }
+
+
+        $data['barang']         = $this->model_admin->get_barang_pada_kadar($Id);
+        $data['detail_kadar']   = $this->model_admin->get_data_from_uuid($where, "ms_kadar")->row();
+
+        $this->load->view("Admin/print/cek_barang_pada_kadar", $data);
+    }
 }
 
 ?>

@@ -7,7 +7,7 @@
               
               <div class="row mb-3">
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">➕ Tambah Data</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">➕ Tambah Data Rak</button>
                 </div>
               </div>
 
