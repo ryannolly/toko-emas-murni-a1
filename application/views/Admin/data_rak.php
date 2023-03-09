@@ -70,13 +70,18 @@
                                     <td class="text-wrap"><?php echo $bp->keterangan ?></td>
                                     <td class="text-wrap"><?php echo $bp->usrid ?></td>
                                     <td>
+                                        <a href="<?php echo base_url("adm/data_rak/cek_barang_pada_rak/".$bp->id) ?>" target="_blank">
+                                            <button type="button" class="btn btn-icon btn-primary" title="Lihat Barang Pada Rak">
+                                                <span class="tf-icons bx bx-basket"></span>
+                                            </button>
+                                        </a>
                                         <a href="<?php echo base_url("adm/data_rak/ubah_data_rak/".$bp->id) ?>">
-                                            <button type="button" class="btn btn-icon btn-info">
+                                            <button type="button" class="btn btn-icon btn-info" title="Edit Rak">
                                                 <span class="tf-icons bx bx-edit"></span>
                                             </button>
                                         </a>
                                         <a onclick="return confirm('Apakash anda yakin ingin menghapus data ini?')" href="<?php echo base_url("adm/data_rak/hapus_data_rak/".$bp->id) ?>">
-                                            <button type="button" class="btn btn-icon btn-danger">
+                                            <button type="button" class="btn btn-icon btn-danger" title="Hapus Rak">
                                                 <span class="tf-icons bx bx-trash"></span>
                                             </button>
                                         </a>

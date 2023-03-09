@@ -57,6 +57,17 @@ class Model_admin extends CI_Model {
 
         $this->db->query($sql, array($uuid));
     }
+
+    public function get_barang_pada_rak($Id){
+        $this->db->select("barang.*, kadar.nama_kadar");
+        $this->db->from("ms_barang barang");
+        $this->db->join("ms_kadar kadar", "kadar.id = barang.id_kadar", "left");
+        $this->db->where("barang.id_rak", $Id);
+        $this->db->where("barang.stok != 0");
+
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
 ?>
