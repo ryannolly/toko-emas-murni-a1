@@ -118,7 +118,7 @@ class Data_kadar extends CI_Controller {
     public function hapus_data_kadar($id = 0){
         //Cek Dulu Ada Gak Datanya!
         $where = array(
-            'id'       => $Id
+            'id'       => $id
         );
 
         //Cek udah ada belum datanya
@@ -128,6 +128,18 @@ class Data_kadar extends CI_Controller {
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                             </div>
             ');
+            redirect('adm/data_kadar');
+        }
+
+        //Cek Dulu Ada barangnya gak di rak tersebut
+        $barang = $this->model_admin->get_barang_pada_kadar($id);
+        if(count($barang) > 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Tidak dapat menghapus kadar yang masih terdapat barang didalamnya!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+            ');
+
             redirect('adm/data_kadar');
         }
 
