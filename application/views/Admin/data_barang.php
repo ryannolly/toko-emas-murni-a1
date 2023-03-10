@@ -84,7 +84,7 @@
                 <h5 class="card-header">Data Barang</h5>
                 <div class="card-body">
                   <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered" style="color:#000" id="table_ryan">
+                    <table class="table table-bordered" style="color:#000" id="table_ryan_2">
                       <thead>
                         <tr>
                           <th>No</th>
@@ -97,33 +97,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                            <?php $no = 1;foreach($data_barang as $bp) :  ?>
-                                <tr>
-                                    <td><?php echo $no++; ?></td>
-                                    <td><?php echo $bp->nama_barang ?></td>
-                                    <td><?php echo $bp->nama_rak ?></td>
-                                    <td><?php echo $bp->nama_kadar ?></td>
-                                    <td><?php echo $bp->stok ?></td>
-                                    <td><?php echo $bp->usrid ?></td>
-                                    <td>
-                                        <a href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$bp->Id) ?>">
-                                            <button type="button" class="btn btn-icon btn-info">
-                                                <span class="tf-icons bx bx-edit"></span>
-                                            </button>
-                                        </a>
-                                        <a onclick="return confirm('Apakash anda yakin ingin menghapus data ini?')" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$bp->Id) ?>">
-                                            <button type="button" class="btn btn-icon btn-danger">
-                                                <span class="tf-icons bx bx-trash"></span>
-                                            </button>
-                                        </a>
-                                        <a href="<?php echo base_url("adm/data_barang/print_qr/".$bp->Id) ?>">
-                                            <button type="button" class="btn btn-icon btn-warning">
-                                                Cetak
-                                            </button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                            
                       </tbody>
                     </table>
                   </div>
@@ -133,3 +107,34 @@
               <!--/ Responsive Table -->
             </div>
             <!-- / Content -->
+<script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#table_ryan_2').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url" : "<?=site_url('adm/data_barang/get_ajax') ?>",
+            "type": "POST"
+        },
+        "columnDefs" : [{
+              "targets" : [0, 1, 2, 3, 4, 5, 6],
+              "orderable" : false
+          },
+          {
+              "targets" : [1, 2, 3],
+              "className" : "text-wrap"
+          },
+          {
+            "width" : "5%",
+            "targets" : 0    
+          },
+          {
+            "width" : "15%",
+            "targets" : [1, 2, 3]
+          }
+        ]
+    } );
+} );
+</script>

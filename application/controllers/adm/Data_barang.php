@@ -25,6 +25,53 @@ class Data_barang extends CI_Controller {
         }   
     }
 
+    public function get_ajax(){
+        //Set Dulu Variabel Yang Dipakek Buat Get_DataTables
+        $this->model_admin->column_order = array(null, 'bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
+        $this->model_admin->column_search = array('bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
+        $this->model_admin->order = array('bar.id' => 'desc');
+
+        //Cek Dulu Ada Gak Filternya
+        if(@$_POST['prodi']){
+            $where = array(
+                'KdProdi'   => $_POST['prodi']
+            );
+        }else{
+            $where = array(
+                'KdProdi'   => ""
+            );
+        }
+        
+
+        //Mulai
+        $list = $this->model_admin->get_datatables_data_barang("ms_barang", $where);
+        $data = array();
+        $no = @$_POST['start'];
+        foreach ($list as $item){
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $item->nama_barang;
+            $row[] = $item->nama_rak;
+            $row[] = $item->nama_kadar;
+            $row[] = $item->stok;
+            $row[] = $item->usrid;
+            $row[] = "";
+
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw"  => @$_POST['draw'],
+            "recordsTotal"  => $this->model_admin->count_all_data_barang($where),
+            "recordsFiltered"   => $this->model_admin->count_filtered_data_barang($where),
+            "data" => $data
+        );
+
+        echo json_encode($output);
+    }
+
     public function index(){
         $data['data_barang']        = $this->model_admin->tampil_data_barang();
         $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
