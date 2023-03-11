@@ -32,13 +32,15 @@ class Data_barang extends CI_Controller {
         $this->model_admin->order = array('bar.id' => 'desc');
 
         //Cek Dulu Ada Gak Filternya
-        if(@$_POST['prodi']){
+        if(@$_POST['id_rak'] || @$_POST['id_kadar']){
             $where = array(
-                'KdProdi'   => $_POST['prodi']
+                'id_rak'    => $_POST['id_rak'],
+                'id_kadar'  => $_POST['id_kadar'] 
             );
         }else{
             $where = array(
-                'KdProdi'   => ""
+                'id_rak'    => "",
+                'id_kadar'  => ""
             );
         }
         
