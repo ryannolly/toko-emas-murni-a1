@@ -7,6 +7,35 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
+              <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Barang</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <h5 class="text-danger">Harap masukkan angka saja pada kolom harga!</h5>
+                        <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="border:3px" id="tempat_jual">
+                                    
+                                </table>
+                            </div>
+
+                            <h3 style="text-align:right" id="Label_Harga">Total Belanja: Rp0</h3>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                                </button>
+                                <input type="submit" class="btn btn-success" value="Proses">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
               <!-- Bordered Table -->
               <div class="card mb-3">
                 <h5 class="card-header">Silahkan melakukan scan pada Barcode/QR Code</h5>
@@ -46,7 +75,7 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                  <a href="<?php echo base_url("adm/penjualan/penjualan_proses/") ?>" ><button type="button" class="btn btn-info">Proses</button></a>
+                  <button type="button" class="btn btn-info" id="tombol_jual_barang" data-bs-toggle="modal" data-bs-target="#penjualanKasir">Proses</button>
                 </div>
               </div>
               <!--/ Bordered Table -->
@@ -178,5 +207,66 @@
         })
 
         
+    })
+</script>
+
+<script>
+    $("#tombol_jual_barang").click(function(){
+        $.ajax({
+            type    : "POST",
+            url     : "<?= site_url("adm/penjualan/get_ajax_session_barang") ?>",
+            success : function(response){
+                data = JSON.parse(response);
+                var html = "";
+
+                var i;
+                for(i = 0; i<data.length; i++){
+                    html += "<tr>";
+                    html += "<td>" + data[i].nama_barang + "</td>";
+                    html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "</td>";
+                    html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
+                    html += "<td><input name='harga_barang[]' type='number' class='form-control hitung_harga' value='' required placeholder='Masukkan harga ..'></td>";
+                    html += "</tr>";   
+                }
+
+                $("#tempat_jual").html(html);
+            },fail : function(){
+                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+            },
+            error : function(statusCode, errorThrown){
+                if(statusCode.status == 0){
+                    alert("Koneksi Anda Terputus!");
+                }
+            },
+            complete : function(){
+                // $("#kode-ruang-section").show();
+                // $('#gambar-loading-2').hide();
+            }
+        })
+    })
+</script>
+
+<script>
+    function addCommas(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+</script>
+
+<script>
+    $(document).on('keyup', '.hitung_harga', function(){
+        var harga_total = 0;
+        $('.hitung_harga').each(function(){
+            harga_total += +$(this).val();
+        })
+
+        $("#Label_Harga").html("Total Belanja: Rp" +  addCommas(harga_total));
     })
 </script>

@@ -78,6 +78,10 @@ class Penjualan extends CI_Controller {
         $this->session->set_userdata("barang_kasir", $array_sekarang);
     }
 
+    public function get_ajax_session_barang(){
+        echo json_encode($this->session->userdata("barang_kasir"));
+    }
+
     public function penjualan_proses(){
         if(count($this->session->userdata('barang_kasir')) <= 0){
             $this->session->set_flashdata('pesan',
@@ -87,6 +91,43 @@ class Penjualan extends CI_Controller {
                 </div>'
             );  
             redirect('adm/penjualan');
+        }
+
+        $POST_id_barang     = $this->input->post("id_barang_session[]");
+        $POST_harga_barang  = $this->input->post("harga_barang[]");
+
+        $data = array();
+
+        //Post and get kdPenjualan
+        $KdPenjualan    = $this->model_admin->create_kode_penjualan();
+
+        //{Proses Dulu Penjualannya di tabel Penjualan}
+        for($i = 0; $i<sizeof($POST_id_barang); $i++){
+            foreach($this->session->userdata("barang_kasir") as $p){
+                if($p->id_session_barang == $POST_id_barang[$i]){
+                    $data_per_biji = array(
+                        'id_kadar'    => $p->id_rak,
+                        'KdPenjualan' => $KdPenjualan,
+                        'berat_jual'  => $p->berat_jual,
+                        'berat_asli'  => $p->berat_jual,
+                        'nilai_barang'=> $POST_harga_barang[$i],
+                        'DP_Pelunasan'=> $POST_harga_barang[$i],
+                        'JnPembayaran'=> "TUNAI",
+                        'id_rak'      => $p->id_rak,
+                        'id_barang'   => $p->Id,
+                        'usrid'       => $this->session->userdata("username"). " - " .date("Y-m-d H:i:s", time()),
+                        'tgl_penjualan' => date("Y-m-d H:i:s", time()),
+                        'tgl_real_penjualan'    => time()
+                    );
+
+                    $data[] = $data_per_biji;
+                }
+            }
+        }
+
+        //Masukkan ke tabel penjualan
+        foreach($data as $p){
+            $this->model_admin->tambah_data("tr_penjualan", $p);
         }
 
         foreach($this->session->userdata("barang_kasir") as $b){

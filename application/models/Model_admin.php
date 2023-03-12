@@ -153,6 +153,20 @@ class Model_admin extends CI_Model {
         return $this->db->count_all_results();
     }
     //-- Datatables Data Barang
+
+    function create_kode_penjualan(){
+        $data = array(
+            'TglProses' => time(),
+            'usrid'     => $this->session->userdata("username")
+        );
+
+        $this->tambah_data("ms_penjualan", $data);
+
+        $sql = "SELECT KdPenjualan FROM ms_penjualan ORDER BY KdPenjualan DESC LIMIT 1";
+        $KdPenjualan = $this->db->query($sql)->row()->KdPenjualan;
+
+        return $KdPenjualan;
+    }
 }
 
 ?>
