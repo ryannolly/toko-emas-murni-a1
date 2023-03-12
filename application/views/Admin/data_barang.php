@@ -6,12 +6,53 @@
               <h4 class="fw-bold py-3 mb-3">Data Barang</h4>
               
               <div class="row mb-3">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">➕ Tambah Data</button>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Cetak QR</button>
                 </div>
               </div>
 
               <?php echo $this->session->flashdata("pesan"); ?>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="cetakQR" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Cetak QR</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="<?php echo base_url('adm/data_barang/cetak_qr_banyak') ?>" method="post">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Nama Rak</label>
+                                    <select name="id_rak" id="" class="form-control" style="color:#000">
+                                        <?php foreach($data_rak as $rak) :  ?>
+                                            <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Tanggal Barang Masuk</label>
+                                    <input type="date" class="form-control" name="tgl_input_real">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Cetak">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
 
               <!-- Extra Large Modal -->
               <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
@@ -136,6 +177,12 @@
             </div>
             <!-- / Content -->
 <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
+
+<script>
+    $(document).on("click", ".hapus_data", function(){
+        return confirm("Apakah anda yakin ingin menghapus barang ini?");
+    })
+</script>
 
 <script>
 $(document).ready(function() {
