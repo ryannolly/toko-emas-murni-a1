@@ -10,7 +10,7 @@
                 <h5 class="card-header">Ubah Data Barang</h5>
                 <div class="card-body">
                   <div class="form-group mb-3">
-                    <form action="<?php echo base_url('adm/data_barang/ubah_data_barang_aksi') ?>" method="POST">
+                    <form action="<?php echo base_url('adm/data_barang/ubah_data_barang_aksi') ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" class="form-control" value="<?php echo $detail_data->Id ?>" name="id_real">
                         <div class="row">
                             <div class="col mb-3">
@@ -54,6 +54,14 @@
                             <div class="col mb-3">
                                 <label for="">Berat Jual (gram) <span style="color:#F00">(Gunakan tanda titik "." untuk decimal)</span></label>
                                 <input type="text" class="form-control" name="berat_jual" value="<?php echo $detail_data->berat_jual ?>" required> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="">Foto <span style="color:#F00">(Kosongkan jika tidak ingin diganti)</span></label>
+                                <input type="hidden" name="fail_foto_lama" value="<?php echo $detail_data->foto ?>">
+                                <input type="file" class="form-control mb-2" name="foto" > 
+                                <img width="200px" src="<?php echo base_url('uploads/foto_emas/').$detail_data->foto ?>" alt="">
                             </div>
                         </div>
                   </div>

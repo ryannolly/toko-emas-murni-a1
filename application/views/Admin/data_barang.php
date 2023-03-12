@@ -63,7 +63,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        <form action="<?php echo base_url('adm/data_barang/tambah_data_barang') ?>" method="post">
+                        <form action="<?php echo base_url('adm/data_barang/tambah_data_barang') ?>" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="nameExLarge" class="form-label">Nama Barang</label>
@@ -106,6 +106,12 @@
                                 <div class="col mb-3">
                                     <label for="">Berat Jual (gram) <span style="color:#F00">(Gunakan tanda titik "." untuk decimal)</span></label>
                                     <input type="text" class="form-control" name="berat_jual" required> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="">Foto (Maksimum Fail 10MB)</label>
+                                    <input type="file" class="form-control" name="foto" required>
                                 </div>
                             </div>
                         </div>

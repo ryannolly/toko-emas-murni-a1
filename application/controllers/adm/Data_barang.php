@@ -110,6 +110,40 @@ class Data_barang extends CI_Controller {
 
         $this->db->set('uuid', 'REPLACE(UUID(), "-", "")', FALSE);
 
+        //Ngatur Fail
+        $fileName = $_FILES['foto']['name'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        if($fileName != ""){
+            $config['upload_path']          = "./uploads/foto_emas/";
+            $config['allowed_types']        = 'jpg|jpeg|png';
+            $newFileName                    = "EMAS-".uniqid('', true).".".$fileActualExt;
+            $config["file_name"]            = $newFileName;
+            $config['max_size']             = 10000;
+
+            //Upload
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload('foto')){
+                $this->session->set_flashdata('pesan', '<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                            '.$this->upload->display_errors('<p>', '</p>').'
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>');
+                redirect('adm/data_barang');
+            }else{
+                $fileName = $this->upload->data('file_name');
+            }
+        }else{
+            //Kalau Gak dimasukkan ya nendang beb
+            $this->session->set_flashdata('pesan', '<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Harap Memasukkan foto anda terlebih dahulu!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>');
+            redirect('adm/data_barang');
+        }
+
+        $data['foto']   = $fileName;
+
         $this->model_admin->tambah_data("ms_barang", $data);
 
         $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
@@ -182,6 +216,35 @@ class Data_barang extends CI_Controller {
             'tgl_input_real'    => date("Y-m-d", time()),
             'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
         );
+
+        //Ngatur Fail
+        $fileName = $_FILES['foto']['name'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+
+        if($fileName != ""){
+            $config['upload_path']          = "./uploads/foto_emas/";
+            $config['allowed_types']        = 'jpg|jpeg|png';
+            $newFileName                    = "EMAS-".uniqid('', true).".".$fileActualExt;
+            $config["file_name"]            = $newFileName;
+            $config['max_size']             = 10000;
+
+            //Upload
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload('foto')){
+                $this->session->set_flashdata('pesan', '<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                            '.$this->upload->display_errors('<p>', '</p>').'
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>');
+                redirect('adm/data_barang');
+            }else{
+                unlink("./uploads/foto_emas/".$this->input->post('fail_foto_lama'));
+                $fileName = $this->upload->data('file_name');
+            }
+        }
+
+        $data['foto']   = $fileName;
 
         $this->model_admin->ubah_data($where, $data, "ms_barang");
 
