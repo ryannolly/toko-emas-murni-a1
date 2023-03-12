@@ -24,19 +24,20 @@
                     <table class="table table-bordered" style="color:#000">
                       <thead>
                         <tr>
-                          <th>Kode Barang</th>
-                          <th>Nama Barang</th>
-                          <th>Rak/Kadar</th>
-                          <th>Aksi</th>
+                          <th class="text-wrap">Kode Barang</th>
+                          <th class="text-wrap">Nama Barang</th>
+                          <th class="text-wrap">Rak/Kadar</th>
+                          <th class="text-wrap">Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="body_tabel">
                             <?php $no = 1;foreach($this->session->userdata("barang_kasir") as $bp) :  ?>
-                                <tr>
+                                <tr id="tr_<?php echo $bp->id_session_barang ?>">
                                     <td><?php echo $bp->Id; ?></td>
-                                    <td><?php echo $bp->nama_barang ?></td>
-                                    <td><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
+                                    <td class="text-wrap"><?php echo $bp->nama_barang ?></td>
+                                    <td class="text-wrap"><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
                                     <td>
+                                        <button type="button" id="<?php echo $bp->id_session_barang ?>" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -82,8 +83,8 @@
                         var html = "";
                         html += "<tr>";
                         html += "<td>" + jawaban.data.Id + "</td>";
-                        html += "<td>" + jawaban.data.nama_barang + "</td>";
-                        html += "<td>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                        html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                        html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
                         html += "<td></td></tr>";
 
                         $('#body_tabel').append(html);
@@ -117,16 +118,20 @@
             },
             success : function(response){
                 var jawaban = JSON.parse(response);
-                console.log(jawaban);
 
-                var html = "";
-                html += "<tr>";
-                html += "<td>" + jawaban.data.Id + "</td>";
-                html += "<td>" + jawaban.data.nama_barang + "</td>";
-                html += "<td>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                html += "<td></td></tr>";
+                if(jawaban.is_data_ada){
+                    console.log(jawaban.data);
+                    var html = "";
+                    html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                    html += "<td>" + jawaban.data.Id + "</td>";
+                    html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                    html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                    html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
-                $('#body_tabel').append(html);
+                    $('#body_tabel').append(html);
+                }else{
+                    alert("Data tidak tersedia atau stok telah habis!");
+                }
             },fail : function(){
                 alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
             },
@@ -140,6 +145,38 @@
                 // $('#gambar-loading-2').hide();
             }
         })
+        
+    })
+
+</script>
+
+<script>
+    $(document).on('click', '.hapus_barang_session', function(){
+        var id = $(this).attr("id");
+
+        $.ajax({
+            type    : "POST",
+            url     : "<?= site_url("adm/penjualan/ajax_delete_barang_from_session") ?>",
+            data    : {
+                'id_session_barang' : id
+            },
+            success : function(response){
+                $("#tr_" + id).remove();
+                alert("Pembatalan barang berhasil!");
+            },fail : function(){
+                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+            },
+            error : function(statusCode, errorThrown){
+                if(statusCode.status == 0){
+                    alert("Koneksi Anda Terputus!");
+                }
+            },
+            complete : function(){
+                // $("#kode-ruang-section").show();
+                // $('#gambar-loading-2').hide();
+            }
+        })
+
         
     })
 </script>

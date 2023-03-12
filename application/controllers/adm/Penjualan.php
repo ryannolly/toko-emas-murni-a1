@@ -42,10 +42,15 @@ class Penjualan extends CI_Controller {
         );
 
         //Get Data
-        $data['data'] = $this->model_admin->get_detail_barang($where);
+        $data['data'] = $this->model_admin->get_detail_barang_penjualan($where);
 
         //Update the data in session
         if(@$data['data']){
+            //Update last id barang kasir
+            $data['data']->id_session_barang = $this->session->userdata("last_id_barang_kasir");
+            $this->session->set_userdata("last_id_barang_kasir", $data['data']->id_session_barang + 1);
+
+            //Masukkan
             $array_data = $this->session->userdata("barang_kasir");
             $array_data[] =  $data['data'];
             $this->session->set_userdata("barang_kasir", $array_data);
@@ -56,6 +61,21 @@ class Penjualan extends CI_Controller {
 
         //Send
         echo json_encode($data);
+    }
+
+    public function ajax_delete_barang_from_session(){
+        $id_barangnya = $_POST['id_session_barang'];
+        $indexnya = -1;
+        $array_sekarang = $this->session->userdata("barang_kasir");
+        for($i = 0; $i<sizeof($array_sekarang); $i++){
+            if($id_barangnya == $array_sekarang->id_session_barang){
+                $indexnya = $i;
+            }
+        }
+
+        array_splice($array_sekarang, $indexnya, 1);
+
+        $this->session->set_userdata("barang_kasir", $array_sekarang);
     }
 
     public function penjualan_proses(){

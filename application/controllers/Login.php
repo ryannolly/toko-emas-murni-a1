@@ -34,6 +34,7 @@ class Login extends CI_Controller {
                     $this->session->set_userdata("role_user", "0");
                     $this->session->set_userdata("GroupAdminID", $auth->GroupAdminID);
                     $this->session->set_userdata("barang_kasir", array());
+                    $this->session->set_userdata("last_id_barang_kasir", 0);
                     redirect("adm/dashboard/");
                 }
             }
