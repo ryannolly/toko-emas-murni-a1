@@ -122,7 +122,9 @@ class Data_admin extends CI_Controller {
         );
 
         if(!($this->input->post("password") == "")){
-            $data['password']       = $this->input->post("password");
+            $salt_user              = random_string('alnum', 16);
+            $data['password']       = hash("sha512", $this->input->post("password").$salt_user);
+            $data['salt']           = $salt_user;
         }
 
         $this->model_admin->ubah_data($where, $data, "ms_user");

@@ -23,7 +23,7 @@ class Login extends CI_Controller {
                     $this->GagalLogin("Username tersebut tidak terdaftar pada sistem!");
                 }
 
-				$password = $this->input->post('password');
+				$password = hash("sha512", $this->input->post('password').$auth->salt);
                 
                 if($auth->password !== $password){
                     $this->GagalLogin("Password yang anda masukkan salah!");
