@@ -133,6 +133,7 @@
                   <div class="form-group">
                     <div class="row">
                         <div class="col-lg-6">
+                            <label for="">Tanggal Mulai</label>
                             <select name="" id="filter_kadar" class="form-control filter">
                                 <option value="">SEMUA KADAR</option>
                                 <?php foreach($data_kadar as $d) :  ?>
