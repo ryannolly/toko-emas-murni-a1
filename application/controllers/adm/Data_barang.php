@@ -311,6 +311,27 @@ class Data_barang extends CI_Controller {
 
         $this->load->view("Admin/print/print_qr", $data);
     }
+
+    public function ajax_post_and_get(){
+        $where = array(
+            'uuid'      => $this->input->post("uuid")
+        );
+
+        //Get Data
+        $data['data'] = $this->model_admin->get_detail_barang($where);
+
+        //Update the data in session
+        if(@$data['data']){
+            //Update last id barang kasir
+            $data['data']->foto_url          = base_url('uploads/foto_emas/').$data['data']->foto;
+            $data['is_data_ada'] = 1;
+        }else{
+            $data['is_data_ada'] = 0;
+        }
+
+        //Send
+        echo json_encode($data);
+    }
 }
 
 ?>

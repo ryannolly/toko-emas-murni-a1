@@ -12,6 +12,9 @@
                 <div class="col-lg-2">
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Cetak QR</button>
                 </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cekBarang">Cek Barang</button>
+                </div>
               </div>
 
               <?php echo $this->session->flashdata("pesan"); ?>
@@ -50,6 +53,33 @@
                             <input type="submit" class="btn btn-primary" value="Cetak">
                         </div>
                         </form>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="cekBarang" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Cek Barang Dengan QR</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row form-group mb-3">
+                                <div class="col mb-3">
+                                    <input type="text" id="QR_UUID" class="form-control" placeholder="Tekan textbox ini, kemudian scan dengan scanner">
+                                </div>
+                            </div>
+                            <div class="row form-group mb-3" id="tempat_detail">
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                        </div>
                     </div>
                 </div>
               </div>
@@ -257,4 +287,45 @@ $(document).ready(function() {
         ]
     } );
     })
+</script>
+
+<script>
+    $('#QR_UUID').on("keypress", function(e) {
+            if (e.keyCode == 13) {
+                var uuid = $("#QR_UUID").val();
+                $("#QR_UUID").val("");
+                
+                
+                $.ajax({
+                    type : "POST",
+                    url : "<?= site_url('adm/data_barang/ajax_post_and_get') ?>",
+                    data : {
+                        "uuid" : uuid
+                    },
+                    success : function(response){
+                        var jawaban = JSON.parse(response);
+                        console.log(jawaban);
+                        var html = "";
+                        html    += '<table class="table"><tr><th>Nama Barang</th><td>'+ jawaban.data.nama_barang +'</td></tr>';
+                        html    += '<tr><th>Rak/Kadar</th><td>' + jawaban.data.nama_rak + '/'+ jawaban.data.nama_kadar +'</td></tr>';
+                        html    += '<tr><th>Berat</th><td>'+ jawaban.data.berat_jual +'g</td></tr>';
+                        html    += '<tr><th>Foto</th>'
+                                        
+                        html    +=  '<td><img width="200px" src="' + jawaban.data.foto_url + '" alt=""></td></tr></table>';
+                        $('#tempat_detail').html(html);
+                    },fail : function(){
+                        alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+                    },
+                    error : function(statusCode, errorThrown){
+                        if(statusCode.status == 0){
+                            alert("Koneksi Anda Terputus!");
+                        }
+                    },
+                    complete : function(){
+                        // $("#kode-ruang-section").show();
+                        // $('#gambar-loading-2').hide();
+                    }
+                })
+            }
+    });
 </script>

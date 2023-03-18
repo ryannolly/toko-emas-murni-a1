@@ -66,6 +66,7 @@ class Model_admin extends CI_Model {
         return $this->db->query($sql, array($where['uuid']))->row();
     }
 
+
     public function kurang_stok($uuid){
         $sql = "UPDATE ms_barang SET stok = stok - 1 WHERE uuid = ?";
 
