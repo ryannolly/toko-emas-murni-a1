@@ -188,6 +188,79 @@ class Model_admin extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    //Untuk Data Riwayat Penjualan
+
+    //Datatables Data Barang
+    function _get_datatables_data_riwayat_penjualan_query($where){
+        $this->db->select('penjualan.*');
+        $this->db->from('ms_penjualan penjualan');
+        if(!empty($where['tanggal_mulai'])){
+            $this->db->where('penjualan.TglProses >=', $where['tanggal_mulai']);
+        }
+        if(!empty($where['tanggal_berakhir'])){
+            $this->db->where('penjualan.TglProses <=', $where['tanggal_berakhir']);
+        }
+        $this->db->order_by('penjualan.TglProses', "DESC");
+
+        $i = 0;
+        foreach($this->column_search as $item){
+            if(@$_POST['search']['value']){
+                if($i === 0){
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                }else{
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if(count($this->column_search) - 1 == $i) //Last Loop
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        if(isset($_POST['order'])) { // here order processing
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        }else if(isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_data_riwayat_penjualan($table, $where) {
+        $this->_get_datatables_data_riwayat_penjualan_query($where);
+        if(@$_POST['length'] != -1)
+        $this->db->limit(@$_POST['length'], @$_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_data_riwayat_penjualan($where) {
+        $this->_get_datatables_data_riwayat_penjualan_query($where);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function count_all_data_riwayat_penjualan($where) {
+        $this->db->from('ms_penjualan');
+        // if(!empty($where['KdProdi'])){
+        //     $this->db->where('ms_data_dosen.KdProdi', $where['KdProdi']);
+        // }
+        return $this->db->count_all_results();
+    }
+
+    function get_data_penjualan_by_kd_penjualan($KdPenjualan){
+        $this->db->select("penjualan.*, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.foto");
+        $this->db->from("tr_penjualan penjualan");
+        $this->db->join("ms_barang barang", "penjualan.id_barang = barang.id", 'left');
+        $this->db->join("ms_rak rak", "penjualan.id_rak = rak.id", 'left');
+        $this->db->join("ms_kadar kadar", "penjualan.id_kadar = kadar.id", 'left');
+        $this->db->where("penjualan.KdPenjualan", $KdPenjualan);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //End of Data Riwayat Penjualan
 }
 
 ?>
