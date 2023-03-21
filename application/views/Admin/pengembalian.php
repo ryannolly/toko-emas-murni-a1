@@ -69,13 +69,15 @@
                           <th class="text-wrap">Berat</th>
                           <th class="text-wrap">Kategori</th>
                           <th class="text-wrap">Harga</th>
+                          <th class="text-wrap">Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="body_tabel">
                             <?php $no = 1;foreach($this->session->userdata("barang_pengembalian") as $bp) :  ?>
-                                <tr id="tr_<?php echo $bp->id_session_pengembalian ?>">
+                                <tr id="tr_<?php echo $bp->id_session_barang ?>">
                                     <td class="text-wrap"><?php echo $bp->nama_barang ?></td>
                                     <td class="text-wrap"><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
+                                    <td class="text-wrap"><?php echo $bp->berat ?>gr</td>
                                     <td class="text-wrap"><?php echo $bp->kategori ?></td>
                                     <td class="text-wrap">Rp<?php echo $bp->harga ?></td>
                                     <td>
@@ -88,7 +90,7 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="button" class="btn btn-info" id="tombol_jual_barang" data-bs-toggle="modal" data-bs-target="#penjualanKasir">Proses</button>
+                  <a href="<?php echo base_url('adm/pengembalian/proses_pengembalian') ?>"><button type="button" class="btn btn-info" id="tombol_pengembalian_barang">Proses</button></a>
                 </div>
               </div>
               <!--/ Bordered Table -->
@@ -100,80 +102,46 @@
 <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
 
 <script>
-    $(document).ready(function(){
-        $("#QR_UUID").focus();
+    $('#tombol_pengembalian_barang').click(function(){
+        return confirm("Apakah anda yakin ingin memproses pengembalian barang ini? Barang yang dikembalikan akan otomatis masuk ke dalam rak");
     })
 </script>
 
 <script>
-    $('#QR_UUID').on("keypress", function(e) {
-            if (e.keyCode == 13) {
-                var uuid = $("#QR_UUID").val();
-                $("#QR_UUID").val("");
-                
-                
-                $.ajax({
-                    type : "POST",
-                    url : "<?= site_url('adm/pengembalian/ajax_post_and_get') ?>",
-                    data : {
-                        "uuid" : uuid
-                    },
-                    success : function(response){
-                        var jawaban = JSON.parse(response);
-                        console.log(jawaban);
-
-                        var html = "";
-                        html += "<tr>";
-                        html += "<td>" + jawaban.data.Id + "</td>";
-                        html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
-                        html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                        html += "<td></td></tr>";
-
-                        $('#body_tabel').append(html);
-                    },fail : function(){
-                        alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
-                    },
-                    error : function(statusCode, errorThrown){
-                        if(statusCode.status == 0){
-                            alert("Koneksi Anda Terputus!");
-                        }
-                    },
-                    complete : function(){
-                        // $("#kode-ruang-section").show();
-                        // $('#gambar-loading-2').hide();
-                    }
-                })
-            }
-    });
-
     $("#tombol_masukkan_keranjang").click(function(){
         // console.log($("#QR_UUID").val());
-        var uuid = $("#QR_UUID").val();
-        $("#QR_UUID").val("");
-        
+        console.log("masuk");
+        var nama_barang = $("#nama_barang").val();
+        var id_rak      = $("#id_rak").val();
+        var id_kadar    = $("#id_kadar").val();
+        var berat       = $("#berat").val();
+        var kategori    = $("#kategori").val();
+        var harga       = $("#harga").val();
         
         $.ajax({
             type : "POST",
             url : "<?= site_url('adm/pengembalian/ajax_post_and_get') ?>",
             data : {
-                "uuid" : uuid
+                "nama_barang"   : nama_barang,
+                'id_rak'        : id_rak,
+                'id_kadar'      : id_kadar,
+                'berat'         : berat,
+                'kategori'      : kategori,
+                'harga'         : harga
             },
             success : function(response){
                 var jawaban = JSON.parse(response);
 
-                if(jawaban.is_data_ada){
-                    console.log(jawaban.data);
-                    var html = "";
-                    html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
-                    html += "<td>" + jawaban.data.Id + "</td>";
-                    html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
-                    html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                    html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
+                var html = "";
+                html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                html += "<td>" + jawaban.data.nama_barang + "</td>";
+                html += "<td class='text-wrap'>" + jawaban.data.nama_rak + "/" + jawaban.data.nama_kadar + "</td>";
+                html += "<td class='text-wrap'>" + jawaban.data.berat + "gr</td>";
+                html += "<td class='text-wrap'>" + jawaban.data.kategori + "</td>";
+                html += "<td class='text-wrap'>Rp" + jawaban.data.harga + "</td>";
+                html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
-                    $('#body_tabel').append(html);
-                }else{
-                    alert("Data tidak tersedia atau stok telah habis!");
-                }
+                $('#body_tabel').append(html);
             },fail : function(){
                 alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
             },

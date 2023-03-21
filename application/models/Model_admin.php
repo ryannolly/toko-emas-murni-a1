@@ -169,6 +169,20 @@ class Model_admin extends CI_Model {
         return $KdPenjualan;
     }
 
+    function create_kode_pengembalian(){
+        $data = array(
+            'TglProses' => time(),
+            'usrid'     => $this->session->userdata("username")
+        );
+
+        $this->tambah_data("ms_pengembalian", $data);
+
+        $sql = "SELECT KdPengembalian FROM ms_pengembalian ORDER BY KdPengembalian DESC LIMIT 1";
+        $KdPenjualan = $this->db->query($sql)->row()->KdPengembalian;
+
+        return $KdPenjualan;
+    }
+
     function get_data_barang_for_qr($where){
         $this->db->select('bar.*, rak.nama_rak, kadar.nama_kadar');
         $this->db->from('ms_barang bar');
