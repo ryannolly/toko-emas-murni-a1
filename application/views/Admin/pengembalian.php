@@ -7,40 +7,51 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
-              <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Barang</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        <h5 class="text-danger">Harap masukkan angka saja pada kolom harga!</h5>
-                        <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" style="border:3px" id="tempat_jual">
-                                    
-                                </table>
-                            </div>
-
-                            <h3 style="text-align:right" id="Label_Harga">Total Belanja: Rp0</h3>
-                        </div>
-                        <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Close
-                                </button>
-                                <input type="submit" class="btn btn-success" value="Proses">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-              </div>
-
               <!-- Bordered Table -->
               <div class="card mb-3">
-                <h5 class="card-header">Silahkan melakukan scan pada Barcode/QR Code</h5>
+                <h5 class="card-header">Silahkan masukkan keterangan barang yang ingin dikembalikan</h5>
                 <div class="card-body">
-                    <input type="text" class="form-control mb-2" id="QR_UUID" placeholder="Kode Pada Barcode/QR Code akan muncul disini ....">
+                    <div class="row">
+                        <div class="col-lg-6 mb-3">
+                            <label for="nameExLarge" class="form-label">Nama Barang</label>
+                            <input type="text" class="form-control" id="nama_barang" name="nama_barang">
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="" class="form-label">Rak</label>
+                            <select name="id_rak" id="id_rak" class="form-control" style="color:#000">
+                                <?php foreach($data_rak as $rak) :  ?>
+                                    <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mb-3">
+                            <label for="" class="form-label">Kadar</label>
+                            <select name="id_kadar" id="id_kadar" class="form-control" style="color:#000">
+                                <?php foreach($data_kadar as $rak) :  ?>
+                                    <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_kadar ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="" class="form-label">Berat <span class="text-danger">(Gunakan titik "." untuk desimal)</span></label>
+                            <input type="text" class="form-control" name="berat" id="berat">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mb-3">
+                            <label for="" class="form-label">Kategori</label>
+                            <select name="kategori" id="kategori" class="form-control" style="color:#000">
+                                <option value="terima">Terima</option>
+                                <option value="lebur">Lebur</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="" class="form-label">Harga <span class="text-danger">Diisi hanya dengan angka</span></label>
+                            <input type="number" class="form-control" id="harga" name="harga">
+                        </div>
+                    </div>
                     <button type="button" class="btn btn-info" id="tombol_masukkan_keranjang">Masukkan</button>
                 </div>
               </div>
@@ -53,18 +64,20 @@
                     <table class="table table-bordered" style="color:#000">
                       <thead>
                         <tr>
-                          <th class="text-wrap">Kode Barang</th>
                           <th class="text-wrap">Nama Barang</th>
                           <th class="text-wrap">Rak/Kadar</th>
-                          <th class="text-wrap">Aksi</th>
+                          <th class="text-wrap">Berat</th>
+                          <th class="text-wrap">Kategori</th>
+                          <th class="text-wrap">Harga</th>
                         </tr>
                       </thead>
                       <tbody id="body_tabel">
-                            <?php $no = 1;foreach($this->session->userdata("barang_kasir") as $bp) :  ?>
-                                <tr id="tr_<?php echo $bp->id_session_barang ?>">
-                                    <td><?php echo $bp->Id; ?></td>
+                            <?php $no = 1;foreach($this->session->userdata("barang_pengembalian") as $bp) :  ?>
+                                <tr id="tr_<?php echo $bp->id_session_pengembalian ?>">
                                     <td class="text-wrap"><?php echo $bp->nama_barang ?></td>
                                     <td class="text-wrap"><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
+                                    <td class="text-wrap"><?php echo $bp->kategori ?></td>
+                                    <td class="text-wrap">Rp<?php echo $bp->harga ?></td>
                                     <td>
                                         <button type="button" id="<?php echo $bp->id_session_barang ?>" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button>
                                     </td>

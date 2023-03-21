@@ -107,16 +107,20 @@
                     },
                     success : function(response){
                         var jawaban = JSON.parse(response);
-                        console.log(jawaban);
 
-                        var html = "";
-                        html += "<tr>";
-                        html += "<td>" + jawaban.data.Id + "</td>";
-                        html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
-                        html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                        html += "<td></td></tr>";
+                        if(jawaban.is_data_ada){
+                            console.log(jawaban.data);
+                            var html = "";
+                            html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                            html += "<td>" + jawaban.data.Id + "</td>";
+                            html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                            html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                            html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
-                        $('#body_tabel').append(html);
+                            $('#body_tabel').append(html);
+                        }else{
+                            alert("Data tidak tersedia atau stok telah habis!");
+                        }
                     },fail : function(){
                         alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
                     },

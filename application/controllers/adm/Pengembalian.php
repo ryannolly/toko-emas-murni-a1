@@ -73,12 +73,12 @@ class Pengembalian extends CI_Controller {
 
     public function index(){
         // $data['data_barang']        = $this->model_admin->tampil_data_barang();
-        // $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
-        // $data['data_rak']           = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
+        $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
+        $data['data_rak']           = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
         
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/pengembalian');
+        $this->load->view('Admin/pengembalian', $data);
         $this->load->view('Admin/Template_admin/footer');
     }
 }
