@@ -268,7 +268,7 @@ class Model_admin extends CI_Model {
         $this->db->from("tr_penjualan penjualan");
         $this->db->join("ms_barang barang", "penjualan.id_barang = barang.id", 'left');
         $this->db->join("ms_rak rak", "penjualan.id_rak = rak.id", 'left');
-        $this->db->join("ms_kadar kadar", "penjualan.id_kadar = kadar.id", 'left');
+        $this->db->join("ms_kadar kadar", "barang.id_kadar = kadar.id", 'left');
         $this->db->where("penjualan.KdPenjualan", $KdPenjualan);
 
         $query = $this->db->get();

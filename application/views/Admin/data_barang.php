@@ -140,6 +140,12 @@
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
+                                    <label for="">Tanggal Masuk Barang</label>
+                                    <input type="date" class="form-control" name="tgl_input_real" required> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
                                     <label for="">Foto (Maksimum Fail 10MB)</label>
                                     <input type="file" class="form-control" name="foto" required>
                                 </div>

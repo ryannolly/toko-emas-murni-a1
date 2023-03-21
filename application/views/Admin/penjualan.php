@@ -19,6 +19,12 @@
                         <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
                             <div class="table-responsive">
                                 <table class="table table-bordered" style="border:3px" id="tempat_jual">
+                                    <tr>
+                                        <th>Nama Barang</th>
+                                        <th>Rak/Kadar/Berat</th>
+                                        <th>Harga</th>
+                                        <th>Berat Jual</th>
+                                    </tr>
                                     
                                 </table>
                             </div>
@@ -227,13 +233,14 @@
                 for(i = 0; i<data.length; i++){
                     html += "<tr>";
                     html += "<td>" + data[i].nama_barang + "</td>";
-                    html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "</td>";
+                    html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "/" + data[i].berat_jual + "gr</td>";
                     html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
                     html += "<td><input name='harga_barang[]' type='number' class='form-control hitung_harga' value='' required placeholder='Masukkan harga ..'></td>";
+                    html += "<td><input name='berat_jual[]' type='number' class='form-control' value='' required placeholder='Masukkan Berat dalam gram ..'></td>";
                     html += "</tr>";   
                 }
 
-                $("#tempat_jual").html(html);
+                $("#tempat_jual").append(html);
             },fail : function(){
                 alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
             },

@@ -23,9 +23,15 @@
                   </div>
                   <div class="form-group mb-3">
                         <table class="table">
+                            <tr>
+                                <th>Nama Barang/Nama Kadar/Nama Rak</th>
+                                <th>Berat Jual/Berat Asli</th>
+                                <th>Harga</th>
+                            </tr>
                             <?php foreach($detail_penjualan as $p) :  ?>
                                 <tr>
                                     <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                    <td class="text-wrap"><?php echo $p->berat_jual ?>gr/<?php echo $p->berat_asli ?>gr</td>
                                     <td class="text-wrap"><?php echo "Rp".$p->nilai_barang ?></td>
                                 </tr>
                             <?php endforeach; ?>

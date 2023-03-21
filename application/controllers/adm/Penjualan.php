@@ -95,6 +95,7 @@ class Penjualan extends CI_Controller {
 
         $POST_id_barang     = $this->input->post("id_barang_session[]");
         $POST_harga_barang  = $this->input->post("harga_barang[]");
+        $POST_berat_barang  = $this->input->post("berat_jual[]");
 
         $data = array();
 
@@ -109,7 +110,7 @@ class Penjualan extends CI_Controller {
                         'id_kadar'    => $p->id_rak,
                         'KdPenjualan' => $KdPenjualan,
                         'berat_jual'  => $p->berat_jual,
-                        'berat_asli'  => $p->berat_jual,
+                        'berat_asli'  => $POST_berat_barang[$i],
                         'nilai_barang'=> $POST_harga_barang[$i],
                         'DP_Pelunasan'=> $POST_harga_barang[$i],
                         'JnPembayaran'=> "TUNAI",

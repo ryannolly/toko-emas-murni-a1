@@ -104,7 +104,7 @@ class Data_barang extends CI_Controller {
             'keterangan'        => $this->input->post("keterangan"),
             'stok'              => (int) $this->input->post("stok"),
             'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time()),
-            'tgl_input_real'    => date("Y-m-d", time()),
+            'tgl_input_real'    => $this->input->post("tgl_input_real"),
             'berat_jual'        => (float) $this->input->post("berat_jual")
         );
 
