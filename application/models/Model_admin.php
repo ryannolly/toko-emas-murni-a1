@@ -276,6 +276,77 @@ class Model_admin extends CI_Model {
     }
 
     //End of Data Riwayat Penjualan
+
+    //Data Riwayat Pengembalian
+    function _get_datatables_data_riwayat_pengembalian_query($where){
+        $this->db->select('pengembalian.*');
+        $this->db->from('ms_pengembalian pengembalian');
+        if(!empty($where['tanggal_mulai'])){
+            $this->db->where('pengembalian.TglProses >=', $where['tanggal_mulai']);
+        }
+        if(!empty($where['tanggal_berakhir'])){
+            $this->db->where('pengembalian.TglProses <=', $where['tanggal_berakhir']);
+        }
+        $this->db->order_by('pengembalian.TglProses', "DESC");
+
+        $i = 0;
+        foreach($this->column_search as $item){
+            if(@$_POST['search']['value']){
+                if($i === 0){
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                }else{
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if(count($this->column_search) - 1 == $i) //Last Loop
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        if(isset($_POST['order'])) { // here order processing
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        }else if(isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_data_riwayat_pengembalian($table, $where) {
+        $this->_get_datatables_data_riwayat_pengembalian_query($where);
+        if(@$_POST['length'] != -1)
+        $this->db->limit(@$_POST['length'], @$_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_data_riwayat_pengembalian($where) {
+        $this->_get_datatables_data_riwayat_pengembalian_query($where);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function count_all_data_riwayat_pengembalian($where) {
+        $this->db->from('ms_pengembalian');
+        // if(!empty($where['KdProdi'])){
+        //     $this->db->where('ms_data_dosen.KdProdi', $where['KdProdi']);
+        // }
+        return $this->db->count_all_results();
+    }
+
+    function get_data_pengembalian_by_kd_pengembalian($KdPenjualan){
+        $this->db->select("pengembalian.*, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.foto");
+        $this->db->from("tr_pengembalian pengembalian");
+        $this->db->join("ms_barang barang", "pengembalian.id_barang = barang.id", 'left');
+        $this->db->join("ms_rak rak", "barang.id_rak = rak.id", 'left');
+        $this->db->join("ms_kadar kadar", "pengembalian.id_kadar = kadar.id", 'left');
+        $this->db->where("pengembalian.KdPengembalian", $KdPenjualan);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //End Of Data Riwayat Pengembalian
 }
 
 ?>
