@@ -236,7 +236,7 @@
                     html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "/" + data[i].berat_jual + "gr</td>";
                     html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
                     html += "<td><input name='harga_barang[]' type='number' class='form-control hitung_harga' value='' required placeholder='Masukkan harga ..'></td>";
-                    html += "<td><input name='berat_jual[]' type='number' class='form-control' value='' required placeholder='Masukkan Berat dalam gram ..'></td>";
+                    html += "<td><input name='berat_jual[]' type='text' class='form-control' value='' required placeholder='Masukkan Berat dalam gram ..'></td>";
                     html += "</tr>";   
                 }
 
