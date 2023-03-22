@@ -58,6 +58,12 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="">Tanggal Masuk Barang</span></label>
+                                <input type="text" class="form-control" name="tgl_input_real" value="<?php echo $detail_data->tgl_input_real ?>" required> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="">Foto <span style="color:#F00">(Kosongkan jika tidak ingin diganti)</span></label>
                                 <input type="hidden" name="fail_foto_lama" value="<?php echo $detail_data->foto ?>">
                                 <input type="file" class="form-control mb-2" name="foto" > 
