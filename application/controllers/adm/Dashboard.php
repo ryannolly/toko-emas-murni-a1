@@ -39,7 +39,69 @@ class Dashboard extends CI_Controller {
     }
 
     public function buka_toko(){
-        echo "iso";
+        //Cek Dulu Apakah big book hari ini udah dibuat?
+        $kyou                   = date("Y-m-d", time());
+        $apakah_sudah_ada       = $this->model_admin->get_big_book_dashboard($kyou);
+        if(@$apakah_sudah_ada){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Gagal! Toko sudah dibuka untuk hari ini!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/dashboard');
+        }
+
+        //Get Data Sebelumnya
+        $data_sebelumnya        = $this->model_admin->get_big_book_dashboard_terakhir();
+        $tutup_per_rak          = array();
+        $tutup_per_rak_qt       = array();
+        if(@$data_sebelumnya){
+            $tutup_per_rak_qt[$data_sebelumnya->id_rak] = $data_sebelumnya->tutup_qt;
+            $tutup_per_rak[$data_sebelumnya->id_rak] = $data_sebelumnya->tutup;
+        }else{
+            $tutup_per_rak_qt[$data_sebelumnya->id_rak] = 0;
+            $tutup_per_rak[$data_sebelumnya->id_rak]    = 0;
+        }
+
+        //Create master big book for today
+        $KdBukuBesar            = $this->model_admin->create_kd_buku_besar();
+
+        //Get All Rak
+        $semua_rak              = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
+        foreach($semua_rak as $n){
+            $data = array(
+                'KdBukuBesar'       => $KdBukuBesar,
+                'id_rak'            => $n->id,
+                'open'              => $tutup_per_rak[$n->id_rak],
+                'masuk'             => 0,
+                'keluar'            => 0,
+                'jual'              => 0,
+                'tutup'             => 0,
+                'timbang'           => 0,
+                'open_qt'           => $tutup_per_rak_qt[$n->id_rak],
+                'masuk_qt'          => 0,
+                'keluar_qt'         => 0,
+                'jual_qt'           => 0,
+                'tutup_qt'          => 0,
+                'timbang_qt'        => 0,
+            );
+
+            $this->model_admin->tambah_data("tr_detail_dashboard_big_book", $data);
+        }
+
+        //Balik Ke Dashboard
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Toko Telah Berhasil Dibuka! Data Open diambil dari penjualan hari terakhir!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/dashboard');
+    }
+
+    public function refresh_big_book($KdBukaBesar = 0){
+        echo "<pre>";
+        print_r($KdBukuBesar);
+        exit(1);
     }
 
     public function under_development(){

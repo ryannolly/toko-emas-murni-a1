@@ -197,6 +197,23 @@ class Model_admin extends CI_Model {
         return $KdPenjualan;
     }
 
+    function create_kd_buku_besar(){
+        $data = array(
+            'TglBukuBesar'        => date("Y-m-d", time()),
+            'JamBukaToko'         => time(),
+            'JamTutupToko'        => 0,
+            'UserBukaToko'        => $this->session->userdata("username"),
+            'UserTutupToko'       => ""
+        );
+
+        $this->tambah_data("ms_dashboard_big_book", $data);
+
+        $sql = "SELECT KdBukuBesar FROM ms_dashboard_big_book ORDER BY KdBukuBesar DESC LIMIT 1";
+        $KdPenjualan = $this->db->query($sql)->row()->KdBukuBesar;
+
+        return $KdPenjualan;
+    }
+
     function get_data_barang_for_qr($where){
         $this->db->select('bar.*, rak.nama_rak, kadar.nama_kadar');
         $this->db->from('ms_barang bar');
@@ -390,6 +407,18 @@ class Model_admin extends CI_Model {
 
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function get_big_book_dashboard_terakhir(){
+        $this->db->select("detail.*, big_book.JamBukaToko, big_book.JamTutupToko, big_book.UserBukaToko, big_book.UserTutupToko, rak.nama_rak");
+        $this->db->from("ms_dashboard_big_book big_book");
+        $this->db->join("tr_detail_dashboard_big_book detail", "detail.KdBukuBesar = big_book.KdBukuBesar", "left");
+        $this->db->join('ms_rak rak', "rak.id = detail.id_rak", "left");
+        $this->db->order_by("big_book.TglBukuBesar", "DESC");
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+        return $query->row();
     }
 
     //Start of Riwayat Pengeluaran Barang
