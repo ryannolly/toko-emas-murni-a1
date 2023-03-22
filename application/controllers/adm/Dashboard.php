@@ -26,9 +26,13 @@ class Dashboard extends CI_Controller {
     }
 
     public function index(){
+        $kyou = date("Y-m-d", time());
+        $data['data_penjualan']     = $this->model_admin->get_dashboard_penjualan(strtotime($kyou));
+        $data['data_pengembalian']  = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou));
+
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/dashboard');
+        $this->load->view('Admin/dashboard', $data);
         $this->load->view('Admin/Template_admin/footer');
     }
 

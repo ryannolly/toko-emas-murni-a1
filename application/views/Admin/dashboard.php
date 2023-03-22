@@ -96,8 +96,19 @@ function tgl_indo_hari_ini(){
                               />
                             </div>
                           </div>
-                          <span class="fw-semibold d-block mb-1">Jumlah Penjualan</span>
-                          <h3 class="card-title mb-2">0</h3>
+                          <span class="fw-semibold d-block mb-1">Penjualan</span>
+                          <table class="table">
+                            <tr>
+                              <th>Nominal</th>
+                              <th>Berat</th>
+                              <th>Banyak</th>
+                            </tr>
+                            <tr>
+                              <td>Rp<?php echo $data_penjualan->Harga ?></td>
+                              <td><?php echo $data_penjualan->Berat ?>gr</td>
+                              <td><?php echo $data_penjualan->Banyak ?></td>
+                            </tr>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -113,8 +124,19 @@ function tgl_indo_hari_ini(){
                               />                            
                             </div>
                           </div>
-                          <span>Total Penjualan</span>
-                          <h3 class="card-title text-nowrap mb-1">0</h3>
+                          <span class="fw-semibold d-block mb-1">Pengembalian</span>
+                          <table class="table">
+                            <tr>
+                              <th>Nominal</th>
+                              <th>Berat</th>
+                              <th>Banyak</th>
+                            </tr>
+                            <tr>
+                              <td>Rp<?php echo $data_pengembalian->Harga ?></td>
+                              <td><?php echo $data_pengembalian->Berat ?>gr</td>
+                              <td><?php echo $data_pengembalian->Banyak ?></td>
+                            </tr>
+                          </table>
                         </div>
                       </div>
                     </div>

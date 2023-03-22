@@ -347,6 +347,25 @@ class Model_admin extends CI_Model {
     }
 
     //End Of Data Riwayat Pengembalian
+
+    //Menghitung jumlah pengeluaran
+    function get_dashboard_penjualan($hari){
+        $sql = "SELECT COALESCE(SUM(penjualan.nilai_barang), 0) AS Harga, COUNT(penjualan.nilai_barang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_penjualan ms
+                LEFT JOIN tr_penjualan penjualan ON penjualan.KdPenjualan = ms.KdPenjualan
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ?";
+
+        $query = $this->db->query($sql, array($hari, $hari));
+        return $query->row();
+    }
+
+    function get_dashboard_pengembalian($hari){
+        $sql = "SELECT COALESCE(SUM(penjualan.uang), 0) AS Harga, COUNT(penjualan.uang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_pengembalian ms
+                LEFT JOIN tr_pengembalian penjualan ON penjualan.KdPengembalian = ms.KdPengembalian
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ?";
+
+        $query = $this->db->query($sql, array($hari, $hari));
+        return $query->row();
+    }
 }
 
 ?>
