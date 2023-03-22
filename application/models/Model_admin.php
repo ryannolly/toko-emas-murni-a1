@@ -366,6 +366,17 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql, array($hari, $hari));
         return $query->row();
     }
+
+    function get_big_book_dashboard($kyou){
+        $this->db->select("detail.*, big_book.JamBukaToko, big_book.JamTutupToko, big_book.UserBukaToko, big_book.UserTutupToko, rak.nama_rak");
+        $this->db->from("ms_dashboard_big_book big_book");
+        $this->db->join("tr_detail_dashboard_big_book detail", "detail.KdBukuBesar = big_book.KdBukuBesar", "left");
+        $this->db->join('ms_rak rak', "rak.id = detail.id_rak", "left");
+        $this->db->where("big_book.TglBukuBesar", $kyou);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
 ?>

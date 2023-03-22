@@ -30,10 +30,16 @@ class Dashboard extends CI_Controller {
         $data['data_penjualan']     = $this->model_admin->get_dashboard_penjualan(strtotime($kyou));
         $data['data_pengembalian']  = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou));
 
+        $data['big_book']           = $this->model_admin->get_big_book_dashboard($kyou);
+
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
         $this->load->view('Admin/dashboard', $data);
         $this->load->view('Admin/Template_admin/footer');
+    }
+
+    public function buka_toko(){
+        echo "iso";
     }
 
     public function under_development(){

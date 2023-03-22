@@ -143,5 +143,62 @@ function tgl_indo_hari_ini(){
                   </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="avatar flex-shrink-0">
+                          <img
+                            src="<?php echo base_url('assets') ?>/assets/img/icons/unicons/cc-primary.png"
+                            alt="chart success"
+                            class="rounded"
+                          />
+                        </div>
+                      </div>
+                      <span class="fw-semibold d-block mb-1">Big Book</span>
+                      <?php if(@$big_book) :  ?>
+                        <table class="table">
+                          <tr>
+                            <th>Kode</th>
+                            <th>Open</th>
+                            <th>Masuk</th>
+                            <th>Keluar</th>
+                            <th>Jual</th>
+                            <th>Tutup</th>
+                            <th>Timbang</th>
+                          </tr>
+                          <?php foreach($big_book as $p) :  ?>
+                            <tr>
+                              <td><?php echo $p->nama_rak ?></td>
+                              <td><?php echo $p->open ?></td>
+                              <td><?php echo $p->masuk ?></td>
+                              <td><?php echo $p->keluar ?></td>
+                              <td><?php echo $p->jual ?></td>
+                              <td><?php echo $p->tutup ?></td>
+                              <td><?php echo $p->timbang ?></td>
+                            </tr>
+                            <tr>
+                              <td>Quantity</td>
+                              <td><?php echo $p->open_qt ?></td>
+                              <td><?php echo $p->masuk_qt ?></td>
+                              <td><?php echo $p->keluar_qt ?></td>
+                              <td><?php echo $p->jual_qt ?></td>
+                              <td><?php echo $p->tutup_qt ?></td>
+                              <td><?php echo $p->timbang_qt ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </table>
+                      <?php else: ?>
+                        <h3 class="text-danger" style="text-align:center">Silahkan buka toko terlebih dahulu</h3>
+                      <?php endif; ?>
+                    </div>
+                    <div class="card-footer">
+                      <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- / Content -->
