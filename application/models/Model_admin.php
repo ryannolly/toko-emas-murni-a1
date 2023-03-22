@@ -183,6 +183,20 @@ class Model_admin extends CI_Model {
         return $KdPenjualan;
     }
 
+    function create_kode_pengeluaran(){
+        $data = array(
+            'TglProses' => time(),
+            'usrid'     => $this->session->userdata("username")
+        );
+
+        $this->tambah_data("ms_pengeluaran", $data);
+
+        $sql = "SELECT KdPengeluaran FROM ms_pengeluaran ORDER BY KdPengeluaran DESC LIMIT 1";
+        $KdPenjualan = $this->db->query($sql)->row()->KdPengeluaran;
+
+        return $KdPenjualan;
+    }
+
     function get_data_barang_for_qr($where){
         $this->db->select('bar.*, rak.nama_rak, kadar.nama_kadar');
         $this->db->from('ms_barang bar');

@@ -71,7 +71,7 @@
 
             <!-- Data Penjualan -->
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Penjualan</span>
+              <span class="menu-header-text">Transaksi</span>
             </li>
             <li class="menu-item">
               <a href="<?php echo base_url('adm/penjualan'); ?>" class="menu-link">
@@ -83,6 +83,12 @@
               <a href="<?php echo base_url('adm/pengembalian'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cart"></i>
                 <div data-i18n="Boxicons">Pengembalian</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="<?php echo base_url('adm/barang_keluar'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-archive-out"></i>
+                <div data-i18n="Boxicons">Barang Keluar</div>
               </a>
             </li>
 

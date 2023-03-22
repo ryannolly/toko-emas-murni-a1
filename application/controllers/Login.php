@@ -37,6 +37,8 @@ class Login extends CI_Controller {
                     $this->session->set_userdata("last_id_barang_kasir", 0);
                     $this->session->set_userdata("barang_pengembalian", array());
                     $this->session->set_userdata("last_id_barang_pengembalian", 0);
+                    $this->session->set_userdata("barang_pengeluaran", array());
+                    $this->session->set_userdata("last_id_barang_pengeluaran", 0);
                     redirect("adm/dashboard/");
                 }
             }
