@@ -391,6 +391,78 @@ class Model_admin extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    //Start of Riwayat Pengeluaran Barang
+   
+    function _get_datatables_data_riwayat_pengeluaran_query($where){
+        $this->db->select('pengeluaran.*');
+        $this->db->from('ms_pengeluaran pengeluaran');
+        if(!empty($where['tanggal_mulai'])){
+            $this->db->where('pengeluaran.TglProses >=', $where['tanggal_mulai']);
+        }
+        if(!empty($where['tanggal_berakhir'])){
+            $this->db->where('pengeluaran.TglProses <=', $where['tanggal_berakhir']);
+        }
+        $this->db->order_by('pengeluaran.TglProses', "DESC");
+
+        $i = 0;
+        foreach($this->column_search as $item){
+            if(@$_POST['search']['value']){
+                if($i === 0){
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                }else{
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if(count($this->column_search) - 1 == $i) //Last Loop
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        if(isset($_POST['order'])) { // here order processing
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        }else if(isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_data_riwayat_pengeluaran($table, $where) {
+        $this->_get_datatables_data_riwayat_pengeluaran_query($where);
+        if(@$_POST['length'] != -1)
+        $this->db->limit(@$_POST['length'], @$_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_data_riwayat_pengeluaran($where) {
+        $this->_get_datatables_data_riwayat_pengeluaran_query($where);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function count_all_data_riwayat_pengeluaran($where) {
+        $this->db->from('ms_pengeluaran');
+        // if(!empty($where['KdProdi'])){
+        //     $this->db->where('ms_data_dosen.KdProdi', $where['KdProdi']);
+        // }
+        return $this->db->count_all_results();
+    }
+
+    function get_data_pengeluaran_by_kd_pengeluaran($KdPenjualan){
+        $this->db->select("pengeluaran.*, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.foto");
+        $this->db->from("tr_pengeluaran pengeluaran");
+        $this->db->join("ms_barang barang", "pengeluaran.id_barang = barang.id", 'left');
+        $this->db->join("ms_rak rak", "barang.id_rak = rak.id", 'left');
+        $this->db->join("ms_kadar kadar", "pengeluaran.id_kadar = kadar.id", 'left');
+        $this->db->where("pengeluaran.KdPengeluaran", $KdPenjualan);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //End Of Riwayat Pengeluaran Barang
 }
 
 ?>
