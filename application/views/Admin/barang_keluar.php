@@ -7,23 +7,22 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
-              <!-- <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
+              <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Barang</h5>
+                            <h5 class="modal-title" id="exampleModalLabel4">Proses Pengeluaran Barang</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                         <h5 class="text-danger">Harap masukkan angka saja pada kolom harga!</h5>
-                        <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
+                        <form action="<?php echo base_url('adm/barang_keluar/proses_barang_keluar') ?>" method="post">
                             <div class="table-responsive">
                                 <table class="table table-bordered" style="border:3px" id="tempat_jual">
                                     <tr>
                                         <th>Nama Barang</th>
                                         <th>Rak/Kadar/Berat</th>
-                                        <th>Harga</th>
-                                        <th>Berat Jual</th>
+                                        <th>Kategori</th>
                                     </tr>
                                     
                                 </table>
@@ -40,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-              </div> -->
+              </div>
 
               <!-- Bordered Table -->
               <div class="card mb-3">
@@ -81,7 +80,8 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                    <a href="<?php echo base_url('adm/barang_keluar/proses_barang_keluar') ?>"><button type="button" class="btn btn-info" id="tombol_pengembalian_barang">Proses</button></a>
+                    <button type="button" class="btn btn-info" id="tombol_jual_barang" data-bs-toggle="modal" data-bs-target="#penjualanKasir">Proses</button>
+                    <!-- <a href="<?php echo base_url('adm/barang_keluar/proses_barang_keluar') ?>"><button type="button" class="btn btn-info" id="tombol_pengembalian_barang">Proses</button></a> -->
                 </div>
               </div>
               <!--/ Bordered Table -->
@@ -187,6 +187,44 @@
         
     })
 
+
+
+</script>
+
+<script>
+    $("#tombol_jual_barang").click(function(){
+        $.ajax({
+            type    : "POST",
+            url     : "<?= site_url("adm/barang_keluar/get_ajax_session_barang") ?>",
+            success : function(response){
+                data = JSON.parse(response);
+                var html = "";
+
+                var i;
+                for(i = 0; i<data.length; i++){
+                    html += "<tr>";
+                    html += "<td>" + data[i].nama_barang + "</td>";
+                    html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "/" + data[i].berat_jual + "gr</td>";
+                    html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
+                    html += '<td><select name="kategori[]" id="" class="form-control"><option value="lebur">Lebur</option><option value="AD">AD</option></select></td>';
+                    html += "</tr>";   
+                }
+
+                $("#tempat_jual").append(html);
+            },fail : function(){
+                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+            },
+            error : function(statusCode, errorThrown){
+                if(statusCode.status == 0){
+                    alert("Koneksi Anda Terputus!");
+                }
+            },
+            complete : function(){
+                // $("#kode-ruang-section").show();
+                // $('#gambar-loading-2').hide();
+            }
+        })
+    })
 </script>
 
 <script>

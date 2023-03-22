@@ -78,11 +78,18 @@ class Barang_keluar extends CI_Controller {
         $this->load->view('Admin/Template_admin/footer');
     }
 
+    public function get_ajax_session_barang(){
+        echo json_encode($this->session->userdata("barang_pengeluaran"));
+    }
+
     public function proses_barang_keluar(){
         //Kalau Kosong langsung tembak keluar aja
         if(count($this->session->userdata("barang_pengeluaran")) <= 0){
             redirect("adm/pengeluaran/");
         }
+
+        $kategori_barang    = $this->input->post("kategori");
+        $counter            = 0;
 
         //Buat dulu ms_penjualan
         $KdPengembalian = $this->model_admin->create_kode_pengeluaran();
@@ -100,7 +107,7 @@ class Barang_keluar extends CI_Controller {
                 'berat_terima'      => $p->berat_jual,
                 'uang'              => 0,
                 'berat_asli'        => $p->berat_jual,
-                'Kategori'          => "",
+                'Kategori'          => $kategori_barang[$counter++],
                 'selisih_berat'     => 0,
                 'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time()),
                 'tgl_penjualan'     => date("Y-m-d", time()),

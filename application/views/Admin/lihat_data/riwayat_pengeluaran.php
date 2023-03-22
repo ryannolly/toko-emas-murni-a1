@@ -25,11 +25,13 @@
                         <table class="table">
                             <tr>
                                 <th>Nama Barang/Nama Kadar/Nama Rak</th>
+                                <th>Kategori</th>
                                 <th>Berat Asli</th>
                             </tr>
                             <?php foreach($detail_pengeluaran as $p) :  ?>
                                 <tr>
                                     <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                    <td class="text-wrap"><?php echo $p->Kategori ?></td>
                                     <td class="text-wrap"><?php echo $p->berat_asli ?>gr</td>
                                 </tr>
                             <?php endforeach; ?>
