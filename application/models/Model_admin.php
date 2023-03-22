@@ -380,21 +380,21 @@ class Model_admin extends CI_Model {
     //End Of Data Riwayat Pengembalian
 
     //Menghitung jumlah pengeluaran
-    function get_dashboard_penjualan($hari){
+    function get_dashboard_penjualan($hari, $ashita){
         $sql = "SELECT COALESCE(SUM(penjualan.nilai_barang), 0) AS Harga, COUNT(penjualan.nilai_barang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_penjualan ms
                 LEFT JOIN tr_penjualan penjualan ON penjualan.KdPenjualan = ms.KdPenjualan
                 WHERE ms.TglProses >= ? AND ms.TglProses <= ?";
 
-        $query = $this->db->query($sql, array($hari, $hari));
+        $query = $this->db->query($sql, array($hari, $ashita));
         return $query->row();
     }
 
-    function get_dashboard_pengembalian($hari){
+    function get_dashboard_pengembalian($hari, $ashita){
         $sql = "SELECT COALESCE(SUM(penjualan.uang), 0) AS Harga, COUNT(penjualan.uang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_pengembalian ms
                 LEFT JOIN tr_pengembalian penjualan ON penjualan.KdPengembalian = ms.KdPengembalian
                 WHERE ms.TglProses >= ? AND ms.TglProses <= ?";
 
-        $query = $this->db->query($sql, array($hari, $hari));
+        $query = $this->db->query($sql, array($hari, $ashita));
         return $query->row();
     }
 
@@ -489,6 +489,35 @@ class Model_admin extends CI_Model {
 
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function get_berat_total_per_rak($id_rak, $tanggal){
+        $sql = "SELECT SUM(berat_jual) AS Berat, COUNT(berat_jual) AS Qty FROM ms_barang WHERE id_rak = ? AND tgl_input_real = ?";
+
+        $query = $this->db->query($sql, array($id_rak, $tanggal));
+        return $query->row();
+    }
+
+    function get_pengeluaran_per_rak($id_rak, $tanggal, $ashita){
+        $sql = "SELECT SUM(barang.berat_jual) AS Berat, COUNT(barang.berat_jual) AS Qty
+                FROM tr_pengeluaran pengeluaran
+                LEFT JOIN ms_pengeluaran ms ON ms.KdPengeluaran = pengeluaran.KdPengeluaran
+                LEFT JOIN ms_barang barang ON barang.Id = pengeluaran.id_barang
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND barang.id_rak = ?";
+
+        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak));
+        return $query->row();
+    }
+
+    function get_penjualan_per_rak($id_rak, $tanggal, $ashita){
+        $sql = "SELECT SUM(penjualan.berat_jual) AS Berat, COUNT(penjualan.berat_jual) AS Qty
+                FROM tr_penjualan penjualan
+                LEFT JOIN ms_penjualan ms ON ms.KdPenjualan = penjualan.KdPenjualan                
+                LEFT JOIN ms_barang barang ON barang.Id = penjualan.id_barang
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND barang.id_rak = ?";
+
+        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak));
+        return $query->row();
     }
 
     //End Of Riwayat Pengeluaran Barang

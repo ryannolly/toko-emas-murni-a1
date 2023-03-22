@@ -27,8 +27,9 @@ class Dashboard extends CI_Controller {
 
     public function index(){
         $kyou = date("Y-m-d", time());
-        $data['data_penjualan']     = $this->model_admin->get_dashboard_penjualan(strtotime($kyou));
-        $data['data_pengembalian']  = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou));
+        $ashita = date("Y-m-d", time()+86400);
+        $data['data_penjualan']     = $this->model_admin->get_dashboard_penjualan(strtotime($kyou), strtotime($ashita));
+        $data['data_pengembalian']  = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou), strtotime($ashita));
 
         $data['big_book']           = $this->model_admin->get_big_book_dashboard($kyou);
 
@@ -98,10 +99,72 @@ class Dashboard extends CI_Controller {
         redirect('adm/dashboard');
     }
 
-    public function refresh_big_book($KdBukaBesar = 0){
-        echo "<pre>";
-        print_r($KdBukuBesar);
-        exit(1);
+    public function refresh_big_book($KdBukuBesar = 0){
+        $timbangan      = $this->input->post("timbang[]");
+        $timbangan_qt   = $this->input->post("timbang_qt[]");
+
+        //Get Tanggal
+        $kyou   = date("Y-m-d", time());
+        $ashita = date("Y-m-d", time()+86400);
+        
+        //Get All Rak in Buku Besar
+        $big_book       = $this->model_admin->get_big_book_dashboard($kyou);
+        $counter = 0;
+        foreach($big_book as $p){
+            //Update Masuk
+            $where = array(
+                'KdBukuBesar'       => $KdBukuBesar,
+                'id_rak'            => $p->id_rak
+            );
+
+            //Get Data
+            $terbaru        = $this->model_admin->get_berat_total_per_rak($p->id_rak, $kyou);
+
+            $data = array(
+                'masuk'         => $terbaru->Berat,
+                'masuk_qt'      => $terbaru->Qty
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Get Data
+            $terbaru        = $this->model_admin->get_pengeluaran_per_rak($p->id_rak, strtotime($kyou), strtotime($ashita));
+
+            //Update Keluar
+            $data = array(
+                'keluar'        => $terbaru->Berat,
+                'keluar_qt'     => $terbaru->Qty
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Get Data
+            $terbaru        = $this->model_admin->get_penjualan_per_rak($p->id_rak, strtotime($kyou), strtotime($ashita));
+
+            //Update Jual
+            $data = array(
+                'jual'      => $terbaru->Berat,
+                'jual_qt'   => $terbaru->Qty
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Update Timbangan
+            $data = array(
+                'timbang'   => $timbangan[$counter], 
+                'timbang_qt'=> $timbangan_qt[$counter++]
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+        }
+
+        //Balik Ke Dashboard
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                Data telah berhasil diperbaharui!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        ');
+        redirect('adm/dashboard');
     }
 
     public function under_development(){

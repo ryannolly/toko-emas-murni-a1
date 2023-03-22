@@ -108,8 +108,8 @@ function tgl_indo_hari_ini(){
                               <th>Banyak</th>
                             </tr>
                             <tr>
-                              <td>Rp<?php echo $data_penjualan->Harga ?></td>
-                              <td><?php echo $data_penjualan->Berat ?>gr</td>
+                              <td>Rp<?php echo number_format($data_penjualan->Harga, 2, ".", ",") ?></td>
+                              <td><?php echo number_format($data_penjualan->Berat, 2, ".", "") ?>gr</td>
                               <td><?php echo $data_penjualan->Banyak ?></td>
                             </tr>
                           </table>
@@ -136,8 +136,8 @@ function tgl_indo_hari_ini(){
                               <th>Banyak</th>
                             </tr>
                             <tr>
-                              <td>Rp<?php echo $data_pengembalian->Harga ?></td>
-                              <td><?php echo $data_pengembalian->Berat ?>gr</td>
+                              <td>Rp<?php echo number_format($data_pengembalian->Harga, 2, ".", ",") ?></td>
+                              <td><?php echo number_format($data_pengembalian->Berat, 2, ".", ",") ?>gr</td>
                               <td><?php echo $data_pengembalian->Banyak ?></td>
                             </tr>
                           </table>
@@ -163,7 +163,7 @@ function tgl_indo_hari_ini(){
                       </div>
                       <span class="fw-semibold d-block mb-1">Big Book</span>
                       <?php if(@$big_book) :  ?>
-                        <table class="table">
+                        <table class="table table-striped">
                           <tr>
                             <th style="text-align:center">Kode</th>
                             <th>Open</th>
@@ -171,8 +171,10 @@ function tgl_indo_hari_ini(){
                             <th>Keluar</th>
                             <th>Jual</th>
                             <th>Tutup</th>
-                            <th>Timbang</th>
+                            <th width="10%">Timbang</th>
+                            <th width="10%">Selisih</th>
                           </tr>
+                          <form action="<?php echo base_url('adm/dashboard/refresh_big_book/'.$big_book[0]->KdBukuBesar ) ?>" method="post">
                           <?php foreach($big_book as $p) :  ?>
                             <tr>
                               <td style="text-align:center"><b><?php echo $p->nama_rak ?></b></td>
@@ -181,7 +183,8 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $p->keluar ?></td>
                               <td><?php echo $p->jual ?></td>
                               <td><?php echo $p->tutup ?></td>
-                              <td><?php echo $p->timbang ?></td>
+                              <td><input name="timbang[]" type="text" class="form-control" value="<?php echo $p->timbang ?>"></td>
+                              <td>0</td>
                             </tr>
                             <tr>
                               <td style="text-align:center">Quantity</td>
@@ -190,7 +193,8 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $p->keluar_qt ?></td>
                               <td><?php echo $p->jual_qt ?></td>
                               <td><?php echo $p->tutup_qt ?></td>
-                              <td><?php echo $p->timbang_qt ?></td>
+                              <td><input name="timbang_qt[]" type="text" class="form-control" value="<?php echo $p->timbang_qt ?>"></td>
+                              <td>0</td>
                             </tr>
                           <?php endforeach; ?>
                         </table>
@@ -202,7 +206,8 @@ function tgl_indo_hari_ini(){
                       <?php if(@!$big_book) :  ?>
                         <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
                       <?php else :  ?>
-                        <a href="<?php echo base_url("adm/dashboard/refresh_big_book/".$big_book[0]->KdBukuBesar) ?>"><button type="button" class="btn btn-info" data-bs-dismiss="modal">Refresh Data</button></a>
+                          <input type="submit" class="btn btn-info" data-bs-dismiss="modal" value="Refresh Data">
+                        </form>
                       <?php endif; ?>
                     </div>
                   </div>

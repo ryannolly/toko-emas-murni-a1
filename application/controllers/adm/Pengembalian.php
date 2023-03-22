@@ -129,7 +129,7 @@ class Pengembalian extends CI_Controller {
                 'berat_terima'      => $p->berat,
                 'uang'              => $p->harga,
                 'berat_asli'        => $p->berat,
-                'Kategori'          => $p->Kategori,
+                'Kategori'          => $p->kategori,
                 'selisih_berat'     => 0,
                 'usrid'             => $this->session->userdata("username") . " - BARANG PENGEMBALIAN - " . date("Y-m-d H:i:s", time()),
                 'tgl_penjualan'     => date("Y-m-d", time()),
