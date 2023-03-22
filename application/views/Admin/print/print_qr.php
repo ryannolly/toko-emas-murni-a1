@@ -163,7 +163,12 @@ table td {
 </style>
 
 </head>
-<?php $counter_print = 1; ?>
+<?php 
+	$counter_print = 0; 
+	$banyak_data   = count($data_barang);
+	// Baru
+	$berapa_baris = ceil((float) count($data_barang)/10);
+?>
 <body>
 	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 4pt;">
 		<thead style="background-color: #c3c3c3;">
@@ -176,15 +181,17 @@ table td {
 			</tr> -->
 		</thead>
 		<tbody  Border="0">
-            <tr>
-			<?php foreach($data_barang as $p) :  ?>
-                <?php if($counter_print % 10 == 0) :  ?>
-                    </tr>
-                    <tr>
-                <?php endif; ?>
-                <td style="text-align:center" class="mini_td"><img width="50px" src="<?php echo site_url("adm/data_barang/print_qr/".$p->Id) ?>" alt=""><p style="text-align:center"><?php echo $p->nama_rak ?>/<?php echo $p->nama_kadar ?>/<?php echo $p->berat_jual ?></p></td>
-
-            <?php endforeach; ?>   
+			<?php for($i = 0; $i<$berapa_baris; $i++) :  ?>
+				<tr>
+                <?php for($j = 0; $j<10; $j++) :  ?>
+					<?php if($counter_print < $banyak_data) :  ?>
+						<td style="text-align:center" class="mini_td"><img width="50px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
+					<?php else : ?>
+						<td style="text-align:center" class="mini_td">&nbsp;</td>
+					<?php endif; ?>
+                <?php endfor; ?>
+				</tr>
+            <?php endfor; ?>   
         </tbody>
 	</table>
 </body>

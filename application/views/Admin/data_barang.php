@@ -141,7 +141,7 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="">Tanggal Masuk Barang</label>
-                                    <input type="date" class="form-control" name="tgl_input_real" required> 
+                                    <input type="date" class="form-control" name="tgl_input_real" value="<?php echo date("Y-m-d", time()) ?>" required> 
                                 </div>
                             </div>
                             <div class="row">
