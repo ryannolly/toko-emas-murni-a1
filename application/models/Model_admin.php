@@ -409,16 +409,25 @@ class Model_admin extends CI_Model {
         return $query->result();
     }
 
-    function get_big_book_dashboard_terakhir(){
-        $this->db->select("detail.*, big_book.JamBukaToko, big_book.JamTutupToko, big_book.UserBukaToko, big_book.UserTutupToko, rak.nama_rak");
+    function get_tgl_big_book_dashboard_terakhir(){
+        $this->db->select("big_book.TglBukuBesar");
         $this->db->from("ms_dashboard_big_book big_book");
-        $this->db->join("tr_detail_dashboard_big_book detail", "detail.KdBukuBesar = big_book.KdBukuBesar", "left");
-        $this->db->join('ms_rak rak', "rak.id = detail.id_rak", "left");
         $this->db->order_by("big_book.TglBukuBesar", "DESC");
         $this->db->limit(1);
 
         $query = $this->db->get();
         return $query->row();
+    }
+
+    function get_big_book_dashboard_terakhir($kyou){
+        $this->db->select("detail.*, big_book.JamBukaToko, big_book.JamTutupToko, big_book.UserBukaToko, big_book.UserTutupToko, rak.nama_rak");
+        $this->db->from('ms_rak rak');
+        $this->db->join("tr_detail_dashboard_big_book detail", "detail.id_rak = rak.id", "left");
+        $this->db->join("ms_dashboard_big_book big_book", "big_book.KdBukuBesar = detail.KdBukuBesar", "left");
+        $this->db->where("big_book.TglBukuBesar", $kyou);
+
+        $query = $this->db->get();
+        return $query->result();
     }
 
     //Start of Riwayat Pengeluaran Barang

@@ -53,15 +53,22 @@ class Dashboard extends CI_Controller {
         }
 
         //Get Data Sebelumnya
-        $data_sebelumnya        = $this->model_admin->get_big_book_dashboard_terakhir();
+        $tgl_sebelumnya         = $this->model_admin->get_tgl_big_book_dashboard_terakhir();
         $tutup_per_rak          = array();
         $tutup_per_rak_qt       = array();
-        if(@$data_sebelumnya){
-            $tutup_per_rak_qt[$data_sebelumnya->id_rak] = $data_sebelumnya->tutup_qt;
-            $tutup_per_rak[$data_sebelumnya->id_rak] = $data_sebelumnya->tutup;
+        if(@$tgl_sebelumnya){
+            $data_sebelumnya    = $this->model_admin->get_big_book_dashboard_terakhir($tgl_sebelumnya->TglBukuBesar);
+
+            foreach($data_sebelumnya as $p){
+                $tutup_per_rak_qt[$p->id_rak] = $p->tutup_qt;
+                $tutup_per_rak[$p->id_rak] = $p->tutup;
+            }
         }else{
-            $tutup_per_rak_qt[$data_sebelumnya->id_rak] = 0;
-            $tutup_per_rak[$data_sebelumnya->id_rak]    = 0;
+            $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+            foreach($semua_rak as $n){
+                $tutup_per_rak_qt[$n->id]   = 0;
+                $tutup_per_rak[$n->id]      = 0;
+            }
         }
 
         //Create master big book for today
@@ -73,13 +80,13 @@ class Dashboard extends CI_Controller {
             $data = array(
                 'KdBukuBesar'       => $KdBukuBesar,
                 'id_rak'            => $n->id,
-                'open'              => $tutup_per_rak[$n->id_rak],
+                'open'              => $tutup_per_rak[$n->id],
                 'masuk'             => 0,
                 'keluar'            => 0,
                 'jual'              => 0,
                 'tutup'             => 0,
                 'timbang'           => 0,
-                'open_qt'           => $tutup_per_rak_qt[$n->id_rak],
+                'open_qt'           => $tutup_per_rak_qt[$n->id],
                 'masuk_qt'          => 0,
                 'keluar_qt'         => 0,
                 'jual_qt'           => 0,
