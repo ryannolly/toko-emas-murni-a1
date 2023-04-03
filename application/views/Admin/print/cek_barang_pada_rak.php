@@ -178,14 +178,24 @@ table td {
 				</tr>
 			<?php else : ?>
 				<?php $jumlah_berat = 0; $no = 0; foreach($barang as $p) :  ?>
-					<tr>
-                        <td><?php echo ++$no ?></td>
-                        <td><?php echo $p->nama_barang ?></td>
-                        <td><?php echo $p->nama_kadar ?></td>
-                        <td><?php echo $p->berat_jual ?> gr</td>
-                        <td></td>
-					</tr>
-                    <?php $jumlah_berat += $p->berat_jual ?>
+					<?php if($p->nama_kadar == "0%") :  ?>
+						<tr>
+							<td></td>
+							<td><?php echo $p->nama_barang ?></td>
+							<td><?php echo $p->nama_kadar ?></td>
+							<td><?php echo $p->berat_jual ?> gr</td>
+							<td></td>
+						</tr>
+					<?php else: ?>
+						<tr>
+							<td><?php echo ++$no ?></td>
+							<td><?php echo $p->nama_barang ?></td>
+							<td><?php echo $p->nama_kadar ?></td>
+							<td><?php echo $p->berat_jual ?> gr</td>
+							<td></td>
+						</tr>
+                    	<?php $jumlah_berat += $p->berat_jual ?>
+					<?php endif; ?>
 				<?php endforeach; ?>
                 <tr>
                     <td colspan="3" style="text-align:right; background-color: #c3c3c3">TOTAL</td>
