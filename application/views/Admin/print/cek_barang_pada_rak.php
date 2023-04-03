@@ -184,7 +184,7 @@ table td {
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
 							<td><?php echo $p->berat_jual ?> gr</td>
-							<td></td>
+							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
 						</tr>
 					<?php else: ?>
 						<tr>
@@ -192,7 +192,7 @@ table td {
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
 							<td><?php echo $p->berat_jual ?> gr</td>
-							<td></td>
+							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
 						</tr>
                     	<?php $jumlah_berat += $p->berat_jual ?>
 					<?php endif; ?>
