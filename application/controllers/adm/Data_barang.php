@@ -282,6 +282,32 @@ class Data_barang extends CI_Controller {
         redirect('adm/data_barang');
     }
 
+    public function hapus_data_barang_dari_cek_rak($KdBarang, $KdRak){
+        //Cek Dulu Ada Gak Datanya!
+        $where = array(
+            'Id'       => $KdBarang
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_barang')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda hapus tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_barang');
+        }
+
+        $this->model_admin->hapus_data($where, "ms_barang");
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Data Barang Telah Berhasil Dihapus!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_rak/cek_barang_pada_rak/'.$KdRak);
+    }
+
     public function print_qr($id = 0){
         $where = array(
             'id'    => $id

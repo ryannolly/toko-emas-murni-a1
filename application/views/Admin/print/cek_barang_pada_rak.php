@@ -155,6 +155,22 @@ table td {
 .fontType1 {
 	font-weight: bold;
 }
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 8px;
+  margin:2px;
+}
+
+.button.danger{
+	background-color:#ff4136;
+}
 </style>
 
 </head>
@@ -164,11 +180,12 @@ table td {
 	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 8pt;">
 		<thead style="background-color: #c3c3c3;">
 			<tr>
-				<th style="width :5%;" >No</th>
+				<th style="width :5%" >No</th>
 				<th>Nama Barang</th>
                 <th>Kadar</th>
 				<th>Berat Jual</th>
-                <th>Foto</th>
+                <th width="10%">Foto</th>
+				<th width="5%">Aksi</th>
 			</tr>
 		</thead>
 		<tbody  Border="0">
@@ -185,14 +202,19 @@ table td {
 							<td><?php echo $p->nama_kadar ?></td>
 							<td><?php echo $p->berat_jual ?> gr</td>
 							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
+							<td></td>
 						</tr>
 					<?php else: ?>
 						<tr>
-							<td><?php echo ++$no ?></td>
+							<td style="text-align:center"><?php echo ++$no ?></td>
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
 							<td><?php echo $p->berat_jual ?> gr</td>
 							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
+							<td>
+								<a target="_blank" class="button" href="<?php echo base_url("adm/data_barang/ubah_data_barang/").$p->Id ?>">Ubah</a>
+								<a onclick="return confirm('Apakah anda yakin ingin menghapus data berikut?')" class="button danger" href="<?php echo base_url("adm/data_barang/hapus_data_barang_dari_cek_rak/".$p->Id."/".$detail_rak->id) ?>">Hapus</a>
+							</td>
 						</tr>
                     	<?php $jumlah_berat += $p->berat_jual ?>
 					<?php endif; ?>
