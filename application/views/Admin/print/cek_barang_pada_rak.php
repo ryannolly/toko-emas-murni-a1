@@ -181,6 +181,7 @@ table td {
 		<thead style="background-color: #c3c3c3;">
 			<tr>
 				<th style="width :5%" >No</th>
+				<th style="width: 5%">Kode Barang</th>
 				<th>Nama Barang</th>
                 <th>Kadar</th>
 				<th>Berat Jual</th>
@@ -194,22 +195,25 @@ table td {
 					<td colspan="5" style="text-align:center;">Tidak Ada Data</td>
 				</tr>
 			<?php else : ?>
-				<?php $jumlah_berat = 0; $no = 0; foreach($barang as $p) :  ?>
+				<?php $jumlah_berat = 0; $jumlah_berat_wadah = 0; $no = 0; foreach($barang as $p) :  ?>
 					<?php if($p->nama_kadar == "0%") :  ?>
 						<tr>
 							<td></td>
+							<td></td>
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
-							<td><?php echo $p->berat_jual ?> gr</td>
+							<td style="text-align:center"><?php echo $p->berat_jual ?> gr</td>
 							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
 							<td></td>
 						</tr>
+						<?php $jumlah_berat_wadah += $p->berat_jual ?>
 					<?php else: ?>
 						<tr>
 							<td style="text-align:center"><?php echo ++$no ?></td>
+							<td style="text-align:center"><?php echo $p->Id ?></td>
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
-							<td><?php echo $p->berat_jual ?> gr</td>
+							<td style="text-align:center;"><?php echo $p->berat_jual ?> gr</td>
 							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
 							<td>
 								<a target="_blank" class="button" href="<?php echo base_url("adm/data_barang/ubah_data_barang/").$p->Id ?>">Ubah</a>
@@ -220,9 +224,14 @@ table td {
 					<?php endif; ?>
 				<?php endforeach; ?>
                 <tr>
-                    <td colspan="3" style="text-align:right; background-color: #c3c3c3">TOTAL</td>
-                    <td colspan="2" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat ?> gr)</td>
+                    <td colspan="3" rowspan="2" style="text-align:right; background-color: #c3c3c3">TOTAL</td>
+					<td style="text-align:right">Emas Bersih : </td>
+					<td colspan="3" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat ?> gr)</td>
                 </tr>
+				<tr>
+					<td style="text-align:right">Berat Rak+Barcode : </td>
+					<td colspan="3" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat_wadah ?> gr)</td>
+				</tr>
 			<?php endif; ?>
         </tbody>
 	</table>

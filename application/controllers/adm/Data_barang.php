@@ -53,6 +53,7 @@ class Data_barang extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
+            $row[] = $item->Id;
             $row[] = $item->nama_barang;
             $row[] = $item->nama_rak;
             $row[] = $item->nama_kadar;
