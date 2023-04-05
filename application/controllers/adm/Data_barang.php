@@ -321,7 +321,8 @@ class Data_barang extends CI_Controller {
     public function cetak_qr_banyak(){
         $where = array(
             'id_rak'            => $this->input->post("id_rak"),
-            'tgl_input_real'    => $this->input->post("tgl_input_real")
+            'tgl_input_real'    => $this->input->post("tgl_input_real"),
+            'sampai_jam'        => $this->input->post('sampai_jam')
         );
 
         $data['data_barang']    = $this->model_admin->get_data_barang_for_qr($where);

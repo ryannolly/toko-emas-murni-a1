@@ -48,6 +48,12 @@
                                     <input type="date" class="form-control" name="tgl_input_real">
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Dari Jam?</label>
+                                    <input type="time" class="form-control" name="sampai_jam">
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -115,7 +121,7 @@
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="nameExLarge" class="form-label">Sampai Jam?</label>
+                                    <label for="nameExLarge" class="form-label">Dari Jam?</label>
                                     <input type="time" class="form-control" name="sampai_jam">
                                 </div>
                             </div>

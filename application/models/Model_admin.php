@@ -90,7 +90,7 @@ class Model_admin extends CI_Model {
         $this->db->join("ms_kadar kadar", "kadar.id = barang.id_kadar", "left");
         $this->db->where("barang.id_rak", $Id);
         $this->db->where("barang.tgl_input_real", $tgl_input_real);
-        $this->db->where("barang.tgl_input_real_jam <=", $sampai_jam);
+        $this->db->where("barang.tgl_input_real_jam >=", $sampai_jam);
         //$this->db->where("barang.stok != 0");
 
         $query = $this->db->get();
@@ -241,6 +241,10 @@ class Model_admin extends CI_Model {
         $this->db->where("id_rak", $where['id_rak']);
         if(!empty($where['tgl_input_real'])){
             $this->db->where("tgl_input_real", $where['tgl_input_real']);
+        }
+        if(!empty($where['sampai_jam'])){
+            $sampai_jam = $where['tgl_input_real'] . " " . $where['sampai_jam'];
+            $this->db->where("tgl_input_real_jam >=", $sampai_jam);
         }   
         $this->db->order_by('bar.Id DESC');
 
