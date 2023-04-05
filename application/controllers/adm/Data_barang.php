@@ -362,6 +362,16 @@ class Data_barang extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function get_kadar_for_rak(){
+        $where = array(
+            'id_kadar'    => $this->input->post("id")
+        );
+
+        $data = $this->model_admin->get_ajax_kadar_by_rak($this->input->post("id"));
+
+        echo json_encode($data);
+    }
+
     public function cetak_riwayat_barang_masuk(){
         if(!@$this->input->post("id_rak")){
             redirect("adm/data_barang");

@@ -31,6 +31,16 @@
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
+                                    <label for="">Default Kadar</label>
+                                    <select name="default_kadar" id="" class="form-control">
+                                        <?php foreach($data_kadar as $d) :  ?>
+                                            <option value="<?php echo $d->id ?>"><?php echo $d->nama_kadar ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
                                     <label for="nameExLarge" class="form-label">Keterangan</label>
                                     <textarea name="keterangan" id="" cols="30" rows="3" class="form-control"></textarea>
                                 </div>

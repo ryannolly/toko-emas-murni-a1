@@ -155,20 +155,20 @@
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="nameExLarge" class="form-label">Kadar</label>
-                                    <select name="id_kadar" class="form-control" style="color:#000" id="" required>
-                                        <?php foreach($data_kadar as $kadar) :  ?>
-                                            <option value="<?php echo $kadar->id ?>"><?php echo $kadar->nama_kadar ?></option>
+                                    <label for="nameExLarge" class="form-label">Rak</label>
+                                    <select name="id_rak" class="form-control" style="color:#000" id="data_rak" required>
+                                        <?php foreach($data_rak as $rak) :  ?>
+                                            <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="nameExLarge" class="form-label">Rak</label>
-                                    <select name="id_rak" class="form-control" style="color:#000" id="" required>
-                                        <?php foreach($data_rak as $rak) :  ?>
-                                            <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
+                                    <label for="nameExLarge" class="form-label">Kadar</label>
+                                    <select name="id_kadar" class="form-control" style="color:#000" id="data_kadar" required>
+                                        <?php foreach($data_kadar as $kadar) :  ?>
+                                            <option value="<?php echo $kadar->id ?>"><?php echo $kadar->nama_kadar ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -277,6 +277,50 @@
 <script>
     $(document).on("click", ".hapus_data", function(){
         return confirm("Apakah anda yakin ingin menghapus barang ini?");
+    })
+</script>
+
+<script>
+    $("#data_rak").change(function(){
+        let id = $(this).val();
+
+        $.ajax({
+            type : "POST",
+            url : "<?= site_url('adm/data_barang/get_kadar_for_rak') ?>",
+            data : {
+                "id" : id
+            },
+            success : function(response){
+                var jawaban = JSON.parse(response);
+                var html = "";
+                var i;
+                for(i = 0; i<jawaban.length; i++){
+                    if(jawaban[i].Status == "selected"){
+                      html += '<option value="' + jawaban[i].id + '" selected>' + jawaban[i].nama_kadar + '</option>';  
+                    }else{
+                        html += '<option value="' + jawaban[i].id + '">' + jawaban[i].nama_kadar + '</option>';  
+                    }
+                }
+                // html    += '<table class="table"><tr><th>Nama Barang</th><td>'+ jawaban.data.nama_barang +'</td></tr>';
+                // html    += '<tr><th>Rak/Kadar</th><td>' + jawaban.data.nama_rak + '/'+ jawaban.data.nama_kadar +'</td></tr>';
+                // html    += '<tr><th>Berat</th><td>'+ jawaban.data.berat_jual +'g</td></tr>';
+                // html    += '<tr><th>Foto</th>'
+                                
+                // html    +=  '<td><img width="200px" src="' + jawaban.data.foto_url + '" alt=""></td></tr></table>';
+                $('#data_kadar').html(html);
+            },fail : function(){
+                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+            },
+            error : function(statusCode, errorThrown){
+                if(statusCode.status == 0){
+                    alert("Koneksi Anda Terputus!");
+                }
+            },
+            complete : function(){
+                // $("#kode-ruang-section").show();
+                // $('#gambar-loading-2').hide();
+            }
+        })
     })
 </script>
 

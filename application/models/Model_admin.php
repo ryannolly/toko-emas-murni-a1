@@ -547,6 +547,15 @@ class Model_admin extends CI_Model {
         return $query->row();
     }
 
+    function get_ajax_kadar_by_rak($Id_Rak){
+        $sql = "SELECT kadar.id, kadar.nama_kadar, IF(rak.Id IS NOT NULL, 'selected', '') AS Status
+                FROM ms_kadar kadar
+                LEFT JOIN ms_rak rak ON rak.id_kadar = kadar.id AND rak.id = ?";
+        
+        $query = $this->db->query($sql, array($Id_Rak));
+        return $query->result();
+    }
+
     //End Of Riwayat Pengeluaran Barang
 }
 

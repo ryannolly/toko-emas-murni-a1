@@ -27,6 +27,7 @@ class Data_rak extends CI_Controller {
 
     public function index(){
         $data['data_rak']       = $this->model_admin->tampil_data("ms_rak", "id", "DESC")->result();
+        $data['data_kadar']       = $this->model_admin->tampil_data("ms_kadar", "id", "DESC")->result();
         
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
@@ -69,6 +70,7 @@ class Data_rak extends CI_Controller {
         $data = array(
             'nama_rak'      => strip_tags($this->input->post("nama_rak")),
             'keterangan'    => strip_tags($this->input->post("keterangan")),
+            'id_kadar'      => $this->input->post("default_kadar"),
             'usrid'         => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
         );
 
@@ -109,6 +111,7 @@ class Data_rak extends CI_Controller {
 
         //Get Detail Data
         $data['detail_data']        = $this->model_admin->get_data_from_uuid($where, "ms_rak")->row();
+        $data['data_kadar']       = $this->model_admin->tampil_data("ms_kadar", "id", "DESC")->result();
 
         $this->load->view("Admin/Template_admin/header");
         $this->load->view("Admin/Template_admin/sidebar");
@@ -135,6 +138,7 @@ class Data_rak extends CI_Controller {
         $data = array(
             'nama_rak'       => $this->input->post("nama_rak"),
             'keterangan'     => $this->input->post("keterangan"),
+            'id_kadar'       => $this->input->post("default_kadar"),
             'usrid'          => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
         );
 
