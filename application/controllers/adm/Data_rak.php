@@ -225,6 +225,34 @@ class Data_rak extends CI_Controller {
         $this->load->view("Admin/lihat_data/checklist_barang_pada_rak", $data);
         $this->load->view('Admin/Template_admin/footer');
     }
+
+    public function check_barang_di_sebuah_rak(){
+        $where = array(
+            'uuid'      => $this->input->post("uuid"),
+            'id_rak'    => $this->input->post("id_rak")
+        );
+
+        //Get Data
+        $data['data'] = $this->model_admin->get_detail_barang_penjualan_checklist($where);
+
+        //Update the data in session
+        if(@$data['data']){
+            //Update last id barang kasir
+            $data['data']->id_session_barang = $this->session->userdata("last_id_barang_kasir");
+            $this->session->set_userdata("last_id_barang_kasir", $data['data']->id_session_barang + 1);
+
+            //Masukkan
+            $array_data = $this->session->userdata("barang_kasir");
+            $array_data[] =  $data['data'];
+            $this->session->set_userdata("barang_kasir", $array_data);
+            $data['is_data_ada'] = 1;
+        }else{
+            $data['is_data_ada'] = 0;
+        }
+
+        //Send
+        echo json_encode($data);
+    }
 }
 
 ?>

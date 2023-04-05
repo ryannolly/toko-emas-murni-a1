@@ -66,6 +66,15 @@ class Model_admin extends CI_Model {
         return $this->db->query($sql, array($where['uuid']))->row();
     }
 
+    public function get_detail_barang_penjualan_checklist($where){
+        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar 
+        FROM ms_barang bar
+        LEFT JOIN ms_rak rak ON rak.id = bar.id_rak
+        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar WHERE bar.uuid = ? AND bar.id_rak = ?";
+
+        return $this->db->query($sql, array($where['uuid'], $where['id_rak']))->row();
+    }
+
 
     public function kurang_stok($uuid){
         $sql = "UPDATE ms_barang SET stok = stok - 1 WHERE uuid = ?";

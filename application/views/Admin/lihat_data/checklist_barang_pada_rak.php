@@ -63,30 +63,23 @@
                             <th class="text-wrap">Kode Barang</th>
                             <th class="text-wrap">Nama Barang</th>
                             <th class="text-wrap">Rak/Kadar</th>
-                            <th class="text-wrap">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="body_tabel">
+                        <tbody id="">
                                 <?php foreach($barang as $p) :   ?>
                                     <tr id="tr_<?php echo $p->Id ?>">
                                         <td><?php echo $p->Id; ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_barang ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
-                                        <td>
-                                            <button type="button" id="<?php echo $p->Id ?>" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button>
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                         </tbody>
                         </table>
                     </div>
                     </div>
-                    <div class="card-footer">
-                    <button type="button" class="btn btn-info" id="tombol_jual_barang" data-bs-toggle="modal" data-bs-target="#penjualanKasir">Proses</button>
-                    </div>
                 </div>
                 <div class="card col-lg-6 ">
-                    <h5 class="card-header">Barang yang belum discan</h5>
+                    <h5 class="card-header">Barang yang sudah discan</h5>
                     <div class="card-body">
                     <div class="table-responsive text-nowrap">
                         <table class="table table-bordered" style="color:#000">
@@ -95,26 +88,13 @@
                             <th class="text-wrap">Kode Barang</th>
                             <th class="text-wrap">Nama Barang</th>
                             <th class="text-wrap">Rak/Kadar</th>
-                            <th class="text-wrap">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="body_tabel">
-                                <?php foreach($barang as $p) :   ?>
-                                    <tr id="tr_<?php echo $p->Id ?>">
-                                        <td><?php echo $p->Id; ?></td>
-                                        <td class="text-wrap"><?php echo $p->nama_barang ?></td>
-                                        <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
-                                        <td>
-                                            <button type="button" id="<?php echo $p->Id ?>" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                
                         </tbody>
                         </table>
                     </div>
-                    </div>
-                    <div class="card-footer">
-                    <button type="button" class="btn btn-info" id="tombol_jual_barang" data-bs-toggle="modal" data-bs-target="#penjualanKasir">Proses</button>
                     </div>
                 </div>
               </div>
@@ -141,26 +121,29 @@
                 
                 $.ajax({
                     type : "POST",
-                    url : "<?= site_url('adm/penjualan/ajax_post_and_get') ?>",
+                    url : "<?= site_url('adm/data_rak/check_barang_di_sebuah_rak') ?>",
                     data : {
-                        "uuid" : uuid
+                        "uuid" : uuid,
+                        'id_rak' : "<?php echo $detail_rak->id ?>"
                     },
                     success : function(response){
                         var jawaban = JSON.parse(response);
 
-                        if(jawaban.is_data_ada){
-                            console.log(jawaban.data);
-                            var html = "";
-                            html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
-                            html += "<td>" + jawaban.data.Id + "</td>";
-                            html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
-                            html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                            html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
+                        console.log(jawaban);
 
-                            $('#body_tabel').append(html);
-                        }else{
-                            alert("Data tidak tersedia atau stok telah habis!");
-                        }
+                        // if(jawaban.is_data_ada){
+                        //     console.log(jawaban.data);
+                        //     var html = "";
+                        //     html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                        //     html += "<td>" + jawaban.data.Id + "</td>";
+                        //     html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                        //     html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                        //     html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
+
+                        //     $('#body_tabel').append(html);
+                        // }else{
+                        //     alert("Data tidak tersedia atau stok telah habis!");
+                        // }
                     },fail : function(){
                         alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
                     },
@@ -185,25 +168,27 @@
         
         $.ajax({
             type : "POST",
-            url : "<?= site_url('adm/penjualan/ajax_post_and_get') ?>",
+            url : "<?= site_url('adm/data_rak/check_barang_di_sebuah_rak') ?>",
             data : {
-                "uuid" : uuid
+                "uuid" : uuid,
+                'id_rak' : "<?php echo $detail_rak->id ?>"
             },
             success : function(response){
                 var jawaban = JSON.parse(response);
+                console.log(jawaban.data.Id);
+                $("#tr_" + jawaban.data.Id).remove();
 
                 if(jawaban.is_data_ada){
-                    console.log(jawaban.data);
+                    
                     var html = "";
                     html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
                     html += "<td>" + jawaban.data.Id + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
-                    html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
                     $('#body_tabel').append(html);
                 }else{
-                    alert("Data tidak tersedia atau stok telah habis!");
+                    alert("Data tersebut tidak ada pada rak tersebut!");
                 }
             },fail : function(){
                 alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
@@ -221,97 +206,4 @@
         
     })
 
-</script>
-
-<script>
-    $(document).on('click', '.hapus_barang_session', function(){
-        var id = $(this).attr("id");
-
-        $.ajax({
-            type    : "POST",
-            url     : "<?= site_url("adm/penjualan/ajax_delete_barang_from_session") ?>",
-            data    : {
-                'id_session_barang' : id
-            },
-            success : function(response){
-                $("#tr_" + id).remove();
-                alert("Pembatalan barang berhasil!");
-            },fail : function(){
-                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
-            },
-            error : function(statusCode, errorThrown){
-                if(statusCode.status == 0){
-                    alert("Koneksi Anda Terputus!");
-                }
-            },
-            complete : function(){
-                // $("#kode-ruang-section").show();
-                // $('#gambar-loading-2').hide();
-            }
-        })
-
-        
-    })
-</script>
-
-<script>
-    $("#tombol_jual_barang").click(function(){
-        $.ajax({
-            type    : "POST",
-            url     : "<?= site_url("adm/penjualan/get_ajax_session_barang") ?>",
-            success : function(response){
-                data = JSON.parse(response);
-                var html = "";
-
-                var i;
-                for(i = 0; i<data.length; i++){
-                    html += "<tr>";
-                    html += "<td>" + data[i].nama_barang + "</td>";
-                    html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "/" + data[i].berat_jual + "gr</td>";
-                    html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
-                    html += "<td><input name='harga_barang[]' type='number' class='form-control hitung_harga' value='' required placeholder='Masukkan harga ..'></td>";
-                    html += "<td><input name='berat_jual[]' type='text' class='form-control' value='' required placeholder='Masukkan Berat dalam gram ..'></td>";
-                    html += "</tr>";   
-                }
-
-                $("#tempat_jual").append(html);
-            },fail : function(){
-                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
-            },
-            error : function(statusCode, errorThrown){
-                if(statusCode.status == 0){
-                    alert("Koneksi Anda Terputus!");
-                }
-            },
-            complete : function(){
-                // $("#kode-ruang-section").show();
-                // $('#gambar-loading-2').hide();
-            }
-        })
-    })
-</script>
-
-<script>
-    function addCommas(nStr) {
-        nStr += '';
-        var x = nStr.split('.');
-        var x1 = x[0];
-        var x2 = x.length > 1 ? '.' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        }
-        return x1 + x2;
-    }
-</script>
-
-<script>
-    $(document).on('keyup', '.hitung_harga', function(){
-        var harga_total = 0;
-        $('.hitung_harga').each(function(){
-            harga_total += +$(this).val();
-        })
-
-        $("#Label_Harga").html("Total Belanja: Rp" +  addCommas(harga_total));
-    })
 </script>
