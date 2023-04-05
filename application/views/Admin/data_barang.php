@@ -15,6 +15,9 @@
                 <div class="col-lg-2">
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cekBarang">Cek Barang</button>
                 </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#riwayatBarangMasuk">Riwayat Barang Masuk</button>
+                </div>
               </div>
 
               <?php echo $this->session->flashdata("pesan"); ?>
@@ -83,6 +86,50 @@
                     </div>
                 </div>
               </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="riwayatBarangMasuk" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Riwayat Barang Masuk</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="<?php echo base_url('adm/data_barang/cetak_riwayat_barang_masuk') ?>" method="post">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Nama Rak</label>
+                                    <select name="id_rak" id="" class="form-control" style="color:#000">
+                                        <?php foreach($data_rak as $rak) :  ?>
+                                            <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Tanggal Barang Masuk</label>
+                                    <input type="date" class="form-control" name="tgl_input_real">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Sampai Jam?</label>
+                                    <input type="time" class="form-control" name="sampai_jam">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Cetak">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
               <!-- Extra Large Modal -->
               <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">

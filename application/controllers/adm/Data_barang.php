@@ -358,6 +358,47 @@ class Data_barang extends CI_Controller {
         //Send
         echo json_encode($data);
     }
+
+    public function cetak_riwayat_barang_masuk(){
+        if(!@$this->input->post("id_rak")){
+            redirect("adm/data_barang");
+        }
+
+        $where = array(
+            'id'    => $this->input->post("id_rak")
+        );
+        
+        $sampai_jam = $this->input->post("tgl_input_real"). " " . $this->input->post("sampai_jam");
+
+        $data['barang']     = $this->model_admin->get_barang_pada_rak_with_condition($this->input->post("id_rak"), $this->input->post("tgl_input_real"), $sampai_jam);
+        $data['detail_rak'] = $this->model_admin->get_data_from_uuid($where, "ms_rak")->row();
+        $data['tanggal']    = $this->input->post("tgl_input_real");
+        $data['sampai_jam'] = $this->input->post("sampai_jam");
+
+        $this->load->view("Admin/print/cetak_riwayat_barang_masuk", $data);
+    }
+
+    public function update_data_barang(){
+        //get semua data barang
+        $barang     = $this->model_admin->tampil_data("ms_barang", "Id", "ASC")->result();
+
+        
+        foreach($barang as $b){
+            $where = array(
+                'Id'        => $b->Id
+            );
+
+            $pecah = explode(" - ", $b->usrid);
+
+            $data = array(
+                'tgl_input_real_jam'    => $pecah[sizeof($pecah) - 1]
+            );
+
+            $this->model_admin->ubah_data($where, $data, "ms_barang");
+        }
+
+        echo "Udah cok!";
+    }
 }
 
 ?>

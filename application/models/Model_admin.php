@@ -84,6 +84,19 @@ class Model_admin extends CI_Model {
         return $query->result();
     }
 
+    public function get_barang_pada_rak_with_condition($Id, $tgl_input_real, $sampai_jam){
+        $this->db->select("barang.*, kadar.nama_kadar");
+        $this->db->from("ms_barang barang");
+        $this->db->join("ms_kadar kadar", "kadar.id = barang.id_kadar", "left");
+        $this->db->where("barang.id_rak", $Id);
+        $this->db->where("barang.tgl_input_real", $tgl_input_real);
+        $this->db->where("barang.tgl_input_real_jam <=", $sampai_jam);
+        //$this->db->where("barang.stok != 0");
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_barang_pada_kadar($Id){
         $this->db->select("barang.*, rak.nama_rak");
         $this->db->from("ms_barang barang");
