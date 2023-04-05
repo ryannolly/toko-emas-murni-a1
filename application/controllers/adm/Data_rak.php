@@ -187,6 +187,40 @@ class Data_rak extends CI_Controller {
         redirect('adm/data_rak');
 
     }
+
+    public function checklist_barang_pada_rak($Id = 0){
+        if($Id === 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Harap Memilih terlebih dahulu data yang ingin dicetak!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        $where = array(
+            'Id'    => $Id
+        );
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_rak')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda cetak tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+
+        $data['barang']     = $this->model_admin->get_barang_pada_rak($Id);
+        $data['detail_rak'] = $this->model_admin->get_data_from_uuid($where, "ms_rak")->row();
+
+        $this->load->view("Admin/Template_admin/header");
+        $this->load->view("Admin/Template_admin/sidebar");
+        $this->load->view("Admin/lihat_data/checklist_barang_pada_rak", $data);
+        $this->load->view('Admin/Template_admin/footer');
+    }
 }
 
 ?>

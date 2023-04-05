@@ -75,6 +75,11 @@
                                                 <span class="tf-icons bx bx-basket"></span>
                                             </button>
                                         </a>
+                                        <a href="<?php echo base_url("adm/data_rak/checklist_barang_pada_rak/".$bp->id) ?>" target="_blank">
+                                            <button type="button" class="btn btn-icon btn-success" title="Checklist barang pada rak">
+                                                <span class="tf-icons bx bx-basket"></span>
+                                            </button>
+                                        </a>
                                         <a href="<?php echo base_url("adm/data_rak/ubah_data_rak/".$bp->id) ?>">
                                             <button type="button" class="btn btn-icon btn-info" title="Edit Rak">
                                                 <span class="tf-icons bx bx-edit"></span>
