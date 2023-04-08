@@ -224,13 +224,17 @@ table td {
 					<?php endif; ?>
 				<?php endforeach; ?>
                 <tr>
-                    <td colspan="3" rowspan="2" style="text-align:right; background-color: #c3c3c3">TOTAL</td>
+                    <td colspan="3" rowspan="3" style="text-align:right; background-color: #c3c3c3">TOTAL</td>
 					<td style="text-align:right">Emas Bersih : </td>
 					<td colspan="3" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat ?> gr)</td>
                 </tr>
 				<tr>
 					<td style="text-align:right">Berat Rak+Barcode : </td>
 					<td colspan="3" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat_wadah ?> gr)</td>
+				</tr>
+				<tr>
+					<td style="text-align:right">Grand Total : </td>
+					<td colspan="3" style="text-align:left"><?php echo $no ?> (<?php echo $jumlah_berat_wadah + $jumlah_berat ?> gr)</td>
 				</tr>
 			<?php endif; ?>
         </tbody>
