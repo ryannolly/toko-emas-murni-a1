@@ -88,6 +88,7 @@ class Model_admin extends CI_Model {
         $this->db->join("ms_kadar kadar", "kadar.id = barang.id_kadar", "left");
         $this->db->join("ms_rak rak", "rak.Id = barang.id_rak", "left");
         $this->db->where("barang.id_rak", $Id);
+        $this->db->order_by("kadar.id DESC");
         //$this->db->where("barang.stok != 0");
 
         $query = $this->db->get();
