@@ -7,41 +7,6 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
-              <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Barang</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        <h5 class="text-danger">Harap masukkan angka saja pada kolom harga!</h5>
-                        <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" style="border:3px" id="tempat_jual">
-                                    <tr>
-                                        <th>Nama Barang</th>
-                                        <th>Rak/Kadar/Berat</th>
-                                        <th>Harga</th>
-                                        <th>Berat Jual</th>
-                                    </tr>
-                                    
-                                </table>
-                            </div>
-
-                            <h3 style="text-align:right" id="Label_Harga">Total Belanja: Rp0</h3>
-                        </div>
-                        <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Close
-                                </button>
-                                <input type="submit" class="btn btn-success" value="Proses">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-              </div>
-
               <!-- Bordered Table -->
               <div class="card mb-3">
                 <h5 class="card-header">Silahkan melakukan scan pada Barcode/QR Code</h5>
@@ -53,7 +18,7 @@
 
               <!-- Bordered Table -->
               <div class="row">
-                <div class="card col-lg-6">
+                <div class="card">
                     <h5 class="card-header">Barang yang belum discan</h5>
                     <div class="card-body">
                     <div class="table-responsive text-nowrap">
@@ -63,6 +28,7 @@
                             <th class="text-wrap">Kode Barang</th>
                             <th class="text-wrap">Nama Barang</th>
                             <th class="text-wrap">Rak/Kadar</th>
+                            <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="">
@@ -71,27 +37,20 @@
                                         <td><?php echo $p->Id; ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_barang ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
+                                        <td class="text-wrap">
+                                            <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->Id) ?>">
+                                                <button type="button" class="btn btn-icon btn-info" title="Edit Barang">
+                                                    <span class="tf-icons bx bx-edit"></span>
+                                                </button>
+                                            </a>
+                                            <a tagert="_blank" class="hapus_data" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$p->Id) ?>">
+                                                <button type="button" class="btn btn-icon btn-danger" title="Hapus Barang">
+                                                    <span class="tf-icons bx bx-trash"></span>
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
-                        </tbody>
-                        </table>
-                    </div>
-                    </div>
-                </div>
-                <div class="card col-lg-6 ">
-                    <h5 class="card-header">Barang yang sudah discan</h5>
-                    <div class="card-body">
-                    <div class="table-responsive text-nowrap">
-                        <table class="table table-bordered" style="color:#000">
-                        <thead>
-                            <tr>
-                            <th class="text-wrap">Kode Barang</th>
-                            <th class="text-wrap">Nama Barang</th>
-                            <th class="text-wrap">Rak/Kadar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body_tabel">
-                                
                         </tbody>
                         </table>
                     </div>
@@ -105,6 +64,12 @@
             <!-- / Content -->
 
 <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
+
+<script>
+    $(document).on("click", ".hapus_data", function(){
+        return confirm("Apakah anda yakin ingin menghapus barang ini?");
+    })
+</script>
 
 <script>
     $(document).ready(function(){
