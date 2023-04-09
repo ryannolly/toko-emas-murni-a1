@@ -28,7 +28,7 @@ class Data_barang extends CI_Controller {
     public function get_ajax(){
         //Set Dulu Variabel Yang Dipakek Buat Get_DataTables
         $this->model_admin->column_order = array(null, 'bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
-        $this->model_admin->column_search = array('bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
+        $this->model_admin->column_search = array('bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar', 'bar.id');
         $this->model_admin->order = array('bar.id' => 'desc');
 
         //Cek Dulu Ada Gak Filternya
@@ -264,6 +264,26 @@ class Data_barang extends CI_Controller {
             'Id'       => $id
         );
 
+        //Get Dulu Data nya baru letak di ms_barang_hapus
+        $datanya  = $this->model_admin->get_data_from_uuid($where, "ms_barang")->row();
+        $data = array(
+            'Id'                    => $datanya->Id,
+            'uuid'                  => $datanya->uuid,
+            'nama_barang'           => $datanya->nama_barang,
+            'id_kadar'              => $datanya->id_kadar,
+            'id_rak'                => $datanya->id_rak,
+            'keterangan'            => $datanya->keterangan,
+            'usrid'                 => $datanya->usrid,
+            'tgl_input_real'        => $datanya->tgl_input_real,
+            'tgl_input_real_jam'    => $datanya->tgl_input_real_jam,
+            'stok'                  => $datanya->stok,
+            'berat_jual'            => $datanya->berat_jual,
+            'foto'                  => $datanya->foto,
+            'tanggal_hapus'         => time(),
+        );
+
+        $this->model_admin->tambah_data("ms_barang_hapus", $data);
+
         //Cek udah ada belum datanya
         if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_barang')){
             $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
@@ -289,6 +309,26 @@ class Data_barang extends CI_Controller {
         $where = array(
             'Id'       => $KdBarang
         );
+
+        //Get Dulu Data nya baru letak di ms_barang_hapus
+        $datanya  = $this->model_admin->get_data_from_uuid($where, "ms_barang")->row();
+        $data = array(
+            'Id'                    => $datanya->Id,
+            'uuid'                  => $datanya->uuid,
+            'nama_barang'           => $datanya->nama_barang,
+            'id_kadar'              => $datanya->id_kadar,
+            'id_rak'                => $datanya->id_rak,
+            'keterangan'            => $datanya->keterangan,
+            'usrid'                 => $datanya->usrid,
+            'tgl_input_real'        => $datanya->tgl_input_real,
+            'tgl_input_real_jam'    => $datanya->tgl_input_real_jam,
+            'stok'                  => $datanya->stok,
+            'berat_jual'            => $datanya->berat_jual,
+            'foto'                  => $datanya->foto,
+            'tanggal_hapus'         => time(),
+        );
+
+        $this->model_admin->tambah_data("ms_barang_hapus", $data);
 
         //Cek udah ada belum datanya
         if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_barang')){
