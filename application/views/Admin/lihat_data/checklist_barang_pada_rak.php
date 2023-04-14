@@ -11,8 +11,27 @@
               <div class="card mb-3">
                 <h5 class="card-header">Silahkan melakukan scan pada Barcode/QR Code</h5>
                 <div class="card-body">
-                    <input type="text" class="form-control mb-2" id="QR_UUID" placeholder="Kode Pada Barcode/QR Code akan muncul disini ....">
-                    <button type="button" class="btn btn-info" id="tombol_masukkan_keranjang">Masukkan</button>
+                    <div class="form-group">
+                        <input type="text" class="form-control mb-2" id="QR_UUID" placeholder="Kode Pada Barcode/QR Code akan muncul disini ....">
+                        <button type="button" class="btn btn-info" id="tombol_masukkan_keranjang">Masukkan</button>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Detail Barang</label>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Rak/Kadar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tempat_detail_barang_scan">
+                                <tr>
+                                    <td colspan="3" class="text-danger" style="text-align:center">Silahkan untuk scan barang terlebih dahulu!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
               </div>
 
@@ -93,21 +112,29 @@
                     },
                     success : function(response){
                         var jawaban = JSON.parse(response);
-                        console.log(jawaban.data.Id);
-                        $("#tr_" + jawaban.data.Id).remove();
 
                         if(jawaban.is_data_ada){
+                            $("#tr_" + jawaban.data.Id).remove();
                             
                             var html = "";
-                            html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                            html += "<tr>";
                             html += "<td>" + jawaban.data.Id + "</td>";
                             html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
                             html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                            html += "</tr>";
 
-                            $('#body_tabel').append(html);
+                            $('#tempat_detail_barang_scan').html(html);
                         }else{
                             alert("Data tersebut tidak ada pada rak tersebut!");
+
+                            var html = "";
+                            html += "<tr>";
+                            html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
+                            html += "</tr>";
+                            $('#tempat_detail_barang_scan').html(html);
+                            alert("Data tersebut tidak ada pada rak tersebut!");
                         }
+                        $("#QR_UUID").focus();
                     },fail : function(){
                         alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
                     },
@@ -139,21 +166,29 @@
             },
             success : function(response){
                 var jawaban = JSON.parse(response);
-                console.log(jawaban.data.Id);
-                $("#tr_" + jawaban.data.Id).remove();
 
-                if(jawaban.is_data_ada){
-                    
+                if(jawaban.is_data_ada){        
+                    console.log(jawaban.data.Id);
+                    $("#tr_" + jawaban.data.Id).remove();
                     var html = "";
-                    html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                    html += "<tr>";
                     html += "<td>" + jawaban.data.Id + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
+                    html += "</tr>";
 
-                    $('#body_tabel').append(html);
+                    $('#tempat_detail_barang_scan').html(html);
                 }else{
                     alert("Data tersebut tidak ada pada rak tersebut!");
+
+                    var html = "";
+                    html += "<tr>";
+                    html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
+                    html += "</tr>";
+                    $('#tempat_detail_barang_scan').html(html);
                 }
+
+                $("#QR_UUID").focus();
             },fail : function(){
                 alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
             },

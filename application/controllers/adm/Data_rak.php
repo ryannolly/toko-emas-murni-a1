@@ -237,14 +237,14 @@ class Data_rak extends CI_Controller {
 
         //Update the data in session
         if(@$data['data']){
-            //Update last id barang kasir
-            $data['data']->id_session_barang = $this->session->userdata("last_id_barang_kasir");
-            $this->session->set_userdata("last_id_barang_kasir", $data['data']->id_session_barang + 1);
+            // //Update last id barang kasir
+            // $data['data']->id_session_barang = $this->session->userdata("last_id_barang_kasir");
+            // $this->session->set_userdata("last_id_barang_kasir", $data['data']->id_session_barang + 1);
 
-            //Masukkan
-            $array_data = $this->session->userdata("barang_kasir");
-            $array_data[] =  $data['data'];
-            $this->session->set_userdata("barang_kasir", $array_data);
+            // //Masukkan
+            // $array_data = $this->session->userdata("barang_kasir");
+            // $array_data[] =  $data['data'];
+            // $this->session->set_userdata("barang_kasir", $array_data);
             $data['is_data_ada'] = 1;
         }else{
             $data['is_data_ada'] = 0;
