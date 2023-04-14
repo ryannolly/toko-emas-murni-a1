@@ -216,14 +216,49 @@ class Data_rak extends CI_Controller {
             redirect('adm/data_rak');
         }
 
+        //Get Data Di tr_checklist_barang
+        $data['barang']     = $this->model_admin->get_barang_pada_rak_checklist($Id);
+        if(count($data['barang']) <= 0){
+            //Generate dulu semua letak situ
+            $this->model_admin->generate_checklist_barang($Id);
+            $data['barang'] = $this->model_admin->get_barang_pada_rak_checklist($Id);
+        }
 
-        $data['barang']     = $this->model_admin->get_barang_pada_rak($Id);
+        // $data['barang']     = $this->model_admin->get_barang_pada_rak($Id);
         $data['detail_rak'] = $this->model_admin->get_data_from_uuid($where, "ms_rak")->row();
 
         $this->load->view("Admin/Template_admin/header");
         $this->load->view("Admin/Template_admin/sidebar");
         $this->load->view("Admin/lihat_data/checklist_barang_pada_rak", $data);
         $this->load->view('Admin/Template_admin/footer');
+    }
+
+    public function ulangi_pengecekan($Id = 0){
+        //Cek udah ada belum datanya
+        if($Id == 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Silahkan untuk memilih rak yang ingin di refresh!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_rak');
+        }
+
+        //Hapus Dulu
+        $where = array(
+            'id_rak'        => $Id
+        );
+        $this->model_admin->hapus_data($where, "tr_checklist_barang");
+
+        //Generate Ulang
+        $this->model_admin->generate_checklist_barang($Id);
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Pengecekan telah direset!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_rak/checklist_barang_pada_rak/'.$Id);
     }
 
     public function check_barang_di_sebuah_rak(){
@@ -237,14 +272,14 @@ class Data_rak extends CI_Controller {
 
         //Update the data in session
         if(@$data['data']){
-            // //Update last id barang kasir
-            // $data['data']->id_session_barang = $this->session->userdata("last_id_barang_kasir");
-            // $this->session->set_userdata("last_id_barang_kasir", $data['data']->id_session_barang + 1);
+            //Hapus di database
+            $where_baru = array(
+                'id_barang'     => $data['data']->Id,
+                'id_rak'        => $this->input->post("id_rak")
+            );
 
-            // //Masukkan
-            // $array_data = $this->session->userdata("barang_kasir");
-            // $array_data[] =  $data['data'];
-            // $this->session->set_userdata("barang_kasir", $array_data);
+            $this->model_admin->hapus_data($where_baru, "tr_checklist_barang");
+            
             $data['is_data_ada'] = 1;
         }else{
             $data['is_data_ada'] = 0;

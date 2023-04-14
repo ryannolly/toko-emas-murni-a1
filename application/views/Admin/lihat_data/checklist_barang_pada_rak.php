@@ -52,17 +52,17 @@
                         </thead>
                         <tbody id="">
                                 <?php foreach($barang as $p) :   ?>
-                                    <tr id="tr_<?php echo $p->Id ?>">
-                                        <td><?php echo $p->Id; ?></td>
+                                    <tr id="tr_<?php echo $p->id_barang ?>">
+                                        <td><?php echo $p->id_barang; ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_barang ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
                                         <td class="text-wrap">
-                                            <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->Id) ?>">
+                                            <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->id_barang) ?>">
                                                 <button type="button" class="btn btn-icon btn-info" title="Edit Barang">
                                                     <span class="tf-icons bx bx-edit"></span>
                                                 </button>
                                             </a>
-                                            <a tagert="_blank" class="hapus_data" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$p->Id) ?>">
+                                            <a tagert="_blank" class="hapus_data" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$p->id_barang) ?>">
                                                 <button type="button" class="btn btn-icon btn-danger" title="Hapus Barang">
                                                     <span class="tf-icons bx bx-trash"></span>
                                                 </button>
@@ -72,6 +72,9 @@
                                 <?php endforeach; ?>
                         </tbody>
                         </table>
+                        <a class="btn btn-primary mt-3" href="<?php echo base_url("adm/data_rak/ulangi_pengecekan/".$detail_rak->id) ?>">
+                            Ulangi Pengecekan
+                        </a>
                     </div>
                     </div>
                 </div>

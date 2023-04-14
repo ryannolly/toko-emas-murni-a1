@@ -567,6 +567,25 @@ class Model_admin extends CI_Model {
     }
 
     //End Of Riwayat Pengeluaran Barang
+
+    function get_barang_pada_rak_checklist($Id){
+        $this->db->select("check.id_barang, rak.nama_rak, barang.nama_barang, kadar.nama_kadar");
+        $this->db->from("tr_checklist_barang check");
+        $this->db->join("ms_barang barang", "barang.Id = check.id_barang", "left");
+        $this->db->join("ms_rak rak", "rak.Id = check.id_rak", "left");
+        $this->db->join("ms_kadar kadar", "kadar.Id = barang.id_kadar", "left");
+        $this->db->where("check.id_rak", $Id);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function generate_checklist_barang($Id){
+        $sql = "INSERT INTO tr_checklist_barang (id_rak, id_barang)
+                SELECT barang.id_rak, barang.id FROM ms_barang barang WHERE barang.id_rak = ?";
+
+        $this->db->query($sql, array($Id));
+    }
 }
 
 ?>
