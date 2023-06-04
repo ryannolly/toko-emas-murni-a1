@@ -80,6 +80,92 @@ function tgl_indo_hari_ini(){
               </div>
             </div>
 
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Detail Penjualan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <h3>Per Rak</h3>
+                          <table class="table">
+                            <tr>
+                              <th>Nama Rak</th>
+                              <th>Harga</th>
+                            </tr>
+                            <?php if(count($detail_data_penjualan_rak) > 0) : ?>
+                              <?php foreach($detail_data_penjualan_rak as $d) : ?>
+                                <tr>
+                                  <td><?php $d->Nama ?></td>
+                                  <td><?php $d->Harga ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            <?php else : ?>
+                              <tr>
+                                <td colspan = '2' style="text-align:center">Tidak ada data</td>
+                              </tr>
+                            <?php endif; ?>
+                          </table>
+                          <br>
+                          <h3>Per Kadar</h3>
+                          <table class="table">
+                            <tr>
+                              <th>Nama Kadar</th>
+                              <th>Harga</th>
+                            </tr>
+                            <?php if(count($detail_data_penjualan_kadar) > 0) : ?>
+                              <?php foreach($detail_data_penjualan_kadar as $d) : ?>
+                                <tr>
+                                  <td><?php $d->Nama ?></td>
+                                  <td><?php $d->Harga ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            <?php else : ?>
+                              <tr>
+                                <td colspan="2" style="text-align:center">Tidak ada data</td>
+                              </tr>
+                            <?php endif; ?>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="exLargeModalPengembalian" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Detail Pengembalian</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <h3>Per Kadar</h3>
+                          <table class="table">
+                            <tr>
+                              <th>Nama Kadar</th>
+                              <th>Harga</th>
+                            </tr>
+                            <?php if(count($detail_data_pengembalian_kadar) <= 0) :  ?>
+                            <tr>
+                              <td colspan="2" style="text-align:center">Tidak ada data</td>
+                            </tr>
+                            <?php else : ?>
+                              <?php foreach($detail_data_pengembalian_kadar as $d) : ?>
+                                <tr>
+                                  <td><?php $d->Nama ?></td>
+                                  <td><?php $d->Harga ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
             <div class="container-xxl flex-grow-1 container-p-y">
 
               <?php echo $this->session->flashdata("pesan"); ?>
@@ -113,7 +199,11 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $data_penjualan->Banyak ?></td>
                             </tr>
                           </table>
+                          <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#exLargeModal">Lihat Detail</button>
                         </div>
+                        <!-- <div class="card-footer">
+                          
+                        </div> -->
                       </div>
                     </div>
                     <div class="col-lg-6 mb-4">
@@ -141,6 +231,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $data_pengembalian->Banyak ?></td>
                             </tr>
                           </table>
+                          <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#exLargeModalPengembalian">Lihat Detail</button>
                         </div>
                       </div>
                     </div>

@@ -28,10 +28,16 @@ class Dashboard extends CI_Controller {
     public function index(){
         $kyou = date("Y-m-d", time());
         $ashita = date("Y-m-d", time()+86400);
-        $data['data_penjualan']     = $this->model_admin->get_dashboard_penjualan(strtotime($kyou), strtotime($ashita));
-        $data['data_pengembalian']  = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou), strtotime($ashita));
+        $data['data_penjualan']         = $this->model_admin->get_dashboard_penjualan(strtotime($kyou), strtotime($ashita));
+        $data['data_pengembalian']      = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou), strtotime($ashita));
 
-        $data['big_book']           = $this->model_admin->get_big_book_dashboard($kyou);
+        $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
+
+        $data['detail_data_penjualan_rak']      = $this->model_admin->get_dashboard_penjualan_group_by(strtotime($kyou), strtotime($ashita), "rak.nama_rak");
+        $data['detail_data_penjualan_kadar']    = $this->model_admin->get_dashboard_penjualan_group_by(strtotime($kyou), strtotime($ashita), "kadar.nama_kadar");
+        
+        // $data['detail_data_pengembalian_rak']   = $this->model_admin->get_dashboard_pengembalian_group_by(strtotime($kyou), strtotime($ashita), "rak.nama_rak");
+        $data['detail_data_pengembalian_kadar']   = $this->model_admin->get_dashboard_pengembalian_group_by(strtotime($kyou), strtotime($ashita), "kadar.nama_kadar");
 
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');

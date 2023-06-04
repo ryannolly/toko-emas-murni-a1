@@ -417,6 +417,17 @@ class Model_admin extends CI_Model {
         return $query->row();
     }
 
+    function get_dashboard_penjualan_group_by($hari, $ashita, $group_by){
+        $sql = "SELECT ? AS Nama,  COALESCE(SUM(penjualan.nilai_barang), 0) AS Harga, COUNT(penjualan.nilai_barang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_penjualan ms
+                LEFT JOIN tr_penjualan penjualan ON penjualan.KdPenjualan = ms.KdPenjualan
+                LEFT JOIN ms_rak rak ON rak.id = penjualan.id_rak
+                LEFT JOIN ms_kadar kadar on kadar.id = penjualan.id_kadar
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? GROUP BY ?";
+
+        $query = $this->db->query($sql, array($group_by, $hari, $ashita, $group_by));
+        return $query->result();
+    }
+
     function get_dashboard_pengembalian($hari, $ashita){
         $sql = "SELECT COALESCE(SUM(penjualan.uang), 0) AS Harga, COUNT(penjualan.uang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_pengembalian ms
                 LEFT JOIN tr_pengembalian penjualan ON penjualan.KdPengembalian = ms.KdPengembalian
@@ -424,6 +435,16 @@ class Model_admin extends CI_Model {
 
         $query = $this->db->query($sql, array($hari, $ashita));
         return $query->row();
+    }
+
+    function get_dashboard_pengembalian_group_by($hari, $ashita, $group_by){
+        $sql = "SELECT ? AS Nama, COALESCE(SUM(penjualan.uang), 0) AS Harga, COUNT(penjualan.uang) AS Banyak, COALESCE(SUM(penjualan.berat_asli), 0) AS Berat FROM ms_pengembalian ms
+                LEFT JOIN tr_pengembalian penjualan ON penjualan.KdPengembalian = ms.KdPengembalian
+                LEFT JOIN ms_kadar kadar on kadar.id = penjualan.id_kadar
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? GROUP BY ?";
+
+        $query = $this->db->query($sql, array($group_by, $hari, $ashita, $group_by));
+        return $query->result();
     }
 
     function get_big_book_dashboard($kyou){
