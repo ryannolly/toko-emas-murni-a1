@@ -147,7 +147,7 @@ h2 {
 .bold{font-weight: bold;}
 .txt-left{text-align:left}
 @Page {
-  size: landscape;
+  size: potrait;
 }
 table td {
  padding : 0 3px;
@@ -157,8 +157,9 @@ table td {
 }
 
 .mini_td{
-    height:100px;
-    width:100px;
+    height:25px;
+    width:25px;
+	padding-bottom:5px;
 }
 </style>
 
@@ -167,7 +168,7 @@ table td {
 	$counter_print = 0; 
 	$banyak_data   = count($data_barang);
 	// Baru
-	$berapa_baris = ceil((float) count($data_barang)/10);
+	$berapa_baris = ceil((float) count($data_barang)/18);
 ?>
 <body>
 	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 4pt;">
@@ -183,9 +184,9 @@ table td {
 		<tbody  Border="0">
 			<?php for($i = 0; $i<$berapa_baris; $i++) :  ?>
 				<tr>
-                <?php for($j = 0; $j<10; $j++) :  ?>
+                <?php for($j = 0; $j<18; $j++) :  ?>
 					<?php if($counter_print < $banyak_data) :  ?>
-						<td style="text-align:center" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->Id ?></p><img width="50px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
+						<td style="text-align:center;" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->Id ?></p><img width="30px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center; overflow-wrap: anywhere;"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
 					<?php else : ?>
 						<td style="text-align:center" class="mini_td">&nbsp;</td>
 					<?php endif; ?>

@@ -106,7 +106,7 @@ class Data_barang extends CI_Controller {
             'stok'              => (int) $this->input->post("stok"),
             'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time()),
             'tgl_input_real'    => $this->input->post("tgl_input_real"),
-            'tgl_input_real'    => date("Y-m-d H:i:s", time()),
+            'tgl_input_real_jam'    => date("Y-m-d H:i:s", time()),
             'berat_jual'        => (float) $this->input->post("berat_jual")
         );
 
@@ -450,7 +450,7 @@ class Data_barang extends CI_Controller {
             $this->model_admin->ubah_data($where, $data, "ms_barang");
         }
 
-        echo "Udah cok!";
+        echo "Udah bang!";
     }
 }
 

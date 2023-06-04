@@ -58,10 +58,18 @@ class Dashboard extends CI_Controller {
         $tutup_per_rak_qt       = array();
         if(@$tgl_sebelumnya){
             $data_sebelumnya    = $this->model_admin->get_big_book_dashboard_terakhir($tgl_sebelumnya->TglBukuBesar);
-
-            foreach($data_sebelumnya as $p){
-                $tutup_per_rak_qt[$p->id_rak] = $p->tutup_qt;
-                $tutup_per_rak[$p->id_rak] = $p->tutup;
+			
+			if(@$data_sebelumnya){
+				foreach($data_sebelumnya as $p){
+					$tutup_per_rak_qt[$p->id_rak] = $p->tutup_qt;
+					$tutup_per_rak[$p->id_rak] = $p->tutup;
+				}
+			}else{
+				$semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+				foreach($semua_rak as $n){
+					$tutup_per_rak_qt[$n->id]   = 0;
+					$tutup_per_rak[$n->id]      = 0;
+				}
             }
         }else{
             $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
