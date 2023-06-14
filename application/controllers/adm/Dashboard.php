@@ -58,10 +58,20 @@ class Dashboard extends CI_Controller {
             redirect('adm/dashboard');
         }
 
+        //Inisialisasi dulu semua rak
+
         //Get Data Sebelumnya
         $tgl_sebelumnya         = $this->model_admin->get_tgl_big_book_dashboard_terakhir();
         $tutup_per_rak          = array();
         $tutup_per_rak_qt       = array();
+
+        //Inisialisasi dulu semua rak
+        $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+        foreach($semua_rak as $n){
+            $tutup_per_rak_qt[$n->id]   = 0;
+            $tutup_per_rak[$n->id]      = 0;
+        }
+
         if(@$tgl_sebelumnya){
             $data_sebelumnya    = $this->model_admin->get_big_book_dashboard_terakhir($tgl_sebelumnya->TglBukuBesar);
 			

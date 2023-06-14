@@ -607,6 +607,65 @@ class Model_admin extends CI_Model {
 
         $this->db->query($sql, array($Id));
     }
+
+    //Start of Riwayat Penghapusan Barang
+    function _get_datatables_data_barang_penghapusan_query($where){
+        $this->db->select('bar.*, rak.nama_rak, kadar.nama_kadar');
+        $this->db->from('ms_barang_hapus bar');
+        if(!empty($where['id_rak'])){
+            $this->db->where('bar.id_rak', $where['id_rak']);
+        }
+        if(!empty($where['id_kadar'])){
+            $this->db->where('bar.id_kadar', $where['id_kadar']);
+        }
+        if(!empty($where['tanggal_awal'])){
+            $this->db->where("bar.tanggal_hapus >= ", strtotime($where['tanggal_awal']));
+        }
+        if(!empty($where['tanggal_akhir'])){
+            $this->db->where("bar.tanggal_hapus <= ", strtotime($where['tanggal_akhir']));
+        }
+        $this->db->join('ms_rak rak', 'rak.id = bar.id_rak', 'left');
+        $this->db->join('ms_kadar kadar', 'kadar.id = bar.id_kadar', 'left');
+        $this->db->order_by('bar.nama_barang ASC, bar.stok DESC');
+
+        $i = 0;
+        foreach($this->column_search as $item){
+            if(@$_POST['search']['value']){
+                if($i === 0){
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                }else{
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if(count($this->column_search) - 1 == $i) //Last Loop
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        if(isset($_POST['order'])) { // here order processing
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        }else if(isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_data_barang_penghapusan($table, $where) {
+        $this->_get_datatables_data_barang_penghapusan_query($where);
+        if(@$_POST['length'] != -1)
+        $this->db->limit(@$_POST['length'], @$_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_data_barang_penghapusan($where) {
+        $this->_get_datatables_data_barang_penghapusan_query($where);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    //End of Riwayat Penghapusan Barang
 }
 
 ?>
