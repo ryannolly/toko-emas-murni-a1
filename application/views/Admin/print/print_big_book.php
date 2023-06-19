@@ -8,6 +8,17 @@
     <link href="css/print.css" rel="stylesheet" media="print" type="text/css" />
 	<link href="css/screen.css" rel="stylesheet" media="screen" type="text/css" />
 
+<?php
+
+function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','){
+    $negation = ($number < 0) ? (-1) : 1;
+    $coefficient = 10 ** $decimals;
+    $number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
+    return number_format($number, $decimals, $decPoint, $thousandsSep);
+  }
+
+?>
+
 <!-- this section is the stylesheet for both print and display version --> 
 <style type="text/css">
 * {
@@ -203,7 +214,7 @@ table td {
                     <td><?php echo $b->jual ?></td>
                     <td><?php echo $b->tutup ?></td>
                     <td><?php echo $b->timbang ?></td>
-                    <td><?php echo $b->tutup - $b->timbang ?></td>
+                    <td><?php echo format_ip($b->tutup - $b->timbang, 2, ".", ""); ?></td>
                 </tr>
                 <tr>
                     <td><?php echo "Quantity" ?></td>

@@ -41,6 +41,13 @@ function hari_ini(){
  
 }
 
+function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','){
+  $negation = ($number < 0) ? (-1) : 1;
+  $coefficient = 10 ** $decimals;
+  $number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
+  return number_format($number, $decimals, $decPoint, $thousandsSep);
+}
+
 function tgl_indo_hari_ini(){
   $tanggal = date("Y-m-d", time());
   $bulan = array (
@@ -275,7 +282,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $p->jual ?></td>
                               <td><?php echo $p->tutup ?></td>
                               <td><input name="timbang[]" type="text" class="form-control" value="<?php echo $p->timbang ?>"></td>
-                              <td><?php echo $p->tutup - $p->timbang; ?></td>
+                              <td><?php echo format_ip($p->tutup - $p->timbang, 2, ".", ""); ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:center">Quantity</td>
