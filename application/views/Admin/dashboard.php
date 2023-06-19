@@ -275,7 +275,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $p->jual ?></td>
                               <td><?php echo $p->tutup ?></td>
                               <td><input name="timbang[]" type="text" class="form-control" value="<?php echo $p->timbang ?>"></td>
-                              <td>0</td>
+                              <td><?php echo $p->tutup - $p->timbang; ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:center">Quantity</td>
@@ -285,7 +285,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo $p->jual_qt ?></td>
                               <td><?php echo $p->tutup_qt ?></td>
                               <td><input name="timbang_qt[]" type="text" class="form-control" value="<?php echo $p->timbang_qt ?>"></td>
-                              <td>0</td>
+                              <td><?php echo $p->tutup_qt - $p->timbang_qt ?></td>
                             </tr>
                           <?php endforeach; ?>
                         </table>
