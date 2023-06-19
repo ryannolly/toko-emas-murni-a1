@@ -297,6 +297,7 @@ function tgl_indo_hari_ini(){
                       <?php if(@!$big_book) :  ?>
                         <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
                       <?php else :  ?>
+                          <a target="_blank" href="<?php echo base_url("adm/dashboard/print_big_book") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Print</button></a>
                           <input type="submit" class="btn btn-info" data-bs-dismiss="modal" value="Refresh Data">
                         </form>
                       <?php endif; ?>

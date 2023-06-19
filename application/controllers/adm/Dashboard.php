@@ -142,6 +142,10 @@ class Dashboard extends CI_Controller {
         $big_book       = $this->model_admin->get_big_book_dashboard($kyou);
         $counter = 0;
         foreach($big_book as $p){
+            $open       = $this->model_admin->get_data_berat_pada_bigbook($p->id_rak, $kyou)->open;
+            $open_qt    = $this->model_admin->get_data_berat_pada_bigbook($p->id_rak, $kyou)->open_qt; 
+
+
             //Update Masuk
             $where = array(
                 'KdBukuBesar'       => $KdBukuBesar,
@@ -156,6 +160,9 @@ class Dashboard extends CI_Controller {
                 'masuk_qt'      => $terbaru->Qty
             );
 
+            $open += $terbaru->Berat;
+            $open_qt += $terbaru->Qty;
+
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
 
             //Get Data
@@ -167,6 +174,9 @@ class Dashboard extends CI_Controller {
                 'keluar_qt'     => $terbaru->Qty
             );
 
+            $open -= $terbaru->Berat;
+            $open_qt -= $terbaru->Qty;
+
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
 
             //Get Data
@@ -176,6 +186,17 @@ class Dashboard extends CI_Controller {
             $data = array(
                 'jual'      => $terbaru->Berat,
                 'jual_qt'   => $terbaru->Qty
+            );
+
+            $open -= $terbaru->Berat;
+            $open_qt -= $terbaru->Qty;
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Tutup 
+            $data = array(
+                'tutup'     => $open,
+                'tutup_qt'  => $open_qt
             );
 
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
@@ -196,6 +217,16 @@ class Dashboard extends CI_Controller {
             </div>
         ');
         redirect('adm/dashboard');
+    }
+
+    public function print_big_book(){
+        $kyou = date("Y-m-d", time());
+        $ashita = date("Y-m-d", time()+86400);
+
+        $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
+        $data['kyou']                   = $kyou;
+
+        $this->load->view("admin/print/print_big_book.php", $data);
     }
 
     public function under_development(){

@@ -665,6 +665,18 @@ class Model_admin extends CI_Model {
         return $query->num_rows();
     }
 
+    function get_data_berat_pada_bigbook($id_rak, $kyou){
+        $this->db->select("detail.*");
+        $this->db->from("tr_detail_dashboard_big_book detail");
+        $this->db->join("ms_dashboard_big_book big", "big.KdBukuBesar = detail.KdBukuBesar", "left");
+        $this->db->where("detail.id_rak", $id_rak);
+        $this->db->where("big.TglBukuBesar", $kyou);
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     //End of Riwayat Penghapusan Barang
 }
 
