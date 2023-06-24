@@ -95,6 +95,19 @@ class Model_admin extends CI_Model {
         return $query->result();
     }
 
+    public function get_barang_pada_rak_berurut($Id){
+        $this->db->select("barang.*, kadar.nama_kadar, rak.nama_rak");
+        $this->db->from("ms_barang barang");
+        $this->db->join("ms_kadar kadar", "kadar.id = barang.id_kadar", "left");
+        $this->db->join("ms_rak rak", "rak.Id = barang.id_rak", "left");
+        $this->db->where("barang.id_rak", $Id);
+        $this->db->order_by("barang.id ASC");
+        //$this->db->where("barang.stok != 0");
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_barang_pada_rak_with_condition($Id, $tgl_input_real, $sampai_jam){
         $this->db->select("barang.*, kadar.nama_kadar");
         $this->db->from("ms_barang barang");
@@ -693,6 +706,26 @@ class Model_admin extends CI_Model {
 
         $query = $this->db->get();
         return $query->row();
+    }
+
+    function get_nomor_terakhir($id_rak){
+        $this->db->select("MAX(urutan_rak) AS maks");
+        $this->db->from("ms_barang");
+        $this->db->where("id_rak", $id_rak);
+        
+        $query = $this->db->get();
+        $res = $query->row();
+        return $res->maks;
+    }
+
+    function get_nomor_terakhir_hapus($id_rak){
+        $this->db->select("MAX(urutan_rak) AS maks");
+        $this->db->from("ms_barang_hapus");
+        $this->db->where("id_rak", $id_rak);
+        
+        $query = $this->db->get();
+        $res = $query->row();
+        return $res->maks;
     }
 
     //End of Riwayat Penghapusan Barang

@@ -112,6 +112,7 @@ class Riwayat_penghapusan extends CI_Controller {
             'nama_barang'           => $datanya->nama_barang,
             'id_kadar'              => $datanya->id_kadar,
             'id_rak'                => $datanya->id_rak,
+            'urutan_rak'            => $datanya->urutan_rak,
             'keterangan'            => $datanya->keterangan,
             'usrid'                 => $datanya->usrid ." - Pengembalian barang hapus/terjual" ,
             'tgl_input_real'        => $datanya->tgl_input_real,

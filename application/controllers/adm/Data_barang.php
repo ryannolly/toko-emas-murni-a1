@@ -53,7 +53,7 @@ class Data_barang extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $item->Id;
+            $row[] = $item->Id. " / " .$item->urutan_rak;
             $row[] = $item->nama_barang;
             $row[] = $item->nama_rak;
             $row[] = $item->nama_kadar;
@@ -149,7 +149,13 @@ class Data_barang extends CI_Controller {
             redirect('adm/data_barang');
         }
 
-        $data['foto']   = $fileName;
+        //Get Terakhir
+        $nomor_terakhir         = $this->model_admin->get_nomor_terakhir($this->input->post("id_rak"));
+        $nomor_terakhir_hapus   = $this->model_admin->get_nomor_terakhir_hapus($this->input->post("id_rak"));
+        $nomor_terakhir_gunakan = max($nomor_terakhir, $nomor_terakhir_hapus);
+
+        $data['urutan_rak'] = ++$nomor_terakhir_gunakan;
+        $data['foto']       = $fileName;
 
         $this->model_admin->tambah_data("ms_barang", $data);
 
@@ -277,6 +283,7 @@ class Data_barang extends CI_Controller {
             'nama_barang'           => $datanya->nama_barang,
             'id_kadar'              => $datanya->id_kadar,
             'id_rak'                => $datanya->id_rak,
+            'urutan_rak'            => $datanya->urutan_rak,
             'keterangan'            => $datanya->keterangan,
             'usrid'                 => $datanya->usrid,
             'tgl_input_real'        => $datanya->tgl_input_real,
@@ -457,22 +464,23 @@ class Data_barang extends CI_Controller {
     }
 
     public function update_data_barang(){
-        //get semua data barang
-        $barang     = $this->model_admin->tampil_data("ms_barang", "Id", "ASC")->result();
-
+        //get semua data rak
+        $data_rak = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
         
-        foreach($barang as $b){
-            $where = array(
-                'Id'        => $b->Id
-            );
+        foreach($data_rak as $d){
+            $data_barang = $this->model_admin->get_barang_pada_rak_berurut($d->id);
+            $no = 1;
+            foreach($data_barang as $b){
+                $where = array(
+                    'Id'        => $b->Id
+                );
 
-            $pecah = explode(" - ", $b->usrid);
+                $data = array(
+                    'urutan_rak'    => $no++
+                );
 
-            $data = array(
-                'tgl_input_real_jam'    => $pecah[sizeof($pecah) - 1]
-            );
-
-            $this->model_admin->ubah_data($where, $data, "ms_barang");
+                $this->model_admin->ubah_data($where, $data, "ms_barang");
+            }
         }
 
         echo "Udah bang!";

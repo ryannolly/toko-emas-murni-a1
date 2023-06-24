@@ -186,7 +186,7 @@ table td {
 				<tr>
                 <?php for($j = 0; $j<18; $j++) :  ?>
 					<?php if($counter_print < $banyak_data) :  ?>
-						<td style="text-align:center;" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->Id ?></p><img width="30px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center; overflow-wrap: anywhere;"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
+						<td style="text-align:center;" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->urutan_rak ?></p><img width="30px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center; overflow-wrap: anywhere;"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
 					<?php else : ?>
 						<td style="text-align:center" class="mini_td">&nbsp;</td>
 					<?php endif; ?>

@@ -148,6 +148,7 @@ class Penjualan extends CI_Controller {
                 'nama_barang'           => $datanya_hapus->nama_barang,
                 'id_kadar'              => $datanya_hapus->id_kadar,
                 'id_rak'                => $datanya_hapus->id_rak,
+                'urutan_rak'            => $datanya_hapus->urutan_rak,
                 'keterangan'            => $datanya_hapus->keterangan,
                 'usrid'                 => $datanya_hapus->usrid,
                 'tgl_input_real'        => $datanya_hapus->tgl_input_real,

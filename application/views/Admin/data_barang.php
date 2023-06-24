@@ -252,7 +252,7 @@
                       <thead>
                         <tr>
                           <th>No</th>
-                          <th>Kode Barang</th>
+                          <th>Kode Barang/Urutan Rak</th>
                           <th>Nama Barang</th>
                           <th>Rak</th>
                           <th>Kadar</th>
