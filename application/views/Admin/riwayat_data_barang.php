@@ -62,6 +62,7 @@
                           <th>Berat Jual (gr)</th>
                           <th>Tanggal Hapus</th>
                           <th>Alasan</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -78,6 +79,12 @@
 <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
 
 <script>
+    $(document).on("click", ".hapus_data", function(){
+        return confirm("Apakah anda yakin ingin membatalkan penghapusan barang ini? Barang akan kembali ke data barang aktif");
+    })
+</script>
+
+<script>
 $(document).ready(function() {
     $('#table_ryan_2').DataTable( {
         "processing": true,
@@ -87,7 +94,7 @@ $(document).ready(function() {
             "type": "POST"
         },
         "columnDefs" : [{
-              "targets" : [0, 1, 2, 3, 4, 5, 6],
+              "targets" : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
               "orderable" : false
           },
           {
@@ -131,7 +138,7 @@ $(document).ready(function() {
             }
         },
         "columnDefs" : [{
-              "targets" : [0, 1, 2, 3, 4, 5, 6],
+              "targets" : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
               "orderable" : false
           },
           {

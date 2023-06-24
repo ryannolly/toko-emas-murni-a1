@@ -65,6 +65,11 @@ class Riwayat_penghapusan extends CI_Controller {
             $row[] = $item->berat_jual . " gr";
             $row[] = date("Y-m-d H:i:s", $item->tanggal_hapus);
             $row[] = $item->alasan;
+            $row[] = '<a class="hapus_data" href="'.base_url("adm/riwayat_penghapusan/undo_barang/".$item->Id).'">
+                        <button type="button" class="btn btn-icon btn-primary" title="Batal Penghapusan">
+                            <span class="tf-icons bx bx-undo"></span>
+                        </button>
+                    </a>';
 
             
 
@@ -91,6 +96,51 @@ class Riwayat_penghapusan extends CI_Controller {
         $this->load->view('Admin/Template_admin/sidebar');
         $this->load->view('Admin/riwayat_data_barang', $data);
         $this->load->view('Admin/Template_admin/footer');
+    }
+
+    public function undo_barang($id = 0){
+        //Cek Dulu Ada Gak Datanya!
+        $where = array(
+            'Id'       => $id
+        );
+
+        //Get Dulu Data nya baru letak di ms_barang_hapus
+        $datanya  = $this->model_admin->get_data_from_uuid($where, "ms_barang_hapus")->row();
+        $data = array(
+            'Id'                    => $datanya->Id,
+            'uuid'                  => $datanya->uuid,
+            'nama_barang'           => $datanya->nama_barang,
+            'id_kadar'              => $datanya->id_kadar,
+            'id_rak'                => $datanya->id_rak,
+            'keterangan'            => $datanya->keterangan,
+            'usrid'                 => $datanya->usrid ." - Pengembalian barang hapus/terjual" ,
+            'tgl_input_real'        => $datanya->tgl_input_real,
+            'tgl_input_real_jam'    => $datanya->tgl_input_real_jam,
+            'stok'                  => $datanya->stok,
+            'berat_jual'            => $datanya->berat_jual,
+            'foto'                  => $datanya->foto,
+        );
+
+        $this->model_admin->tambah_data("ms_barang", $data);
+
+        //Cek udah ada belum datanya
+        if(!$this->model_admin->cek_ada_tidak_sama($where, 'ms_barang_hapus')){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Data yang ingin anda hapus tidak tersedia!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/riwayat_penghapusan');
+        }
+
+        $this->model_admin->hapus_data($where, "ms_barang_hapus");
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Pembatalan penghapusan berhasil! Barang kembali aktif
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/riwayat_penghapusan');
     }
 }
 
