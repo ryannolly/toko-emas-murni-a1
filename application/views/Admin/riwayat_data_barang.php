@@ -61,6 +61,7 @@
                           <th>Stok</th>
                           <th>Berat Jual (gr)</th>
                           <th>Tanggal Hapus</th>
+                          <th>Alasan</th>
                         </tr>
                       </thead>
                       <tbody>

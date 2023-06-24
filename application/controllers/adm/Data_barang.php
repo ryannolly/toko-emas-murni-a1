@@ -280,6 +280,7 @@ class Data_barang extends CI_Controller {
             'berat_jual'            => $datanya->berat_jual,
             'foto'                  => $datanya->foto,
             'tanggal_hapus'         => time(),
+            'alasan'                => "HAPUS DARI DATA BARANG"
         );
 
         $this->model_admin->tambah_data("ms_barang_hapus", $data);

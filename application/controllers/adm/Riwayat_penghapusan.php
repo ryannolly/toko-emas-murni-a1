@@ -64,6 +64,7 @@ class Riwayat_penghapusan extends CI_Controller {
             $row[] = $item->stok;
             $row[] = $item->berat_jual . " gr";
             $row[] = date("Y-m-d H:i:s", $item->tanggal_hapus);
+            $row[] = $item->alasan;
 
             
 

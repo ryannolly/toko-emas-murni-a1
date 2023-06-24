@@ -214,7 +214,7 @@ table td {
                     <td><?php echo $b->jual ?></td>
                     <td><?php echo $b->tutup ?></td>
                     <td><?php echo $b->timbang ?></td>
-                    <td><?php echo format_ip($b->tutup - $b->timbang, 2, ".", ""); ?></td>
+                    <td><?php echo format_ip((float) $b->tutup - (float)$b->timbang, 2, ".", ""); ?></td>
                 </tr>
                 <tr>
                     <td><?php echo "Quantity" ?></td>

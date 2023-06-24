@@ -132,7 +132,36 @@ class Penjualan extends CI_Controller {
         }
 
         foreach($this->session->userdata("barang_kasir") as $b){
+            //Kurangin dulu stok yang ada pada barang tersebut
             $this->model_admin->kurang_stok($b->uuid);
+            //Langsung Letak di ms_barang_hapus
+            //Cek Dulu Ada Gak Datanya!
+            $where_hapus = array(
+                'uuid'       => $b->uuid
+            );
+
+            //Get Dulu Data nya baru letak di ms_barang_hapus
+            $datanya_hapus  = $this->model_admin->get_data_from_uuid($where_hapus, "ms_barang")->row();
+            $data_hapus = array(
+                'Id'                    => $datanya_hapus->Id,
+                'uuid'                  => $datanya_hapus->uuid,
+                'nama_barang'           => $datanya_hapus->nama_barang,
+                'id_kadar'              => $datanya_hapus->id_kadar,
+                'id_rak'                => $datanya_hapus->id_rak,
+                'keterangan'            => $datanya_hapus->keterangan,
+                'usrid'                 => $datanya_hapus->usrid,
+                'tgl_input_real'        => $datanya_hapus->tgl_input_real,
+                'tgl_input_real_jam'    => $datanya_hapus->tgl_input_real_jam,
+                'stok'                  => $datanya_hapus->stok,
+                'berat_jual'            => $datanya_hapus->berat_jual,
+                'foto'                  => $datanya_hapus->foto,
+                'tanggal_hapus'         => time(),
+                'alasan'                => "PENJUALAN"
+            );
+
+            $this->model_admin->tambah_data("ms_barang_hapus", $data_hapus);
+
+            $this->model_admin->hapus_data($where_hapus, "ms_barang");
         }
 
         $this->session->set_userdata("barang_kasir", array());
