@@ -354,11 +354,12 @@ class Model_admin extends CI_Model {
     }
 
     function get_data_penjualan_by_kd_penjualan($KdPenjualan){
-        $this->db->select("penjualan.*, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.foto");
+        $this->db->select("penjualan.*, rak.nama_rak, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, IF(barang.foto IS NULL, barpus.foto, barang.foto) AS foto");
         $this->db->from("tr_penjualan penjualan");
         $this->db->join("ms_barang barang", "penjualan.id_barang = barang.id", 'left');
+        $this->db->join("ms_barang_hapus barpus", "barpus.id = penjualan.id_barang", "left");
         $this->db->join("ms_rak rak", "penjualan.id_rak = rak.id", 'left');
-        $this->db->join("ms_kadar kadar", "barang.id_kadar = kadar.id", 'left');
+        $this->db->join("ms_kadar kadar", "barang.id_kadar = kadar.id OR barpus.id_kadar = kadar.id", 'left');
         $this->db->where("penjualan.KdPenjualan", $KdPenjualan);
 
         $query = $this->db->get();
@@ -599,13 +600,14 @@ class Model_admin extends CI_Model {
     }
 
     function get_penjualan_per_rak($id_rak, $tanggal, $ashita){
-        $sql = "SELECT SUM(penjualan.berat_jual) AS Berat, COUNT(penjualan.berat_jual) AS Qty
+        $sql = "SELECT SUM(penjualan.berat_asli) AS Berat, COUNT(penjualan.berat_jual) AS Qty
                 FROM tr_penjualan penjualan
                 LEFT JOIN ms_penjualan ms ON ms.KdPenjualan = penjualan.KdPenjualan                
                 LEFT JOIN ms_barang barang ON barang.Id = penjualan.id_barang
-                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND barang.id_rak = ?";
+                LEFT JOIN ms_barang_hapus barpus ON barpus.Id = penjualan.id_barang
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND (barang.id_rak = ? OR barpus.id_rak = ?)";
 
-        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak));
+        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak, $id_rak));
         return $query->row();
     }
 
