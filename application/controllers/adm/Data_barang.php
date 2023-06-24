@@ -64,6 +64,11 @@ class Data_barang extends CI_Controller {
                                 <span class="tf-icons bx bx-edit"></span>
                             </button>
                         </a>
+                        <a href="'.base_url("adm/data_barang/cetak_qr/".$item->Id).'">
+                            <button type="button" class="btn btn-icon btn-primary" title="Print QR">
+                                <span class="tf-icons bx bx-printer"></span>
+                            </button>
+                        </a>
                         <a class="hapus_data" href="'.base_url("adm/data_barang/hapus_data_barang/".$item->Id).'">
                             <button type="button" class="btn btn-icon btn-danger" title="Hapus Barang">
                                 <span class="tf-icons bx bx-trash"></span>
@@ -359,6 +364,25 @@ class Data_barang extends CI_Controller {
         $data['detail_data']        = $this->model_admin->get_data_from_uuid($where, "ms_barang")->row();
 
         $this->load->view("Admin/cetak_qr/qr_barang", $data);
+    }
+
+    public function cetak_qr($id = 0){
+        $where = array(
+            'id'        => $id
+        );
+
+        $data['data_barang']        = $this->model_admin->get_data_barang_for_qr_single($where);
+
+        if(count($data['data_barang']) <= 0){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Tidak ada data pada rak dan tanggal tersebut!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_barang');
+        }
+
+        $this->load->view("Admin/print/print_qr", $data);
     }
 
     public function cetak_qr_banyak(){

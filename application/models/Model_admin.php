@@ -263,6 +263,24 @@ class Model_admin extends CI_Model {
         return $query->result();
     }
 
+    function get_data_barang_for_qr_single($where){
+        $this->db->select('bar.*, rak.nama_rak, kadar.nama_kadar');
+        $this->db->from('ms_barang bar');
+        // if(!empty($where['id_rak'])){
+        //     $this->db->where('bar.id_rak', $where['id_rak']);
+        // }
+        // if(!empty($where['id_kadar'])){
+        //     $this->db->where('bar.id_kadar', $where['id_kadar']);
+        // }
+        $this->db->join('ms_rak rak', 'rak.id = bar.id_rak', 'left');
+        $this->db->join('ms_kadar kadar', 'kadar.id = bar.id_kadar', 'left');
+        $this->db->where("bar.id", $where['id']);
+        $this->db->order_by('bar.Id DESC');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     //Untuk Data Riwayat Penjualan
 
     //Datatables Data Barang
