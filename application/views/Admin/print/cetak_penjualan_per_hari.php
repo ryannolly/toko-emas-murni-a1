@@ -187,6 +187,7 @@ table td {
 <?php
 
 $total_berat = 0;
+$total_berat_jual = 0;
 $total_harga = 0;
 
 ?>
@@ -206,6 +207,7 @@ $total_harga = 0;
                 <th>Nama Kadar</th>
                 <th>Nama Rak</th>
                 <th>Berat Asli (Gram)</th>
+                <th>Berat Jual (Gram)</th>
                 <th>Nilai Barang</th>
 			</tr>
 		</thead>
@@ -219,15 +221,32 @@ $total_harga = 0;
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
+                    <td><?php echo $b->berat_jual; $total_berat_jual += $b->berat_jual ?></td>
                     <td>Rp. <?php echo format_ip($b->nilai_barang, 2, ".", ","); $total_harga += $b->nilai_barang ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <td colspan="6" align="right">Jumlah</td>
                 <td><?php echo $total_berat; ?></td>
+                <td><?php echo $total_berat_jual ?></td>
                 <td>Rp. <?php echo format_ip($total_harga, 2, ".", ",") ?></td>
             </tr>
         </tbody>
+	</table>
+
+    <table  cellspacing="0" Border="1" style="width:100%;margin-top:20px;" style="font-size: 8pt;">
+		<?php foreach($rekap_per_kadar as $p) :  ?>
+            <tr>
+                <td rowspan="2">Kadar <?php echo $p->nama_kadar ?></td>
+                <td>Berat</td>
+                <td><?php echo format_ip($p->BeratJual, 2, ".", "") ?></td>
+                <td rowspan="2">Rp. <?php echo format_ip((float) $p->NilaiBarang / (float) $p->BeratJual, 2, ".", ",") ?></td>
+            </tr>
+            <tr>
+                <td>Nilai Jual</td>
+                <td>Rp. <?php echo format_ip($p->NilaiBarang, 2, ".", ",") ?></td>
+            </tr>
+        <?php endforeach; ?>
 	</table>
 </body>
 </html>

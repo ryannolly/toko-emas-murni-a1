@@ -84,6 +84,7 @@ class Riwayat_penjualan extends CI_Controller {
         $tanggal_akhir  = strtotime($tanggal. " 23:59:59");
 
         $data['rekap'] = $this->model_admin->get_rekap_penjualan($tanggal_awal, $tanggal_akhir);
+        $data['rekap_per_kadar'] = $this->model_admin->get_rekap_penjualan_per_kadar($tanggal_awal, $tanggal_akhir); 
         $data['kyou']  = $this->input->post("tgl_input_real");
 
         $this->load->view("Admin/print/cetak_penjualan_per_hari", $data);

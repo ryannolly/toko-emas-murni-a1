@@ -731,7 +731,7 @@ class Model_admin extends CI_Model {
     }
 
     function get_rekap_penjualan($tanggal_awal, $tanggal_akhir){
-        $sql = "SELECT jual.KdPenjualan, jual.TglProses, barang.nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.nilai_barang FROM
+        $sql = "SELECT jual.KdPenjualan, jual.TglProses, barang.nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.berat_jual, detail.nilai_barang FROM
                 ms_penjualan jual
                 LEFT JOIN tr_penjualan detail ON detail.KdPenjualan = jual.KdPenjualan
                 LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
@@ -743,6 +743,19 @@ class Model_admin extends CI_Model {
         return $query->result();
     }
 
+    function get_rekap_penjualan_per_kadar($tanggal_awal, $tanggal_akhir){
+        $sql = "SELECT kadar.nama_kadar, SUM(detail.berat_asli) AS BeratAsli, SUM(detail.berat_jual) AS BeratJual, SUM(detail.nilai_barang) AS NilaiBarang FROM
+                ms_penjualan jual
+                LEFT JOIN tr_penjualan detail ON detail.KdPenjualan = jual.KdPenjualan
+                LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
+                LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
+                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
+                WHERE jual.TglProses >= ? AND jual.TglProses <= ?
+                GROUP BY kadar.nama_kadar";
+
+        $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
+        return $query->result();
+    }
     //End of Riwayat Penghapusan Barang
 }
 
