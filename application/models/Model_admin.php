@@ -730,6 +730,19 @@ class Model_admin extends CI_Model {
         return $res->maks;
     }
 
+    function get_rekap_penjualan($tanggal_awal, $tanggal_akhir){
+        $sql = "SELECT jual.KdPenjualan, jual.TglProses, barang.nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.nilai_barang FROM
+                ms_penjualan jual
+                LEFT JOIN tr_penjualan detail ON detail.KdPenjualan = jual.KdPenjualan
+                LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
+                LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
+                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
+                WHERE jual.TglProses >= ? AND jual.TglProses <= ?";
+
+        $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
+        return $query->result();
+    }
+
     //End of Riwayat Penghapusan Barang
 }
 

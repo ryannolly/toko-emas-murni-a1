@@ -77,6 +77,18 @@ class Riwayat_penjualan extends CI_Controller {
         echo json_encode($output);
     }
 
+    public function cetak_penjualan(){
+        //Proses Tanggal Proses
+        $tanggal        = $this->input->post("tgl_input_real");
+        $tanggal_awal   = strtotime($tanggal. " 00:00:00");
+        $tanggal_akhir  = strtotime($tanggal. " 23:59:59");
+
+        $data['rekap'] = $this->model_admin->get_rekap_penjualan($tanggal_awal, $tanggal_akhir);
+        $data['kyou']  = $this->input->post("tgl_input_real");
+
+        $this->load->view("Admin/print/cetak_penjualan_per_hari", $data);
+    }
+
     public function index(){
         // $data['data_barang']        = $this->model_admin->tampil_data_barang();
         // $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
