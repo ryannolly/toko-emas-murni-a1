@@ -36,6 +36,39 @@ class Penjualan extends CI_Controller {
         $this->load->view('Admin/Template_admin/footer');
     }
 
+    public function penjualan_tanpa_barang_proses(){
+        if(@$this->input->post("keterangan") && @$this->input->post("nilai_jual")){
+            //Masukkan terlebih dahulu ke ms penjualan
+            $KdPenjualan    = $this->model_admin->create_kode_penjualan();
+
+            $data_per_biji = array(
+                'id_kadar'    => $this->input->post("keterangan"),
+                'KdPenjualan' => $KdPenjualan,
+                'berat_jual'  => 0,
+                'berat_asli'  => 0,
+                'nilai_barang'=> $this->input->post("nilai_jual"),
+                'DP_Pelunasan'=> $this->input->post("nilai_jual"),
+                'JnPembayaran'=> "Bank",
+                'id_rak'      => "",
+                'id_barang'   => "",
+                'usrid'       => $this->session->userdata("username"). " - " .date("Y-m-d H:i:s", time()),
+                'tgl_penjualan' => date("Y-m-d H:i:s", time()),
+                'tgl_real_penjualan'    => time()
+            );
+
+            $this->model_admin->tambah_data("tr_penjualan", $data_per_biji);
+
+            $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                    Penjualan Tanpa Barang Berhasil Dilakukan!
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+            ');
+            redirect('adm/penjualan');
+        }else{
+            redirect('adm/penjualan');
+        }
+    }
+
     public function ajax_post_and_get(){
         $where = array(
             'uuid'      => $this->input->post("uuid")

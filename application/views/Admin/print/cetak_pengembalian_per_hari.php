@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Cetak Penjualan Per Hari</title>
+    <title>Cetak Pengembalian Per Hari</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta name="robots" content="noindex,nofollow" />
@@ -194,59 +194,38 @@ $total_harga = 0;
 
 </head>
 <body>
-	<h3 class="letter-info center" style="text-transform: uppercase;">CETAK PENJUALAN</h3>
+	<h3 class="letter-info center" style="text-transform: uppercase;">CETAK PENGEMBALIAN</h3>
 	<h3 class="letter-info center" style="text-transform: uppercase;">Tanggal : <?php echo $kyou; ?></h3>
     <h3 class="letter-info center" style="text-transform: uppercase;">Waktu Cetak : <?php echo date("Y-m-d H:i:s", time()); ?></h3>
 	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 8pt;">
 		<thead style="background-color: #c3c3c3;">
 			<tr>
 				<th style="width :5%" >No</th>
-				<th>Kode Penjualan</th>
+				<th>Kode Pengembalian</th>
                 <th>Tgl Proses</th>
 				<th>Nama Barang</th>
                 <th>Nama Kadar</th>
                 <th>Nama Rak</th>
                 <th>Berat Asli (Gram)</th>
-                <th>Berat Jual (Gram)</th>
-                <th>Nilai Barang</th>
 			</tr>
 		</thead>
 		<tbody  Border="0">
             <?php $no = 1; foreach($rekap as $b) :  ?>
                 <tr>
                     <td align="center"><?php echo $no++; ?></td>
-                    <td><?php echo $b->KdPenjualan ?></td>
+                    <td><?php echo $b->KdPengembalian ?></td>
                     <td><?php echo date("Y-m-d H:i:s", $b->TglProses) ?></td>
-					<td><?php echo ($b->JnPembayaran == "Bank") ? $b->id_kadar : $b->nama_barang ?></td>
+                    <td><?php echo $b->nama_barang ?></td>
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
-                    <td><?php echo $b->berat_jual; $total_berat_jual += $b->berat_jual ?></td>
-                    <td>Rp. <?php echo format_ip($b->nilai_barang, 2, ".", ","); $total_harga += $b->nilai_barang ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <td colspan="6" align="right">Jumlah</td>
                 <td><?php echo $total_berat; ?></td>
-                <td><?php echo $total_berat_jual ?></td>
-                <td>Rp. <?php echo format_ip($total_harga, 2, ".", ",") ?></td>
             </tr>
         </tbody>
-	</table>
-
-    <table  cellspacing="0" Border="1" style="width:100%;margin-top:20px;" style="font-size: 8pt;">
-		<?php foreach($rekap_per_kadar as $p) :  ?>
-            <tr>
-                <td rowspan="2">Kadar <?php echo $p->nama_kadar ?></td>
-                <td>Berat</td>
-                <td><?php echo format_ip($p->BeratJual, 2, ".", "") ?></td>
-                <td rowspan="2">Rp. <?php echo format_ip((float) $p->NilaiBarang / (float) $p->BeratJual, 2, ".", ",") ?></td>
-            </tr>
-            <tr>
-                <td>Nilai Jual</td>
-                <td>Rp. <?php echo format_ip($p->NilaiBarang, 2, ".", ",") ?></td>
-            </tr>
-        <?php endforeach; ?>
 	</table>
 </body>
 </html>

@@ -42,6 +42,46 @@
                 </div>
               </div>
 
+              <div class="row mb-3">
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Penjualan Tanpa Barang</button>
+                </div>
+              </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="cetakQR" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Tanpa Barang</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="<?php echo base_url('adm/penjualan/penjualan_tanpa_barang_proses') ?>" method="post">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Keterangan (Isi dengan Keterangan Penjualan)</label>
+                                    <input type="text" class="form-control" name="keterangan" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="">Nilai Jual (Harap diisi dengan angka)</label>
+                                    <input type="number" class="form-control" name="nilai_jual" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Cetak">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+
               <!-- Bordered Table -->
               <div class="card mb-3">
                 <h5 class="card-header">Silahkan melakukan scan pada Barcode/QR Code</h5>
