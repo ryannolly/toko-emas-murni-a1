@@ -31,13 +31,79 @@ class Dashboard extends CI_Controller {
         $data['data_penjualan']         = $this->model_admin->get_dashboard_penjualan(strtotime($kyou), strtotime($ashita));
         $data['data_pengembalian']      = $this->model_admin->get_dashboard_pengembalian(strtotime($kyou), strtotime($ashita));
 
-        $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
-
         $data['detail_data_penjualan_rak']      = $this->model_admin->get_dashboard_penjualan_group_by(strtotime($kyou), strtotime($ashita), "rak.nama_rak");
         $data['detail_data_penjualan_kadar']    = $this->model_admin->get_dashboard_penjualan_group_by(strtotime($kyou), strtotime($ashita), "kadar.nama_kadar");
+
+        //Cek dulu udah buka toko belum?
+        $apakah_sudah_ada       = $this->model_admin->get_big_book_dashboard($kyou);
+        if(!@$apakah_sudah_ada){
+            //Inisialisasi dulu semua rak
+            //Get Data Sebelumnya
+            $tgl_sebelumnya         = $this->model_admin->get_tgl_big_book_dashboard_terakhir();
+            $tutup_per_rak          = array();
+            $tutup_per_rak_qt       = array();
+
+            //Inisialisasi dulu semua rak
+            $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+            foreach($semua_rak as $n){
+                $tutup_per_rak_qt[$n->id]   = 0;
+                $tutup_per_rak[$n->id]      = 0;
+            }
+
+            if(@$tgl_sebelumnya){
+                $data_sebelumnya    = $this->model_admin->get_big_book_dashboard_terakhir($tgl_sebelumnya->TglBukuBesar);
+                
+                if(@$data_sebelumnya){
+                    foreach($data_sebelumnya as $p){
+                        $tutup_per_rak_qt[$p->id_rak] = $p->tutup_qt;
+                        $tutup_per_rak[$p->id_rak] = $p->tutup;
+                    }
+                }else{
+                    $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+                    foreach($semua_rak as $n){
+                        $tutup_per_rak_qt[$n->id]   = 0;
+                        $tutup_per_rak[$n->id]      = 0;
+                    }
+                }
+            }else{
+                $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
+                foreach($semua_rak as $n){
+                    $tutup_per_rak_qt[$n->id]   = 0;
+                    $tutup_per_rak[$n->id]      = 0;
+                }
+            }
+
+            //Create master big book for today
+            $KdBukuBesar            = $this->model_admin->create_kd_buku_besar();
+
+            //Get All Rak
+            $semua_rak              = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
+            foreach($semua_rak as $n){
+                $data_masuk = array(
+                    'KdBukuBesar'       => $KdBukuBesar,
+                    'id_rak'            => $n->id,
+                    'open'              => $tutup_per_rak[$n->id],
+                    'masuk'             => 0,
+                    'keluar'            => 0,
+                    'jual'              => 0,
+                    'tutup'             => 0,
+                    'timbang'           => 0,
+                    'open_qt'           => $tutup_per_rak_qt[$n->id],
+                    'masuk_qt'          => 0,
+                    'keluar_qt'         => 0,
+                    'jual_qt'           => 0,
+                    'tutup_qt'          => 0,
+                    'timbang_qt'        => 0,
+                );
+
+                $this->model_admin->tambah_data("tr_detail_dashboard_big_book", $data_masuk);
+            }
+        }
+
         
         // $data['detail_data_pengembalian_rak']   = $this->model_admin->get_dashboard_pengembalian_group_by(strtotime($kyou), strtotime($ashita), "rak.nama_rak");
         $data['detail_data_pengembalian_kadar']   = $this->model_admin->get_dashboard_pengembalian_group_by(strtotime($kyou), strtotime($ashita), "kadar.nama_kadar");
+        $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
 
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');

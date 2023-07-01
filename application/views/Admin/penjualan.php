@@ -44,7 +44,7 @@
 
               <div class="row mb-3">
                 <div class="col-lg-2">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Penjualan Tanpa Barang</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Penjualan Tanpa Barcode</button>
                 </div>
               </div>
 
@@ -53,7 +53,7 @@
                 <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Tanpa Barang</h5>
+                            <h5 class="modal-title" id="exampleModalLabel4">Proses Penjualan Tanpa Barcode</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
