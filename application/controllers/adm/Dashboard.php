@@ -83,12 +83,14 @@ class Dashboard extends CI_Controller {
                     'KdBukuBesar'       => $KdBukuBesar,
                     'id_rak'            => $n->id,
                     'open'              => $tutup_per_rak[$n->id],
+                    'open_timbang'      => 0,
                     'masuk'             => 0,
                     'keluar'            => 0,
                     'jual'              => 0,
                     'tutup'             => 0,
                     'timbang'           => 0,
                     'open_qt'           => $tutup_per_rak_qt[$n->id],
+                    'open_timbang_qt'   => 0,
                     'masuk_qt'          => 0,
                     'keluar_qt'         => 0,
                     'jual_qt'           => 0,
@@ -197,8 +199,11 @@ class Dashboard extends CI_Controller {
     }
 
     public function refresh_big_book($KdBukuBesar = 0){
-        $timbangan      = $this->input->post("timbang[]");
-        $timbangan_qt   = $this->input->post("timbang_qt[]");
+        $timbangan          = $this->input->post("timbang[]");
+        $timbangan_qt       = $this->input->post("timbang_qt[]");
+
+        $open_timbangan     = $this->input->post("timbang_open[]");
+        $open_timbangan_qt  = $this->input->post("timbang_open_qt[]");
 
         //Get Tanggal
         $kyou   = date("Y-m-d", time());
@@ -263,6 +268,14 @@ class Dashboard extends CI_Controller {
             $data = array(
                 'tutup'     => $open,
                 'tutup_qt'  => $open_qt
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Update Timbangan
+            $data = array(
+                'open_timbang'      => $open_timbangan[$counter], 
+                'open_timbang_qt'   => $open_timbangan_qt[$counter]
             );
 
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");

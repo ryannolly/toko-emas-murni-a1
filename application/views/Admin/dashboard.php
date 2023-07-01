@@ -265,6 +265,8 @@ function tgl_indo_hari_ini(){
                           <tr>
                             <th style="text-align:center">Kode</th>
                             <th>Open</th>
+                            <th width="10%">Open<br>Timbang</th>
+                            <th>Selisih</th>
                             <th>Masuk</th>
                             <th>Keluar</th>
                             <th>Jual</th>
@@ -277,6 +279,8 @@ function tgl_indo_hari_ini(){
                             <tr>
                               <td style="text-align:center"><b><?php echo $p->nama_rak ?></b></td>
                               <td><?php echo $p->open ?></td>
+                              <td><input name="timbang_open[]" type="text" class="form-control" value="<?php echo $p->open_timbang ?>"></td>
+                              <td><?php echo format_ip($p->open - $p->open_timbang, 2, ".", ""); ?></td>
                               <td><?php echo $p->masuk ?></td>
                               <td><?php echo $p->keluar ?></td>
                               <td><?php echo $p->jual ?></td>
@@ -287,6 +291,8 @@ function tgl_indo_hari_ini(){
                             <tr>
                               <td style="text-align:center">Quantity</td>
                               <td><?php echo $p->open_qt ?></td>
+                              <td><input name="timbang_open_qt[]" type="text" class="form-control" value="<?php echo $p->open_timbang_qt ?>"></td>
+                              <td><?php echo $p->open_qt - $p->open_timbang_qt; ?></td>
                               <td><?php echo $p->masuk_qt ?></td>
                               <td><?php echo $p->keluar_qt ?></td>
                               <td><?php echo $p->jual_qt ?></td>
@@ -305,7 +311,7 @@ function tgl_indo_hari_ini(){
                         <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
                       <?php else :  ?>
                           <a target="_blank" href="<?php echo base_url("adm/dashboard/print_big_book") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Print</button></a>
-                          <input type="submit" class="btn btn-info" data-bs-dismiss="modal" value="Refresh Data">
+                          <input type="submit" class="btn btn-info" data-bs-dismiss="modal" value="Refresh & Simpan Data">
                         </form>
                       <?php endif; ?>
                     </div>

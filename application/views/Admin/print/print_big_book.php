@@ -195,6 +195,8 @@ table td {
 				<th style="width :5%" >No</th>
 				<th>Kode</th>
                 <th>Open</th>
+				<th width="7%">Open<br>Timbang</th>
+				<th>Selisih</th>
 				<th>Masuk</th>
                 <th>Keluar</th>
                 <th>Jual</th>
@@ -209,6 +211,8 @@ table td {
                     <td rowspan="2" align="center"><?php echo $no++; ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo $b->open ?></td>
+					<td><?php echo $b->open_timbang ?></td>
+					<td><?php echo format_ip((float) $b->open - (float)$b->open_timbang, 2, ".", ""); ?></td>
                     <td><?php echo $b->masuk ?></td>
                     <td><?php echo $b->keluar ?></td>
                     <td><?php echo $b->jual ?></td>
@@ -219,6 +223,8 @@ table td {
                 <tr>
                     <td><?php echo "Quantity" ?></td>
                     <td><?php echo $b->open_qt ?></td>
+					<td><?php echo $b->open_timbang_qt ?></td>
+					<td><?php echo $b->open_qt - $b->open_timbang_qt ?></td>
                     <td><?php echo $b->masuk_qt ?></td>
                     <td><?php echo $b->keluar_qt ?></td>
                     <td><?php echo $b->jual_qt ?></td>
