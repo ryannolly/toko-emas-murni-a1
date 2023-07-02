@@ -1,3 +1,13 @@
+<?php
+
+function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','){
+    $negation = ($number < 0) ? (-1) : 1;
+    $coefficient = 10 ** $decimals;
+    $number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
+    return number_format($number, $decimals, $decPoint, $thousandsSep);
+}
+
+?>
 <!-- Content wrapper -->
 <div class="content-wrapper">
             <!-- Content -->
@@ -31,7 +41,7 @@
                             <?php foreach($detail_penjualan as $p) :  ?>
                                 <tr>
                                     <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
-                                    <td class="text-wrap"><?php echo $p->berat_jual ?>gr/<?php echo $p->berat_asli ?>gr</td>
+                                    <td class="text-wrap"><?php echo format_ip($p->berat_jual, 2, ".", "") ?>gr/<?php echo format_ip($p->berat_asli, 2, ".", "") ?>gr</td>
                                     <td class="text-wrap"><?php echo "Rp".$p->nilai_barang ?></td>
                                 </tr>
                             <?php endforeach; ?>

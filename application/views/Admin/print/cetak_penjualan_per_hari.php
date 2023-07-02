@@ -220,8 +220,8 @@ $total_harga = 0;
 					<td><?php echo ($b->JnPembayaran == "Bank") ? $b->id_kadar : $b->nama_barang ?></td>
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
-                    <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
-                    <td><?php echo $b->berat_jual; $total_berat_jual += $b->berat_jual ?></td>
+                    <td><?php echo format_ip($b->berat_asli, 2, ".", ""); $total_berat += $b->berat_asli ?></td>
+                    <td><?php echo format_ip($b->berat_jual, 2, ".", ""); $total_berat_jual += $b->berat_jual ?></td>
                     <td>Rp. <?php echo format_ip($b->nilai_barang, 2, ".", ","); $total_harga += $b->nilai_barang ?></td>
                 </tr>
             <?php endforeach; ?>

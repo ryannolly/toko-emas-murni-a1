@@ -218,7 +218,7 @@ $total_harga = 0;
                     <td><?php echo $b->nama_barang ?></td>
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
-                    <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
+                    <td><?php echo format_ip($b->berat_asli, 2, ".", ""); $total_berat += $b->berat_asli ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>

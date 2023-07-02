@@ -278,27 +278,27 @@ function tgl_indo_hari_ini(){
                           <?php foreach($big_book as $p) :  ?>
                             <tr>
                               <td style="text-align:center"><b><?php echo $p->nama_rak ?></b></td>
-                              <td><?php echo $p->open ?></td>
-                              <td><input name="timbang_open[]" type="text" class="form-control" value="<?php echo $p->open_timbang ?>"></td>
+                              <td><?php echo format_ip($p->open, 2, ".", "") ?></td>
+                              <td><input name="timbang_open[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang, 2, ".", "") ?>"></td>
                               <td><?php echo format_ip($p->open - $p->open_timbang, 2, ".", ""); ?></td>
-                              <td><?php echo $p->masuk ?></td>
-                              <td><?php echo $p->keluar ?></td>
-                              <td><?php echo $p->jual ?></td>
-                              <td><?php echo $p->tutup ?></td>
-                              <td><input name="timbang[]" type="text" class="form-control" value="<?php echo $p->timbang ?>"></td>
+                              <td><?php echo format_ip($p->masuk, 2, ".", "") ?></td>
+                              <td><?php echo format_ip($p->keluar, 2, ".", "") ?></td>
+                              <td><?php echo format_ip($p->jual, 2, ".", "") ?></td>
+                              <td><?php echo format_ip($p->tutup, 2, ".", "") ?></td>
+                              <td><input name="timbang[]" type="text" class="form-control" value="<?php echo format_ip($p->timbang, 2, ".", "") ?>"></td>
                               <td><?php echo format_ip($p->tutup - $p->timbang, 2, ".", ""); ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:center">Quantity</td>
-                              <td><?php echo $p->open_qt ?></td>
-                              <td><input name="timbang_open_qt[]" type="text" class="form-control" value="<?php echo $p->open_timbang_qt ?>"></td>
-                              <td><?php echo $p->open_qt - $p->open_timbang_qt; ?></td>
-                              <td><?php echo $p->masuk_qt ?></td>
-                              <td><?php echo $p->keluar_qt ?></td>
-                              <td><?php echo $p->jual_qt ?></td>
-                              <td><?php echo $p->tutup_qt ?></td>
-                              <td><input name="timbang_qt[]" type="text" class="form-control" value="<?php echo $p->timbang_qt ?>"></td>
-                              <td><?php echo $p->tutup_qt - $p->timbang_qt ?></td>
+                              <td><?php echo format_ip($p->open_qt) ?></td>
+                              <td><input name="timbang_open_qt[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang_qt) ?>"></td>
+                              <td><?php echo format_ip($p->open_qt - $p->open_timbang_qt); ?></td>
+                              <td><?php echo format_ip($p->masuk_qt) ?></td>
+                              <td><?php echo format_ip($p->keluar_qt) ?></td>
+                              <td><?php echo format_ip($p->jual_qt) ?></td>
+                              <td><?php echo format_ip($p->tutup_qt) ?></td>
+                              <td><input name="timbang_qt[]" type="text" class="form-control" value="<?php echo format_ip($p->timbang_qt) ?>"></td>
+                              <td><?php echo format_ip($p->tutup_qt - $p->timbang_qt) ?></td>
                             </tr>
                           <?php endforeach; ?>
                         </table>
