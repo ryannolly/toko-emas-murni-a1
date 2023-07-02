@@ -161,6 +161,17 @@
                 <div data-i18n="Boxicons">Data Group Admin</div>
               </a>
             </li>
+
+            <!-- Data Dosen -->
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">User</span>
+            </li>
+            <li class="menu-item">
+              <a href="<?php echo base_url('adm/ubah_password'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-key"></i>
+                <div data-i18n="Boxicons">Ubah Password</div>
+              </a>
+            </li>
         </aside>
         <!-- / Menu -->
 
