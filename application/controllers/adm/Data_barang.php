@@ -219,6 +219,18 @@ class Data_barang extends CI_Controller {
             redirect('adm/data_barang');
         }
 
+        //Cek Dulu Password Transaksinya benar gak?
+        $data_bos = $this->model_admin->get_data_boss();
+        $check = hash('sha512', $this->input->post("PasswordTransaksi").$data_bos->salt);
+        if($check != $data_bos->password){
+            $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
+                                                Maaf, Password Transaksi Salah!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+            ');
+            redirect('adm/data_barang/ubah_data_barang/'.$this->input->post('id_real'));
+        }
+
         $data = array(
             'nama_barang'       => $this->input->post("nama_barang"),
             'id_kadar'          => $this->input->post("id_kadar"),

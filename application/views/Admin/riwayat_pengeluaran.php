@@ -7,11 +7,13 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
-              <div class="row mb-3">
-                <div class="col-lg-2">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Cetak Pengeluaran</button>
+              <?php if($this->session->userdata("GroupAdminID") == "2") :  ?>
+                <div class="row mb-3">
+                  <div class="col-lg-2">
+                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Cetak Pengeluaran</button>
+                  </div>
                 </div>
-              </div>
+              <?php endif; ?>
 
               <!-- Extra Large Modal -->
               <div class="modal fade" id="cetakQR" tabindex="-1" aria-hidden="true">

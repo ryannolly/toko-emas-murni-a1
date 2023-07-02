@@ -49,9 +49,13 @@ class Data_admin extends CI_Controller {
             redirect('adm/data_admin');
         }
 
+        $salt = random_string("alnum", 16);
+        $password = hash("sha512", $this->input->post("password").$salt);
+
         $data = array(
             'username'      => $this->input->post("username"),
-            'password'      => $this->input->post("password"),
+            'password'      => $password,
+            'salt'          => $salt,
             'nama'          => $this->input->post('nama'),
             'GroupAdminID'  => $this->input->post("GroupAdminID")
         );

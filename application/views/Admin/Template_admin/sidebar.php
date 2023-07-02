@@ -120,12 +120,14 @@
                 <div data-i18n="Boxicons">Riwayat Penghapusan</div>
               </a>
             </li>
-            <li class="menu-item">
-              <a href="<?php echo base_url('adm/riwayat_big_book'); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Boxicons">Riwayat Big Book</div>
-              </a>
-            </li>
+            <?php if($this->session->userdata("GroupAdminID") == "2" ) :  ?> 
+              <li class="menu-item">
+                <a href="<?php echo base_url('adm/riwayat_big_book'); ?>" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-book"></i>
+                  <div data-i18n="Boxicons">Riwayat Big Book</div>
+                </a>
+              </li>
+            <?php endif; ?>
 
             <!-- Data Dosen -->
             <li class="menu-header small text-uppercase">

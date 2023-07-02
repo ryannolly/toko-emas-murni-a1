@@ -813,6 +813,15 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
         return $query->result();
     }
+
+    function get_data_boss(){
+        $this->db->select("*");
+        $this->db->from("ms_user");
+        $this->db->where("GroupAdminID", 2);
+
+        $query = $this->db->get();
+        return $query->row();
+    }
 }
 
 ?>
