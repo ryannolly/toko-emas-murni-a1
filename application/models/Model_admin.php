@@ -570,10 +570,11 @@ class Model_admin extends CI_Model {
     }
 
     function get_data_pengeluaran_by_kd_pengeluaran($KdPenjualan){
-        $this->db->select("pengeluaran.*, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.foto");
+        $this->db->select("pengeluaran.*, rak.nama_rak, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, IF(barang.foto IS NULL, barpus.foto, barang.foto) AS barang");
         $this->db->from("tr_pengeluaran pengeluaran");
         $this->db->join("ms_barang barang", "pengeluaran.id_barang = barang.id", 'left');
-        $this->db->join("ms_rak rak", "barang.id_rak = rak.id", 'left');
+        $this->db->join("ms_barang_hapus barpus", "barpus.id = pengeluaran.id_barang", "left");
+        $this->db->join("ms_rak rak", "barang.id_rak = rak.id OR barpus.id_rak = rak.id", 'left');
         $this->db->join("ms_kadar kadar", "pengeluaran.id_kadar = kadar.id", 'left');
         $this->db->where("pengeluaran.KdPengeluaran", $KdPenjualan);
 
@@ -589,13 +590,14 @@ class Model_admin extends CI_Model {
     }
 
     function get_pengeluaran_per_rak($id_rak, $tanggal, $ashita){
-        $sql = "SELECT SUM(barang.berat_jual) AS Berat, COUNT(barang.berat_jual) AS Qty
+        $sql = "SELECT SUM(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Berat, COUNT(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Qty
                 FROM tr_pengeluaran pengeluaran
                 LEFT JOIN ms_pengeluaran ms ON ms.KdPengeluaran = pengeluaran.KdPengeluaran
                 LEFT JOIN ms_barang barang ON barang.Id = pengeluaran.id_barang
-                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND barang.id_rak = ?";
+                LEFT JOIN ms_barang_hapus barpus ON barpus.Id = pengeluaran.id_barang
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND (barang.id_rak = ? OR barpus.id_rak = ?)";
 
-        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak));
+        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak, $id_rak));
         return $query->row();
     }
 

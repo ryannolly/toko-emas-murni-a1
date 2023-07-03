@@ -94,6 +94,8 @@ class Barang_keluar extends CI_Controller {
         //Buat dulu ms_penjualan
         $KdPengembalian = $this->model_admin->create_kode_pengeluaran();
 
+
+
         //{Proses Dulu Penjualannya di tabel Penjualan}
         foreach($this->session->userdata("barang_pengeluaran") as $p){
             //get Id nya
@@ -119,6 +121,39 @@ class Barang_keluar extends CI_Controller {
             //Habiskan
             $this->model_admin->kurang_stok($p->uuid);
         }
+
+        //Setelah di proses, selanjutnya kita hapus dan letak di barang hapus
+        foreach($this->session->userdata("barang_pengeluaran") as $p){
+            //Cek Dulu Ada Gak Datanya!
+            $where_hapus = array(
+                'uuid'       => $p->uuid
+            );
+
+            //Get Dulu Data nya baru letak di ms_barang_hapus
+            $datanya_hapus  = $this->model_admin->get_data_from_uuid($where_hapus, "ms_barang")->row();
+            $data_hapus = array(
+                'Id'                    => $datanya_hapus->Id,
+                'uuid'                  => $datanya_hapus->uuid,
+                'nama_barang'           => $datanya_hapus->nama_barang,
+                'id_kadar'              => $datanya_hapus->id_kadar,
+                'id_rak'                => $datanya_hapus->id_rak,
+                'urutan_rak'            => $datanya_hapus->urutan_rak,
+                'keterangan'            => $datanya_hapus->keterangan,
+                'usrid'                 => $datanya_hapus->usrid,
+                'tgl_input_real'        => $datanya_hapus->tgl_input_real,
+                'tgl_input_real_jam'    => $datanya_hapus->tgl_input_real_jam,
+                'stok'                  => $datanya_hapus->stok,
+                'berat_jual'            => $datanya_hapus->berat_jual,
+                'foto'                  => $datanya_hapus->foto,
+                'tanggal_hapus'         => time(),
+                'alasan'                => "PENGELUARAN"
+            );
+
+            $this->model_admin->tambah_data("ms_barang_hapus", $data_hapus);
+
+            $this->model_admin->hapus_data($where_hapus, "ms_barang");
+        }
+
 
         $this->session->set_userdata("barang_pengeluaran", array());
 
