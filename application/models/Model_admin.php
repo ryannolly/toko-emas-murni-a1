@@ -776,10 +776,10 @@ class Model_admin extends CI_Model {
     }
 
     function get_rekap_pengembalian_per_kadar($tanggal_awal, $tanggal_akhir){
-        $sql = "SELECT kadar.nama_kadar, SUM(detail.berat_asli) AS BeratAsli FROM
+        $sql = "SELECT kadar.nama_kadar, SUM(detail.berat_asli) AS BeratAsli, SUM(detail.uang) AS uang FROM
                 ms_pengembalian jual
                 LEFT JOIN tr_pengembalian detail ON detail.KdPengembalian = jual.KdPengembalian
-                LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
+                LEFT JOIN ms_barang barang ON barang.id = detail.id_barang
                 LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
                 LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
                 WHERE jual.TglProses >= ? AND jual.TglProses <= ?
