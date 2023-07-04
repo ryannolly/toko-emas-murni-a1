@@ -762,7 +762,7 @@ class Model_admin extends CI_Model {
     
     //Get Rekap Pengembalian
     function get_rekap_pengembalian($tanggal_awal, $tanggal_akhir){
-        $sql = "SELECT jual.KdPengembalian, jual.TglProses, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli FROM
+        $sql = "SELECT jual.KdPengembalian, jual.TglProses, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.uang FROM
                 ms_pengembalian jual
                 LEFT JOIN tr_pengembalian detail ON detail.KdPengembalian = jual.KdPengembalian
                 LEFT JOIN ms_barang barang ON barang.id = detail.id_barang

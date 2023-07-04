@@ -207,6 +207,7 @@ $total_harga = 0;
                 <th>Nama Kadar</th>
                 <th>Nama Rak</th>
                 <th>Berat Asli (Gram)</th>
+				<th>Nilai</th>
 			</tr>
 		</thead>
 		<tbody  Border="0">
@@ -219,6 +220,7 @@ $total_harga = 0;
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
+					<td><?php echo Rp. format_ip($b->uang, 2, ".", ",") ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
