@@ -39,15 +39,19 @@ class Dashboard extends CI_Controller {
         if(!@$apakah_sudah_ada){
             //Inisialisasi dulu semua rak
             //Get Data Sebelumnya
-            $tgl_sebelumnya         = $this->model_admin->get_tgl_big_book_dashboard_terakhir();
-            $tutup_per_rak          = array();
-            $tutup_per_rak_qt       = array();
+            $tgl_sebelumnya             = $this->model_admin->get_tgl_big_book_dashboard_terakhir();
+            $tutup_per_rak              = array();
+            $tutup_per_rak_qt           = array();
+            $tutup_per_rak_bersih       = array();
+            $tutup_per_rak_bersih_qt    = array();
 
             //Inisialisasi dulu semua rak
             $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
             foreach($semua_rak as $n){
-                $tutup_per_rak_qt[$n->id]   = 0;
-                $tutup_per_rak[$n->id]      = 0;
+                $tutup_per_rak_qt[$n->id]           = 0;
+                $tutup_per_rak[$n->id]              = 0;
+                $tutup_per_rak_bersih[$n->id]       = 0;
+                $tutup_per_rak_bersih_qt[$n->id]    = 0;
             }
 
             if(@$tgl_sebelumnya){
@@ -55,21 +59,27 @@ class Dashboard extends CI_Controller {
                 
                 if(@$data_sebelumnya){
                     foreach($data_sebelumnya as $p){
-                        $tutup_per_rak_qt[$p->id_rak] = $p->tutup_qt;
-                        $tutup_per_rak[$p->id_rak] = $p->tutup;
+                        $tutup_per_rak_qt[$p->id_rak]          = $p->tutup_qt;
+                        $tutup_per_rak[$p->id_rak]             = $p->tutup;
+                        $tutup_per_rak_bersih[$p->id_rak]      = $p->tutup_bersih;
+                        $tutup_per_rak_bersih_qt[$p->id_rak]   = $p->tutup_bersih_qt;
                     }
                 }else{
                     $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
                     foreach($semua_rak as $n){
-                        $tutup_per_rak_qt[$n->id]   = 0;
-                        $tutup_per_rak[$n->id]      = 0;
+                        $tutup_per_rak_qt[$n->id]               = 0;
+                        $tutup_per_rak[$n->id]                  = 0;
+                        $tutup_per_rak_bersih[$n->id_rak]       = 0;
+                        $tutup_per_rak_bersih_qt[$n->id_rak]    = 0;
                     }
                 }
             }else{
                 $semua_rak = $this->model_admin->tampil_data('ms_rak', "nama_rak", "ASC")->result();
                 foreach($semua_rak as $n){
-                    $tutup_per_rak_qt[$n->id]   = 0;
-                    $tutup_per_rak[$n->id]      = 0;
+                    $tutup_per_rak_qt[$n->id]       = 0;
+                    $tutup_per_rak[$n->id]          = 0;
+                    $tutup_per_rak_bersih[$n->id]   = 0;
+                    $tutup_per_rak_bersih_qt[$n->id]= 0;
                 }
             }
 
@@ -83,6 +93,7 @@ class Dashboard extends CI_Controller {
                     'KdBukuBesar'       => $KdBukuBesar,
                     'id_rak'            => $n->id,
                     'open'              => $tutup_per_rak[$n->id],
+                    'open_bersih'       => $tutup_per_rak_bersih[$n->id],  
                     'open_timbang'      => 0,
                     'masuk'             => 0,
                     'keluar'            => 0,
@@ -90,6 +101,7 @@ class Dashboard extends CI_Controller {
                     'tutup'             => 0,
                     'timbang'           => 0,
                     'open_qt'           => $tutup_per_rak_qt[$n->id],
+                    'open_bersih_qt'    => $tutup_per_rak_bersih_qt[$n->id],
                     'open_timbang_qt'   => 0,
                     'masuk_qt'          => 0,
                     'keluar_qt'         => 0,
@@ -268,6 +280,19 @@ class Dashboard extends CI_Controller {
             $data = array(
                 'tutup'     => $open,
                 'tutup_qt'  => $open_qt
+            );
+
+            $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+            //Get dulu data paikia atau apalah tuh namanya yang 0%
+            $data_nol_persen    = $this->model_admin->get_data_paikia_per_rak($p->id_rak);
+
+            $open -= $data_nol_persen->berat;
+
+            //Tutup_Bersih
+            $data = array(
+                'tutup_bersih'  => $open,
+                'tutup_bersih_qt'  => $open_qt
             );
 
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");

@@ -265,12 +265,14 @@ function tgl_indo_hari_ini(){
                           <tr>
                             <th style="text-align:center">Kode</th>
                             <th>Open</th>
+                            <th>Open<br>Bersih</th>
                             <th width="10%">Open<br>Timbang</th>
                             <th>Selisih</th>
                             <th>Masuk</th>
                             <th>Keluar</th>
                             <th>Jual</th>
                             <th>Tutup</th>
+                            <th>Tutup<br>Bersih</th>
                             <th width="10%">Timbang</th>
                             <th width="10%">Selisih</th>
                           </tr>
@@ -279,24 +281,28 @@ function tgl_indo_hari_ini(){
                             <tr>
                               <td style="text-align:center"><b><?php echo $p->nama_rak ?></b></td>
                               <td><?php echo format_ip($p->open, 2, ".", "") ?></td>
+                              <td><?php echo format_ip($p->open_bersih, 2, ".", "") ?></td>
                               <td><input name="timbang_open[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang, 2, ".", "") ?>"></td>
                               <td><?php echo format_ip($p->open - $p->open_timbang, 2, ".", ""); ?></td>
                               <td><?php echo format_ip($p->masuk, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->keluar, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->jual, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->tutup, 2, ".", "") ?></td>
+                              <td><?php echo format_ip($p->tutup_bersih, 2, ".", "") ?></td>
                               <td><input name="timbang[]" type="text" class="form-control" value="<?php echo format_ip($p->timbang, 2, ".", "") ?>"></td>
                               <td><?php echo format_ip($p->tutup - $p->timbang, 2, ".", ""); ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:center">Quantity</td>
                               <td><?php echo format_ip($p->open_qt) ?></td>
+                              <td><?php echo format_ip($p->open_bersih_qt) ?></td>
                               <td><input name="timbang_open_qt[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang_qt) ?>"></td>
                               <td><?php echo format_ip($p->open_qt - $p->open_timbang_qt); ?></td>
                               <td><?php echo format_ip($p->masuk_qt) ?></td>
                               <td><?php echo format_ip($p->keluar_qt) ?></td>
                               <td><?php echo format_ip($p->jual_qt) ?></td>
                               <td><?php echo format_ip($p->tutup_qt) ?></td>
+                              <td><?php echo format_ip($p->tutup_bersih_qt) ?></td>
                               <td><input name="timbang_qt[]" type="text" class="form-control" value="<?php echo format_ip($p->timbang_qt) ?>"></td>
                               <td><?php echo format_ip($p->tutup_qt - $p->timbang_qt) ?></td>
                             </tr>

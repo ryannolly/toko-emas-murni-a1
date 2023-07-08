@@ -15,7 +15,7 @@ function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','
     $coefficient = 10 ** $decimals;
     $number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
     return number_format($number, $decimals, $decPoint, $thousandsSep);
-  }
+}
 
 ?>
 
@@ -195,12 +195,14 @@ table td {
 				<th style="width :5%" >No</th>
 				<th>Kode</th>
                 <th>Open</th>
+				<th>Open<br>Bersih</th>
 				<th width="7%">Open<br>Timbang</th>
 				<th>Selisih</th>
 				<th>Masuk</th>
                 <th>Keluar</th>
                 <th>Jual</th>
                 <th>Tutup</th>
+				<th>Tutup<br>Bersih</th>
                 <th>Timbang</th>
                 <th>Selisih</th>
 			</tr>
@@ -211,24 +213,28 @@ table td {
                     <td rowspan="2" align="center"><?php echo $no++; ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo format_ip($b->open, 2, ".", "") ?></td>
+					<td><?php echo format_ip($b->open_bersih, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open_timbang, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open - $b->open_timbang, 2, ".", ""); ?></td>
                     <td><?php echo format_ip($b->masuk, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->keluar, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->jual, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->tutup, 2, ".", "") ?></td>
+					<td><?php echo format_ip($b->tutup_bersih, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->timbang) ?></td>
                     <td><?php echo format_ip($b->tutup - $b->timbang, 2, ".", ""); ?></td>
                 </tr>
                 <tr>
                     <td><?php echo "Quantity" ?></td>
                     <td><?php echo format_ip($b->open_qt) ?></td>
+					<td><?php echo format_ip($b->open_bersih_qt, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open_timbang_qt) ?></td>
 					<td><?php echo format_ip($b->open_qt - $b->open_timbang_qt) ?></td>
                     <td><?php echo format_ip($b->masuk_qt) ?></td>
                     <td><?php echo format_ip($b->keluar_qt) ?></td>
                     <td><?php echo format_ip($b->jual_qt) ?></td>
                     <td><?php echo format_ip($b->tutup_qt) ?></td>
+					<td><?php echo format_ip($b->tutup_bersih_qt) ?></td>
                     <td><?php echo format_ip($b->timbang_qt) ?></td>
                     <td><?php echo format_ip($b->tutup_qt - $b->timbang_qt) ?></td>
                 </tr>

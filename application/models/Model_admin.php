@@ -831,6 +831,15 @@ class Model_admin extends CI_Model {
 
         $this->db->query($sql, array($berat, $id));
     }
+
+    function get_data_paikia_per_rak($id_rak){
+        $sql = "SELECT SUM(barang.berat_jual) AS berat
+                FROM ms_barang barang
+                WHERE barang.id_rak = ? AND barang.id_kadar = '1'";
+
+        $query = $this->db->query($sql, array($id_rak));
+        return $query->row();
+    }
 }
 
 ?>
