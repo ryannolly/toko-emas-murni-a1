@@ -590,7 +590,7 @@ class Model_admin extends CI_Model {
     }
 
     function get_pengeluaran_per_rak($id_rak, $tanggal, $ashita){
-        $sql = "SELECT SUM(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Berat, COUNT(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Qty
+        $sql = "SELECT SUM(pengeluaran.berat_terima) AS Berat, COUNT(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Qty
                 FROM tr_pengeluaran pengeluaran
                 LEFT JOIN ms_pengeluaran ms ON ms.KdPengeluaran = pengeluaran.KdPengeluaran
                 LEFT JOIN ms_barang barang ON barang.Id = pengeluaran.id_barang
@@ -824,6 +824,12 @@ class Model_admin extends CI_Model {
 
         $query = $this->db->get();
         return $query->row();
+    }
+
+    function kurang_dari_stok($id, $berat){
+        $sql = "UPDATE ms_barang SET berat_jual = berat_jual - ? WHERE Id = ?";
+
+        $this->db->query($sql, array($berat, $id));
     }
 }
 

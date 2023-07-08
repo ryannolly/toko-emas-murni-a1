@@ -70,16 +70,64 @@ class Barang_keluar extends CI_Controller {
     public function index(){
         // $data['data_barang']        = $this->model_admin->tampil_data_barang();
         // $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
-        // $data['data_rak']           = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
+        $data['data_rak']           = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
         
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/barang_keluar');
+        $this->load->view('Admin/barang_keluar', $data);
         $this->load->view('Admin/Template_admin/footer');
     }
 
     public function get_ajax_session_barang(){
         echo json_encode($this->session->userdata("barang_pengeluaran"));
+    }
+
+    public function get_ajax_data_barang_per_rak(){
+        $id_rak     = $this->input->post("id_rak");
+
+        $where = array(
+            'id_rak'        => $id_rak,
+            'id_kadar'      => "1"
+        );
+
+        $barang     = $this->model_admin->get_data_from_uuid($where, "ms_barang")->result();
+
+        echo json_encode($barang);
+    }
+
+    public function pengeluaran_tanpa_barang_proses(){
+        //Masukkan dulu ke tabel pengeluaran
+        $KdPengembalian = $this->model_admin->create_kode_pengeluaran();
+        $beratnya       = floatval($this->input->post("berat_keluar"));
+
+        // echo "<pre>";
+        // print_r($beratnya);
+        // exit(1);
+
+        $data = array(
+            'KdPengeluaran'     => $KdPengembalian,
+            'id_barang'         => $this->input->post("id_barang"),
+            'id_kadar'          => "1",
+            'berat_terima'      => $beratnya,
+            'uang'              => 0,
+            'berat_asli'        => $beratnya,
+            'Kategori'          => "lebur",
+            'selisih_berat'     => 0,
+            'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time()),
+            'tgl_penjualan'     => date("Y-m-d", time()),
+            'tgl_real_penjualan'=> time()
+        );
+
+        $this->model_admin->tambah_data("tr_pengeluaran", $data);
+
+        $this->model_admin->kurang_dari_stok($this->input->post("id_barang"), $beratnya);
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Pengeluaran Barang Berhasil Dilakukan!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/barang_keluar');
     }
 
     public function proses_barang_keluar(){
