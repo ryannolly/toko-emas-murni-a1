@@ -250,10 +250,11 @@ class Dashboard extends CI_Controller {
 
             //Get Data
             $terbaru        = $this->model_admin->get_pengeluaran_per_rak($p->id_rak, strtotime($kyou), strtotime($ashita));
+            $terbaru_paikia = $this->model_admin->get_pengeluaran_per_rak_paikia($p->id_rak, strtotime($kyou), strtotime($ashita));
 
             //Update Keluar
             $data = array(
-                'keluar'        => $terbaru->Berat,
+                'keluar'        => $terbaru->Berat + $terbaru_paikia->Berat,
                 'keluar_qt'     => $terbaru->Qty
             );
 

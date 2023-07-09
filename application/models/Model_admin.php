@@ -595,7 +595,19 @@ class Model_admin extends CI_Model {
                 LEFT JOIN ms_pengeluaran ms ON ms.KdPengeluaran = pengeluaran.KdPengeluaran
                 LEFT JOIN ms_barang barang ON barang.Id = pengeluaran.id_barang
                 LEFT JOIN ms_barang_hapus barpus ON barpus.Id = pengeluaran.id_barang
-                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND (barang.id_rak = ? OR barpus.id_rak = ?)";
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND (barang.id_rak = ? OR barpus.id_rak = ?) AND pengeluaran.id_kadar != '1'";
+
+        $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak, $id_rak));
+        return $query->row();
+    }
+
+    function get_pengeluaran_per_rak_paikia($id_rak, $tanggal, $ashita){
+        $sql = "SELECT SUM(pengeluaran.berat_terima) AS Berat, COUNT(IF(barang.berat_jual IS NULL, barpus.berat_jual, barang.berat_jual)) AS Qty
+                FROM tr_pengeluaran pengeluaran
+                LEFT JOIN ms_pengeluaran ms ON ms.KdPengeluaran = pengeluaran.KdPengeluaran
+                LEFT JOIN ms_barang barang ON barang.Id = pengeluaran.id_barang
+                LEFT JOIN ms_barang_hapus barpus ON barpus.Id = pengeluaran.id_barang
+                WHERE ms.TglProses >= ? AND ms.TglProses <= ? AND (barang.id_rak = ? OR barpus.id_rak = ?) AND pengeluaran.id_kadar = '1'";
 
         $query = $this->db->query($sql, array($tanggal, $ashita, $id_rak, $id_rak));
         return $query->row();
