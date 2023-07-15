@@ -22,6 +22,10 @@ function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','
                   <div class="form-group mb-3">
                         <table class="table">
                             <tr>
+                                <th class="text-wrap">No Invoice</th>
+                                <th style="color:#F00"><?php echo (empty($penjualan->NoInvoice)) ? "Tidak ada nomor invoice" : $penjualan->NoInvoice ?></th>
+                            </tr>
+                            <tr>
                                 <th class="text-wrap">Kode Penjualan</th>
                                 <td class="text-wrap"><?php echo $penjualan->KdPenjualan ?></td>
                             </tr>

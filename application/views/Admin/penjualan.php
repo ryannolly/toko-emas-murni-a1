@@ -17,6 +17,10 @@
                         <div class="modal-body">
                         <h5 class="text-danger">Harap masukkan angka saja pada kolom harga!</h5>
                         <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
+                        <div class="form-group mb-3">
+                            <label for="">Nomor Invoice : </label>
+                            <input type="text" class="form-control" style="color:#000" name="NoInvoice">
+                        </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" style="border:3px" id="tempat_jual">
                                     <tr>

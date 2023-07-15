@@ -192,10 +192,11 @@ class Model_admin extends CI_Model {
     }
     //-- Datatables Data Barang
 
-    function create_kode_penjualan(){
+    function create_kode_penjualan($NoInvoice){
         $data = array(
             'TglProses' => time(),
-            'usrid'     => $this->session->userdata("username")
+            'usrid'     => $this->session->userdata("username"),
+            'NoInvoice' => $NoInvoice
         );
 
         $this->tambah_data("ms_penjualan", $data);

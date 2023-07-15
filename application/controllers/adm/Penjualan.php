@@ -132,8 +132,10 @@ class Penjualan extends CI_Controller {
 
         $data = array();
 
+        $NoInvoice = $this->input->post("NoInvoice");
+
         //Post and get kdPenjualan
-        $KdPenjualan    = $this->model_admin->create_kode_penjualan();
+        $KdPenjualan    = $this->model_admin->create_kode_penjualan($NoInvoice);
 
         //{Proses Dulu Penjualannya di tabel Penjualan}
         for($i = 0; $i<sizeof($POST_id_barang); $i++){
