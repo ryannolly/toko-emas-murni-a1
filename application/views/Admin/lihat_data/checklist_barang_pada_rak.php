@@ -53,7 +53,7 @@
                         <tbody id="">
                                 <?php foreach($barang as $p) :   ?>
                                     <tr id="tr_<?php echo $p->id_barang ?>">
-                                        <td><?php echo $p->id_barang; ?></td>
+                                        <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_barang ?></td>
                                         <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
                                         <td class="text-wrap">

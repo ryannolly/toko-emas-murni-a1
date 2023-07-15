@@ -638,7 +638,7 @@ class Model_admin extends CI_Model {
     //End Of Riwayat Pengeluaran Barang
 
     function get_barang_pada_rak_checklist($Id){
-        $this->db->select("check.id_barang, rak.nama_rak, barang.nama_barang, kadar.nama_kadar");
+        $this->db->select("check.id_barang, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.urutan_rak");
         $this->db->from("tr_checklist_barang check");
         $this->db->join("ms_barang barang", "barang.Id = check.id_barang", "left");
         $this->db->join("ms_rak rak", "rak.Id = check.id_rak", "left");
