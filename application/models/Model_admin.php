@@ -865,6 +865,12 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql, array($id_rak));
         return $query->row(); 
     }
+
+    function tambah_berat_pada_barang($id_barang, $berat_keluar){
+        $sql = "UPDATE ms_barang SET berat_jual = berat_jual + ? WHERE Id = ?";
+
+        $this->db->query($sql, array($berat_keluar, $id_barang));
+    }
 }
 
 ?>

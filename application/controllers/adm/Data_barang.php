@@ -497,6 +497,45 @@ class Data_barang extends CI_Controller {
 
         echo "Udah bang!";
     }
+
+    public function tambah_berat_barang_nol_persen(){
+        $id_rak         = intval($this->input->post("id_rak"));
+        $id_barang      = intval($this->input->post("id_barang"));
+        $berat_keluar   = floatval($this->input->post("berat_keluar"));
+
+        $this->model_admin->tambah_berat_pada_barang($id_barang, $berat_keluar);
+
+        //Get Current KdBukuBesar
+        $kyou   = date("Y-m-d", time());
+        $big_book       = $this->model_admin->get_big_book_dashboard($kyou);
+
+        //Find big book real
+        $big_book_real = array();
+        foreach($big_book as $b){
+            if($b->id_rak == $id_rak){
+                $big_book_real = $b;
+            }
+        }
+
+        $where = array(
+            'KdBukuBesar'   => $big_book_real->KdBukuBesar,
+            'id_rak'        => $big_book_real->id_rak
+        );
+
+        $data = array(
+            'masuk'     => $big_book_real->masuk + $berat_keluar
+        );
+
+        $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+        //Redirect
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Berat Barang Telah Berhasil Ditambahkan! Silahkan cek pada big book
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+        redirect('adm/data_barang');        
+    }
 }
 
 ?>

@@ -18,6 +18,9 @@
                 <div class="col-lg-2">
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#riwayatBarangMasuk">Riwayat Barang Masuk</button>
                 </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#tambahBeratBarangNolPersen">Tambah Berat Barang 0%</button>
+                </div>
               </div>
 
               <?php echo $this->session->flashdata("pesan"); ?>
@@ -133,6 +136,50 @@
                             <input type="submit" class="btn btn-primary" value="Cetak">
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Large Modal -->
+            <div class="modal fade" id="tambahBeratBarangNolPersen" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Tambah Berat Barang Nol Persen (Paikia, Piring, Plastik, Dll)</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<?php echo base_url('adm/data_barang/tambah_berat_barang_nol_persen') ?>" method="post">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="">Nama Rak</label>
+                                    <select name="id_rak" class="form-control" id="pilihan_rak">
+                                        <?php foreach($data_rak as $d) :  ?>
+                                            <option value="<?php echo $d->id ?>"><?php echo $d->nama_rak ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="">Nama Barang (Pilihan mengikuti rak)</label>
+                                    <select name="id_barang" class="form-control" id="pilihan_barang">
+                                        <option value="">-- Silahkan Pilih Barang Terlebih Dahulu! --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group col-lg-12">
+                                    <label for="">Berat yang ingin ditambahkan (Gram)</label>
+                                    <input type="text" class="form-control" name="berat_keluar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Proses">
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -275,6 +322,41 @@
 <script src="<?php echo base_url('assets') ?>/assets/vendor/libs/jquery/jquery.js"></script>
 
 <script>
+    $("#pilihan_rak").change(function(){
+        var id_rak = $("#pilihan_rak").val();
+
+        $.ajax({
+            type : "POST",
+            url : "<?= site_url('adm/barang_keluar/get_ajax_data_barang_per_rak') ?>",
+            data : {
+                "id_rak" : id_rak
+            },
+            success : function(response){
+                var jawaban = JSON.parse(response);
+                var html = "";
+
+                for(i = 0; i<jawaban.length; i++){
+                    html += '<option value="' + jawaban[i].Id + '">' + jawaban[i].nama_barang + ' (' + jawaban[i].berat_jual + ' Gr)</option>';
+                }
+
+                $("#pilihan_barang").html(html);
+            },fail : function(){
+                alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+            },
+            error : function(statusCode, errorThrown){
+                if(statusCode.status == 0){
+                    alert("Koneksi Anda Terputus!");
+                }
+            },
+            complete : function(){
+                // $("#kode-ruang-section").show();
+                // $('#gambar-loading-2').hide();
+            }
+        })
+    })
+</script>
+
+<script>
     $(document).on("click", ".hapus_data", function(){
         return confirm("Apakah anda yakin ingin menghapus barang ini?");
     })
@@ -326,6 +408,37 @@
 
 <script>
 $(document).ready(function() {
+    var id_rak = $("#pilihan_rak").val();
+
+    $.ajax({
+        type : "POST",
+        url : "<?= site_url('adm/barang_keluar/get_ajax_data_barang_per_rak') ?>",
+        data : {
+            "id_rak" : id_rak
+        },
+        success : function(response){
+            var jawaban = JSON.parse(response);
+            var html = "";
+
+            for(i = 0; i<jawaban.length; i++){
+                html += '<option value="' + jawaban[i].Id + '">' + jawaban[i].nama_barang + ' (' + jawaban[i].berat_jual + ' Gr)</option>';
+            }
+
+            $("#pilihan_barang").html(html);
+        },fail : function(){
+            alert("Koneksi Gagal! Silahkan untuk merefresh halaman berikut");
+        },
+        error : function(statusCode, errorThrown){
+            if(statusCode.status == 0){
+                alert("Koneksi Anda Terputus!");
+            }
+        },
+        complete : function(){
+            // $("#kode-ruang-section").show();
+            // $('#gambar-loading-2').hide();
+        }
+    })
+
     $('#table_ryan_2').DataTable( {
         "processing": true,
         "serverSide": true,

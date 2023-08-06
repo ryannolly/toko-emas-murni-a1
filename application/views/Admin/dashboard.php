@@ -277,6 +277,12 @@ function tgl_indo_hari_ini(){
                             <th width="10%">Selisih</th>
                           </tr>
                           <form action="<?php echo base_url('adm/dashboard/refresh_big_book/'.$big_book[0]->KdBukuBesar ) ?>" method="post">
+                          <?php if(@!$big_book) :  ?>
+                            <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
+                          <?php else :  ?>
+                              <a target="_blank" href="<?php echo base_url("adm/dashboard/print_big_book") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Print</button></a>
+                              <input type="submit" style="margin-left:4px;" class="btn btn-info" data-bs-dismiss="modal" value="Refresh & Simpan Data">
+                          <?php endif; ?>
                           <?php foreach($big_book as $p) :  ?>
                             <tr>
                               <td style="text-align:center"><b><?php echo $p->nama_rak ?></b></td>
@@ -313,13 +319,7 @@ function tgl_indo_hari_ini(){
                       <?php endif; ?>
                     </div>
                     <div class="card-footer">
-                      <?php if(@!$big_book) :  ?>
-                        <a onclick="return confirm('Apakah anda yakin ingin membuka toko?')" href="<?php echo base_url("adm/dashboard/buka_toko") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Buka Toko</button></a>
-                      <?php else :  ?>
-                          <a target="_blank" href="<?php echo base_url("adm/dashboard/print_big_book") ?>"><button type="button" class="btn btn-success" data-bs-dismiss="modal">Print</button></a>
-                          <input type="submit" class="btn btn-info" data-bs-dismiss="modal" value="Refresh & Simpan Data">
-                        </form>
-                      <?php endif; ?>
+                      </form>
                     </div>
                   </div>
                 </div>
