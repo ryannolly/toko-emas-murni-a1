@@ -871,6 +871,15 @@ class Model_admin extends CI_Model {
 
         $this->db->query($sql, array($berat_keluar, $id_barang));
     }
+
+    function get_penambahan_paikia_per_rak($id_rak, $kyou){
+        $sql = "SELECT SUM(penambahan_berat) AS Berat
+                FROM hs_penambahan_berat_paikia
+                WHERE id_rak = ? AND tgl_penambahan = ?";
+
+        $query = $this->db->query($sql, array($id_rak, $kyou));
+        return $query->row();
+    }
 }
 
 ?>

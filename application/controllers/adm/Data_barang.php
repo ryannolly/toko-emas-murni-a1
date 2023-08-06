@@ -517,16 +517,22 @@ class Data_barang extends CI_Controller {
             }
         }
 
-        $where = array(
-            'KdBukuBesar'   => $big_book_real->KdBukuBesar,
-            'id_rak'        => $big_book_real->id_rak
-        );
-
         $data = array(
-            'masuk'     => $big_book_real->masuk + $berat_keluar
+            'id_rak'            => $id_rak,
+            'id_barang'         => $id_barang,
+            'penambahan_berat'  => $berat_keluar,
+            'tgl_penambahan'    => $kyou,
+            'user'              => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time())
         );
 
-        $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+        //Masukkan ke hs penambahan berat paikia
+        $this->model_admin->tambah_data("hs_penambahan_berat_paikia", $data);
+
+        // $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
+
+        // echo "<pre>";
+        // print_r($data);
+        // exit(1);
 
         //Redirect
         $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
