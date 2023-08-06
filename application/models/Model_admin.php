@@ -853,6 +853,18 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql, array($id_rak));
         return $query->row();
     }
+
+    function get_berat_dan_qty_per_rak($id_rak){
+        $sql = "SELECT 
+                (SELECT COALESCE(COUNT(x.uuid), 0) AS Banyak FROM ms_barang x WHERE x.id_rak = rak.id AND x.id_kadar != 1) AS Qty, 
+                (SELECT COALESCE(SUM(x.berat_jual), 0) AS Berat FROM ms_barang x WHERE x.id_rak = rak.id) AS BeratKotor,
+                (SELECT COALESCE(SUM(x.berat_jual), 0) AS Berat_bersih FROM ms_barang x WHERE x.id_rak = rak.id AND x.id_kadar != 1) AS BeratBersih FROM 
+                ms_rak rak
+                WHERE rak.id = ?";
+
+        $query = $this->db->query($sql, array($id_rak));
+        return $query->row(); 
+    }
 }
 
 ?>
