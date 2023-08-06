@@ -173,6 +173,17 @@ table td {
 }
 </style>
 
+<?php
+
+function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','){
+	$negation = ($number < 0) ? (-1) : 1;
+	$coefficient = 10 ** $decimals;
+	$number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
+	return number_format($number, $decimals, $decPoint, $thousandsSep);
+}
+
+?>
+
 </head>
 <body>
 	<h3 class="letter-info center" style="text-transform: uppercase;">DAFTAR BARANG PADA RAK</h3>
@@ -213,7 +224,7 @@ table td {
 							<td style="text-align:center"><?php echo $p->Id ?></td>
 							<td><?php echo $p->nama_barang ?></td>
 							<td><?php echo $p->nama_kadar ?></td>
-							<td style="text-align:center;"><?php echo $p->berat_jual ?> gr</td>
+							<td style="text-align:center;"><?php echo format_ip($p->berat_jual, 2, ".", "") ?> gr</td>
 							<td><img width="200px" src="<?php echo base_url("uploads/foto_emas/").$p->foto ?>" alt=""></td>
 							<td>
 								<a target="_blank" class="button" href="<?php echo base_url("adm/data_barang/ubah_data_barang/").$p->Id ?>">Ubah</a>
