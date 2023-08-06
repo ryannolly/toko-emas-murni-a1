@@ -28,7 +28,7 @@ class Riwayat_pengembalian extends CI_Controller {
     public function get_ajax(){
         //Set Dulu Variabel Yang Dipakek Buat Get_DataTables
         $this->model_admin->column_order = array(null, 'bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
-        $this->model_admin->column_search = array('bar.nama_barang', 'rak.nama_rak', 'kadar.nama_kadar');
+        $this->model_admin->column_search = array('pengembalian.KdPengembalian', 'pengembalian.TglProses', 'pengembalian.usrid');
         $this->model_admin->order = array('bar.id' => 'desc');
 
         //Cek Dulu Ada Gak Filternya
@@ -53,6 +53,7 @@ class Riwayat_pengembalian extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
+            $row[] = $item->KdPengembalian;
             $row[] = date("D, Y-m-d H:i:s", $item->TglProses);
             $row[] = $item->usrid;
             $row[] = '<a href="'.base_url("adm/riwayat_pengembalian/detail_pengembalian/".$item->KdPengembalian).'">

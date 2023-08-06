@@ -72,6 +72,7 @@
                       <thead>
                         <tr>
                           <th>No</th>
+                          <th>Kode Pengembalian</th>
                           <th>Tanggal Proses</th>
                           <th>User</th>
                           <th>Aksi</th>
