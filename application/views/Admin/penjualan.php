@@ -19,7 +19,7 @@
                         <form action="<?php echo base_url('adm/penjualan/penjualan_proses') ?>" method="post">
                         <div class="form-group mb-3">
                             <label for="">Nomor Invoice : </label>
-                            <input type="text" class="form-control" style="color:#000" name="NoInvoice">
+                            <input type="text" class="form-control" style="color:#000" name="NoInvoice" required>
                         </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" style="border:3px" id="tempat_jual">
@@ -27,9 +27,10 @@
                                         <th>Nama Barang</th>
                                         <th>Rak/Kadar/Berat</th>
                                         <th>Harga</th>
-                                        <th>Berat Jual</th>
-                                    </tr>
-                                    
+                                        <th>Pengurangan Plastik/Paikia</th>
+                                        <th>Berat Plastik/Paikia Dikeluarkan</th>
+                                        <th>Total Berat Jual</th>
+                                    </tr>                                    
                                 </table>
                             </div>
 
@@ -271,7 +272,10 @@
             url     : "<?= site_url("adm/penjualan/get_ajax_session_barang") ?>",
             success : function(response){
                 data = JSON.parse(response);
+                console.log(data);
+
                 var html = "";
+                $("#tempat_jual").html("<tr><th>Nama Barang</th><th>Rak/Kadar/Berat</th><th>Harga</th><th>Pengurangan Plastik/Paikia</th><th>Berat Plastik/Paikia Dikeluarkan</th><th>Total Berat Jual</th></tr>")
 
                 var i;
                 for(i = 0; i<data.length; i++){
@@ -280,7 +284,16 @@
                     html += "<td>" + data[i].nama_rak + " / " + data[i].nama_kadar + "/" + data[i].berat_jual + "gr</td>";
                     html += "<input type='hidden' name='id_barang_session[]' value='" + data[i].id_session_barang +  "'>";
                     html += "<td><input name='harga_barang[]' type='number' class='form-control hitung_harga' value='' required placeholder='Masukkan harga ..'></td>";
-                    html += "<td><input name='berat_jual[]' type='text' class='form-control' value='' required placeholder='Masukkan Berat dalam gram ..'></td>";
+                    html += "<td><select class='form-control' style='color:#000' name='paikia[]'>";
+
+                    var j;
+                    for(j = 0; j<data[i].barang_paikia.length; j++){
+                        html += '<option value="' + data[i].barang_paikia[j].Id + '">' + data[i].barang_paikia[j].nama_barang + ' (' + data[i].barang_paikia[j].berat_jual + ' Gr)</option>';
+                    }
+
+                    html += "</select></td>";
+                    html += "<td><input name='berat_paikia[]' type='text' class='form-control' value='' required placeholder='Masukkan Berat Paikia dalam gram ..'></td>"
+                    html += "<td><input name='berat_jual[]' type='text' class='form-control' value='' placeholder='Masukkan Total Berat dalam gram ..'></td>";
                     html += "</tr>";   
                 }
 

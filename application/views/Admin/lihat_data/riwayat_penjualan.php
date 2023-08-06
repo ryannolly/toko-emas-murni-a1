@@ -39,7 +39,7 @@ function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','
                         <table class="table">
                             <tr>
                                 <th>Nama Barang/Nama Kadar/Nama Rak</th>
-                                <th>Berat Jual/Berat Asli</th>
+                                <th>Berat Asli/Berat Jual</th>
                                 <th>Harga</th>
                             </tr>
                             <?php foreach($detail_penjualan as $p) :  ?>

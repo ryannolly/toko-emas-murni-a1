@@ -112,7 +112,18 @@ class Penjualan extends CI_Controller {
     }
 
     public function get_ajax_session_barang(){
-        echo json_encode($this->session->userdata("barang_kasir"));
+        $data = $this->session->userdata("barang_kasir");
+        foreach($data as $d){
+            $where = array(
+                'id_rak'        => $d->id_rak,
+                'id_kadar'      => "1"
+            );
+    
+            $barang     = $this->model_admin->get_data_from_uuid($where, "ms_barang")->result();
+            $d->barang_paikia      = $barang;
+        }
+
+        echo json_encode($data);
     }
 
     public function penjualan_proses(){
@@ -126,9 +137,15 @@ class Penjualan extends CI_Controller {
             redirect('adm/penjualan');
         }
 
+        // echo "<pre>";
+        // print_r($this->input->post());
+        // exit(1);
+
         $POST_id_barang     = $this->input->post("id_barang_session[]");
         $POST_harga_barang  = $this->input->post("harga_barang[]");
         $POST_berat_barang  = $this->input->post("berat_jual[]");
+        $POST_paikia        = $this->input->post("paikia[]");
+        $POST_berat_paikia  = $this->input->post("berat_paikia[]");
 
         $data = array();
 
@@ -145,7 +162,7 @@ class Penjualan extends CI_Controller {
                         'id_kadar'    => $p->id_rak,
                         'KdPenjualan' => $KdPenjualan,
                         'berat_jual'  => $p->berat_jual,
-                        'berat_asli'  => $POST_berat_barang[$i],
+                        'berat_asli'  => (floatval($POST_berat_barang[$i]) == 0) ? $p->berat_jual : $POST_berat_barang[$i],
                         'nilai_barang'=> $POST_harga_barang[$i],
                         'DP_Pelunasan'=> $POST_harga_barang[$i],
                         'JnPembayaran'=> "TUNAI",
@@ -199,6 +216,32 @@ class Penjualan extends CI_Controller {
 
             $this->model_admin->hapus_data($where_hapus, "ms_barang");
         }
+
+        //Kurangin dulu pada paikia dan tambah pada data pengeluaran
+        //Masukkan dulu ke tabel pengeluaran
+        $KdPengembalian = $this->model_admin->create_kode_pengeluaran();
+
+        for($i = 0; $i<sizeof($POST_paikia); $i++){
+            $data = array(
+                'KdPengeluaran'     => $KdPengembalian,
+                'id_barang'         => $POST_paikia[$i],
+                'id_kadar'          => "1",
+                'berat_terima'      => floatval($POST_berat_paikia[$i]),
+                'uang'              => 0,
+                'berat_asli'        => floatval($POST_berat_paikia[$i]),
+                'Kategori'          => "lebur",
+                'selisih_berat'     => 0,
+                'usrid'             => $this->session->userdata("username") . " - " . date("Y-m-d H:i:s", time()),
+                'tgl_penjualan'     => date("Y-m-d", time()),
+                'tgl_real_penjualan'=> time()
+            );
+    
+            $this->model_admin->tambah_data("tr_pengeluaran", $data);
+    
+            $this->model_admin->kurang_dari_stok($POST_paikia[$i], $POST_berat_paikia[$i]);
+        }
+
+        //-- End of Kurangin dulu paikia nya
 
         $this->session->set_userdata("barang_kasir", array());
         
