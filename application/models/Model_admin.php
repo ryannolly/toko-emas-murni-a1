@@ -615,7 +615,7 @@ class Model_admin extends CI_Model {
     }
 
     function get_penjualan_per_rak($id_rak, $tanggal, $ashita){
-        $sql = "SELECT SUM(penjualan.berat_asli) AS Berat, COUNT(penjualan.berat_jual) AS Qty
+        $sql = "SELECT SUM(penjualan.berat_jual) AS Berat, COUNT(penjualan.berat_jual) AS Qty
                 FROM tr_penjualan penjualan
                 LEFT JOIN ms_penjualan ms ON ms.KdPenjualan = penjualan.KdPenjualan                
                 LEFT JOIN ms_barang barang ON barang.Id = penjualan.id_barang
