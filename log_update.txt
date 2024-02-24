@@ -1,0 +1,29 @@
+(5 April 2023)
+1. Checklist Barang Pada Rak
+Fungsi : Untuk Mengecek satu satu barang pada rak. Jadi bisa tau mana yang dah gak ada
+Caranya : Menu Data Rak -> Keranjang Warna Hijau
+
+2. Input Barang Kadarnya ngikutin rak yang dipilih
+Caranya : 
+- Harus set dulu kadar default untuk setiap rak, bisa di menu ubah data rak
+
+3. Barcode diatasnya ada kode barang
+4. Pemisahan berat total dengan berat barcode + piring di cetak barang pada rak
+5. Riwayat Masuk barang di menu data barang
+6. Cetak Barang Pada Rak ada menu edit dan hapus langsung.
+
+(9 April 2023)
+1. Hapus data barang akan memindahkaan ke history penghapusan
+2. Checklist data barang cuman tampil barang yang belum discan. Dan disebelahny ada tombol hapus
+
+(3 Juni 2023)
+1. Fix buka toko
+2. Backup data
+3. Backup program
+
+(24 Juni 2023)
+1. Penjualan barang akan langsung menghapus barang
+2. Cetak QR Per Barang
+3. Nomor Urut Relatif ke rak piring (Urutan Rak)
+4. Undo dari riwayat penghapusan kembali ke data barang
+5. Penyesuaian kolom pada database

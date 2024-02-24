@@ -169,6 +169,13 @@ table td {
 	$banyak_data   = count($data_barang);
 	// Baru
 	$berapa_baris = ceil((float) count($data_barang)/18);
+	
+	function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','){
+		$negation = ($number < 0) ? (-1) : 1;
+		$coefficient = 10 ** $decimals;
+		$number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
+		return number_format($number, $decimals, $decPoint, $thousandsSep);
+	}
 ?>
 <body>
 	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 4pt;">
@@ -186,7 +193,7 @@ table td {
 				<tr>
                 <?php for($j = 0; $j<18; $j++) :  ?>
 					<?php if($counter_print < $banyak_data) :  ?>
-						<td style="text-align:center;" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->urutan_rak ?></p><img width="30px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center; overflow-wrap: anywhere;"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo $data_barang[$counter_print++]->berat_jual ?></p></td>
+						<td style="text-align:center;" class="mini_td"><p style="text-align:center"><?php echo $data_barang[$counter_print]->urutan_rak ?></p><img width="30px" src="<?php echo site_url("adm/data_barang/print_qr/".$data_barang[$counter_print]->Id) ?>" alt=""><p style="text-align:center; overflow-wrap: anywhere;"><?php echo $data_barang[$counter_print]->nama_rak ?>/<?php echo $data_barang[$counter_print]->nama_kadar ?>/<?php echo format_ip($data_barang[$counter_print++]->berat_jual, 2, ".", "") ?></p></td>
 					<?php else : ?>
 						<td style="text-align:center" class="mini_td">&nbsp;</td>
 					<?php endif; ?>

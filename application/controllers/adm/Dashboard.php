@@ -170,7 +170,7 @@ class Dashboard extends CI_Controller {
                 'masuk_qt'      => $terbaru->Qty
             );
 
-            $open += $terbaru->Berat;
+            $open += ($terbaru->Berat + $terbaru_paikia->Berat);
             $open_qt += $terbaru->Qty;
 
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");
@@ -185,7 +185,7 @@ class Dashboard extends CI_Controller {
                 'keluar_qt'     => $terbaru->Qty
             );
 
-            $open -= $terbaru->Berat;
+            $open -= ($terbaru->Berat + $terbaru_paikia->Berat);
             $open_qt -= $terbaru->Qty;
 
             $this->model_admin->ubah_data($where, $data, "tr_detail_dashboard_big_book");

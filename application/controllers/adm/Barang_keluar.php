@@ -30,11 +30,19 @@ class Barang_keluar extends CI_Controller {
             'uuid'      => $this->input->post("uuid")
         );
 
+        $udah_terscan = FALSE;
+        foreach($this->session->userdata("barang_pengeluaran") as $d){
+            if($this->input->post("uuid") == $d->uuid){
+                //Artinya udah ada, tolak
+                $udah_terscan = TRUE;
+            }
+        }
+
         //Get Data
         $data['data'] = $this->model_admin->get_detail_barang_penjualan($where);
 
         //Update the data in session
-        if(@$data['data']){
+        if(@$data['data'] && !$udah_terscan){
             //Update last id barang kasir
             $data['data']->id_session_barang = $this->session->userdata("last_id_barang_pengeluaran");
             $this->session->set_userdata("last_id_barang_pengeluaran", $data['data']->id_session_barang + 1);

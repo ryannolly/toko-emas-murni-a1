@@ -108,6 +108,7 @@
                     <table class="table table-bordered" style="color:#000">
                       <thead>
                         <tr>
+                          <th class="text-wrap">No</th>
                           <th class="text-wrap">Kode Barang</th>
                           <th class="text-wrap">Nama Barang</th>
                           <th class="text-wrap">Rak/Kadar</th>
@@ -117,6 +118,7 @@
                       <tbody id="body_tabel">
                             <?php $no = 1;foreach($this->session->userdata("barang_pengeluaran") as $bp) :  ?>
                                 <tr id="tr_<?php echo $bp->id_session_barang ?>">
+                                    <td><?php echo $no++; ?></td>
                                     <td><?php echo $bp->Id; ?></td>
                                     <td class="text-wrap"><?php echo $bp->nama_barang ?></td>
                                     <td class="text-wrap"><?php echo $bp->nama_rak . " / " . $bp->nama_kadar ?></td>
@@ -215,6 +217,7 @@
 </script>
 
 <script>
+    var urutan = <?php echo $no; ?>;
     $('#QR_UUID').on("keypress", function(e) {
             if (e.keyCode == 13) {
                 var uuid = $("#QR_UUID").val();
@@ -234,11 +237,13 @@
                             console.log(jawaban.data);
                             var html = "";
                             html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                            html += "<td>" + urutan + "</td>";
                             html += "<td>" + jawaban.data.Id + "</td>";
                             html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
                             html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
                             html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
+                            urutan = urutan + 1;
                             $('#body_tabel').append(html);
                         }else{
                             alert("Data tidak tersedia atau stok telah habis!");
@@ -278,11 +283,13 @@
                     console.log(jawaban.data);
                     var html = "";
                     html += "<tr id='tr_" + jawaban.data.id_session_barang +"'>";
+                    html += "<td>" + urutan + "</td>";
                     html += "<td>" + jawaban.data.Id + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
                     html += '<td><button type="button" id="' + jawaban.data.id_session_barang + '" class="btn btn-icon btn-danger hapus_barang_session"><span class="tf-icons bx bx-trash"></span></button></td></tr>';
 
+                    urutan = urutan + 1;
                     $('#body_tabel').append(html);
                 }else{
                     alert("Data tidak tersedia atau stok telah habis!");

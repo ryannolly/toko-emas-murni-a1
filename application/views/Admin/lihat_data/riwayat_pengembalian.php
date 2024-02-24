@@ -39,7 +39,7 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                    <a href="<?php echo base_url("adm/riwayat_penjualan") ?>"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kembali</button></a>
+                    <a href="<?php echo base_url("adm/riwayat_pengembalian") ?>"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kembali</button></a>
                 </div>
               </div>
               <!--/ Bordered Table -->
