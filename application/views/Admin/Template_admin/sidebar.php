@@ -163,6 +163,12 @@
                 <div data-i18n="Boxicons">Data Group Admin</div>
               </a>
             </li>
+            <li class="menu-item">
+              <a href="<?php echo base_url('adm/dashboard/backup_database'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-package"></i>
+                <div data-i18n="Boxicons">Backup Database</div>
+              </a>
+            </li>
 
             <!-- Data Dosen -->
             <li class="menu-header small text-uppercase">

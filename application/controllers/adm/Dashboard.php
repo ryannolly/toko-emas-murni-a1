@@ -267,6 +267,29 @@ class Dashboard extends CI_Controller {
         $this->load->view('Admin/under_development');
         $this->load->view('Admin/Template_admin/footer');
     }
+
+    public function backup_database(){
+        // Database configuration
+        $dbHost = 'localhost';
+        $dbUsername = 'root';
+        $dbPassword = '';
+        $dbName = 'toko-emas-murni-a1';
+
+        // Command to execute mysqldump. Adjust the path according to your server configuration
+        $command = "C:\\xampp\\mysql\\bin\\mysqldump -h$dbHost -u$dbUsername $dbName";
+
+        // Execute the command and capture the output
+        $output = shell_exec($command);
+
+        if ($output === null) {
+            echo "Backup gagal.";
+        } else {
+            // Set the header to return a SQL file
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $dbName . '.sql"');
+            echo $output;
+        }
+    }
 }
 
 ?>
