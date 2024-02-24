@@ -39,6 +39,7 @@
                                 <div class="col mb-3">
                                     <label for="nameExLarge" class="form-label">Nama Rak</label>
                                     <select name="id_rak" id="" class="form-control" style="color:#000">
+                                        <option value=""> -- SEMUA RAK -- </option>
                                         <?php foreach($data_rak as $rak) :  ?>
                                             <option value="<?php echo $rak->id ?>"><?php echo $rak->nama_rak ?></option>
                                         <?php endforeach; ?>

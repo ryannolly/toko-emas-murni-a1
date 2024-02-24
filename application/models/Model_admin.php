@@ -49,10 +49,11 @@ class Model_admin extends CI_Model {
     }
 
     public function get_detail_barang($where){
-        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar
+        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar, checklist.is_checked
         FROM ms_barang bar
         LEFT JOIN ms_rak rak ON rak.id = bar.id_rak
-        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar WHERE bar.uuid = ?";
+        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar
+        LEFT JOIN tr_checklist_barang checklist ON checklist.id_barang = bar.Id AND checklist.id_rak = rak.id WHERE bar.uuid = ?";
 
         return $this->db->query($sql, array($where['uuid']))->row();
     }
@@ -67,10 +68,12 @@ class Model_admin extends CI_Model {
     }
 
     public function get_detail_barang_penjualan_checklist($where){
-        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar 
+        $sql = "SELECT bar.*, rak.nama_rak, kadar.nama_kadar, checklist.is_checked
         FROM ms_barang bar
         LEFT JOIN ms_rak rak ON rak.id = bar.id_rak
-        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar WHERE bar.uuid = ? AND bar.id_rak = ?";
+        LEFT JOIN ms_kadar kadar ON kadar.id = bar.id_kadar 
+        LEFT JOIN tr_checklist_barang checklist ON checklist.id_barang = bar.Id AND checklist.id_rak = rak.id
+        WHERE bar.uuid = ? AND bar.id_rak = ?";
 
         return $this->db->query($sql, array($where['uuid'], $where['id_rak']))->row();
     }
@@ -263,7 +266,9 @@ class Model_admin extends CI_Model {
         // }
         $this->db->join('ms_rak rak', 'rak.id = bar.id_rak', 'left');
         $this->db->join('ms_kadar kadar', 'kadar.id = bar.id_kadar', 'left');
-        $this->db->where("id_rak", $where['id_rak']);
+        if(!empty($where['id_rak'])){
+            $this->db->where("id_rak", $where['id_rak']);    
+        }
         if(!empty($where['tgl_input_real'])){
             $this->db->where("tgl_input_real", $where['tgl_input_real']);
         }
@@ -638,7 +643,7 @@ class Model_admin extends CI_Model {
     //End Of Riwayat Pengeluaran Barang
 
     function get_barang_pada_rak_checklist($Id){
-        $this->db->select("check.id_barang, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.urutan_rak");
+        $this->db->select("check.id_barang, rak.nama_rak, barang.nama_barang, kadar.nama_kadar, barang.urutan_rak, check.is_checked");
         $this->db->from("tr_checklist_barang check");
         $this->db->join("ms_barang barang", "barang.Id = check.id_barang", "left");
         $this->db->join("ms_rak rak", "rak.Id = check.id_rak", "left");

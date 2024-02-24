@@ -408,7 +408,7 @@ class Data_barang extends CI_Controller {
         $where = array(
             'id_rak'            => $this->input->post("id_rak"),
             'tgl_input_real'    => $this->input->post("tgl_input_real"),
-            'sampai_jam'        => $this->input->post('sampai_jam')
+            'sampai_jam'        => $this->input->post('sampai_jam'),
         );
 
         $data['data_barang']    = $this->model_admin->get_data_barang_for_qr($where);

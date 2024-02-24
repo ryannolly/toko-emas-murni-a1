@@ -272,15 +272,28 @@ class Data_rak extends CI_Controller {
 
         //Update the data in session
         if(@$data['data']){
-            //Hapus di database
-            $where_baru = array(
-                'id_barang'     => $data['data']->Id,
-                'id_rak'        => $this->input->post("id_rak")
-            );
+            if($data['data']->is_checked == 0){
+                //Buat dia jadi 1 di is_checked
+                $where_baru = array(
+                    'id_barang'     => $data['data']->Id,
+                    'id_rak'        => $this->input->post("id_rak")
+                );
 
-            $this->model_admin->hapus_data($where_baru, "tr_checklist_barang");
-            
-            $data['is_data_ada'] = 1;
+                $data_baru = array(
+                    'is_checked'        => 1
+                );
+
+                $this->model_admin->ubah_data($where_baru, $data_baru, "tr_checklist_barang");
+
+                // $this->model_admin->hapus_data($where_baru, "tr_checklist_barang");
+                
+                $data['is_data_ada'] = 1;
+                $data['is_udah_dicheck'] = 0;
+            }else{
+                //Udah dichecked, kasih paham kalau udah dichecked
+                $data['is_data_ada'] = 1;
+                $data['is_udah_dicheck'] = 1;
+            }
         }else{
             $data['is_data_ada'] = 0;
         }

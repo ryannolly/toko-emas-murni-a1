@@ -25,10 +25,31 @@
                                     <th>Rak/Kadar</th>
                                 </tr>
                             </thead>
+                            <?php 
+                                $ada_terchecked = false;
+                                foreach($barang as $p){
+                                    if($p->is_checked == 1){
+                                        $ada_terchecked = true;
+                                        break;
+                                    }
+                                }
+                            ?>
                             <tbody id="tempat_detail_barang_scan">
-                                <tr>
-                                    <td colspan="3" class="text-danger" style="text-align:center">Silahkan untuk scan barang terlebih dahulu!</td>
-                                </tr>
+                                <?php if(!$ada_terchecked) : ?>
+                                    <tr>
+                                        <td colspan="3" class="text-danger" style="text-align:center">Silahkan untuk scan barang terlebih dahulu!</td>
+                                    </tr>
+                                <?php else :  ?>
+                                    <?php foreach($barang as $p) : ?>
+                                        <?php if($p->is_checked) : ?>
+                                            <tr>
+                                                <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
+                                                <td class="text-wrap"><?php echo $p->nama_barang ?></td>
+                                                <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -40,7 +61,10 @@
                 <div class="card">
                     <h5 class="card-header">Barang yang belum discan</h5>
                     <div class="card-body">
-                    <div class="table-responsive text-nowrap">
+                    <a class="btn btn-primary mt-3" onclick="return confirm('Apakah anda yakin untuk mengulangi pengecekan?')" href="<?php echo base_url("adm/data_rak/ulangi_pengecekan/".$detail_rak->id) ?>">
+                        Ulangi Pengecekan
+                    </a>
+                    <div class="table-responsive text-nowrap mt-3">
                         <table class="table table-bordered" style="color:#000">
                         <thead>
                             <tr>
@@ -52,29 +76,28 @@
                         </thead>
                         <tbody id="">
                                 <?php foreach($barang as $p) :   ?>
-                                    <tr id="tr_<?php echo $p->id_barang ?>">
-                                        <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
-                                        <td class="text-wrap"><?php echo $p->nama_barang ?></td>
-                                        <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
-                                        <td class="text-wrap">
-                                            <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->id_barang) ?>">
-                                                <button type="button" class="btn btn-icon btn-info" title="Edit Barang">
-                                                    <span class="tf-icons bx bx-edit"></span>
-                                                </button>
-                                            </a>
-                                            <a tagert="_blank" class="hapus_data" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$p->id_barang) ?>">
-                                                <button type="button" class="btn btn-icon btn-danger" title="Hapus Barang">
-                                                    <span class="tf-icons bx bx-trash"></span>
-                                                </button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <?php if($p->is_checked == 0) :  ?>
+                                        <tr id="tr_<?php echo $p->id_barang ?>">
+                                            <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
+                                            <td class="text-wrap"><?php echo $p->nama_barang ?></td>
+                                            <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
+                                            <td class="text-wrap">
+                                                <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->id_barang) ?>">
+                                                    <button type="button" class="btn btn-icon btn-info" title="Edit Barang">
+                                                        <span class="tf-icons bx bx-edit"></span>
+                                                    </button>
+                                                </a>
+                                                <a tagert="_blank" class="hapus_data" href="<?php echo base_url("adm/data_barang/hapus_data_barang/".$p->id_barang) ?>">
+                                                    <button type="button" class="btn btn-icon btn-danger" title="Hapus Barang">
+                                                        <span class="tf-icons bx bx-trash"></span>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                         </tbody>
                         </table>
-                        <a class="btn btn-primary mt-3" href="<?php echo base_url("adm/data_rak/ulangi_pengecekan/".$detail_rak->id) ?>">
-                            Ulangi Pengecekan
-                        </a>
                     </div>
                     </div>
                 </div>
@@ -116,7 +139,10 @@
                     success : function(response){
                         var jawaban = JSON.parse(response);
 
-                        if(jawaban.is_data_ada){
+                        if(jawaban.is_udah_dicheck && jawaban.is_data_ada){
+                            alert("Data tersebut sudah di scan, Kode Data: " + jawaban.data.Id);
+                            console.log(jawaban);
+                        }else if(jawaban.is_data_ada){
                             $("#tr_" + jawaban.data.Id).remove();
                             
                             var html = "";
@@ -130,12 +156,12 @@
                         }else{
                             alert("Data tersebut tidak ada pada rak tersebut!");
 
-                            var html = "";
-                            html += "<tr>";
-                            html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
-                            html += "</tr>";
-                            $('#tempat_detail_barang_scan').html(html);
-                            alert("Data tersebut tidak ada pada rak tersebut!");
+                            // var html = "";
+                            // html += "<tr>";
+                            // html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
+                            // html += "</tr>";
+                            // $('#tempat_detail_barang_scan').html(html);
+                            // alert("Data tersebut tidak ada pada rak tersebut!");
                         }
                         $("#QR_UUID").focus();
                     },fail : function(){
@@ -170,7 +196,10 @@
             success : function(response){
                 var jawaban = JSON.parse(response);
 
-                if(jawaban.is_data_ada){        
+                if(jawaban.is_udah_dicheck && jawaban.is_data_ada){
+                    alert("Data tersebut sudah di scan, Kode Data: " + jawaban.data.Id);
+                    console.log(jawaban);
+                }else if(jawaban.is_data_ada){        
                     console.log(jawaban.data.Id);
                     $("#tr_" + jawaban.data.Id).remove();
                     var html = "";
@@ -184,11 +213,11 @@
                 }else{
                     alert("Data tersebut tidak ada pada rak tersebut!");
 
-                    var html = "";
-                    html += "<tr>";
-                    html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
-                    html += "</tr>";
-                    $('#tempat_detail_barang_scan').html(html);
+                    // var html = "";
+                    // html += "<tr>";
+                    // html += "<td colspan='3' class='text-danger' style='text-align:center'>Data Tidak Ada Pada Rak Berikut!</td>";
+                    // html += "</tr>";
+                    // $('#tempat_detail_barang_scan').html(html);
                 }
 
                 $("#QR_UUID").focus();
