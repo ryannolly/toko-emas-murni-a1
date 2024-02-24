@@ -215,7 +215,7 @@ table td {
                     <td><?php echo format_ip($b->open, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open_bersih, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open_timbang, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->open - $b->open_timbang, 2, ".", ""); ?></td>
+					<td><?php echo format_ip($b->open_timbang - $b->open, 2, ".", ""); ?></td>
                     <td><?php echo format_ip($b->masuk, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->keluar, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->jual, 2, ".", "") ?></td>
@@ -229,7 +229,7 @@ table td {
                     <td><?php echo format_ip($b->open_qt) ?></td>
 					<td><?php echo format_ip($b->open_bersih_qt, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->open_timbang_qt) ?></td>
-					<td><?php echo format_ip($b->open_qt - $b->open_timbang_qt) ?></td>
+					<td><?php echo format_ip($b->open_timbang_qt - $b->open_qt) ?></td>
                     <td><?php echo format_ip($b->masuk_qt) ?></td>
                     <td><?php echo format_ip($b->keluar_qt) ?></td>
                     <td><?php echo format_ip($b->jual_qt) ?></td>

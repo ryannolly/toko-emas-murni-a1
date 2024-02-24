@@ -289,7 +289,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo format_ip($p->open, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->open_bersih, 2, ".", "") ?></td>
                               <td><input name="timbang_open[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang, 2, ".", "") ?>"></td>
-                              <td><?php echo format_ip($p->open - $p->open_timbang, 2, ".", ""); ?></td>
+                              <td><?php echo format_ip($p->open_timbang - $p->open, 2, ".", ""); ?></td>
                               <td><?php echo format_ip($p->masuk, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->keluar, 2, ".", "") ?></td>
                               <td><?php echo format_ip($p->jual, 2, ".", "") ?></td>
@@ -303,7 +303,7 @@ function tgl_indo_hari_ini(){
                               <td><?php echo format_ip($p->open_qt) ?></td>
                               <td><?php echo format_ip($p->open_bersih_qt) ?></td>
                               <td><input name="timbang_open_qt[]" type="text" class="form-control" value="<?php echo format_ip($p->open_timbang_qt) ?>"></td>
-                              <td><?php echo format_ip($p->open_qt - $p->open_timbang_qt); ?></td>
+                              <td><?php echo format_ip($p->open_timbang_qt - $p->open_qt); ?></td>
                               <td><?php echo format_ip($p->masuk_qt) ?></td>
                               <td><?php echo format_ip($p->keluar_qt) ?></td>
                               <td><?php echo format_ip($p->jual_qt) ?></td>
