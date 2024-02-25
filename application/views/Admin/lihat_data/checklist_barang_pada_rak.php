@@ -44,7 +44,7 @@
                                         <?php if($p->is_checked) : ?>
                                             <tr>
                                                 <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
-                                                <td class="text-wrap"><?php echo $p->nama_barang ?></td>
+                                                <td class="text-wrap"><?php echo $p->nama_barang ?> / <?php echo number_format($p->berat_jual, 2, ".", ",") ?> gr</td>
                                                 <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
                                             </tr>
                                         <?php endif; ?>
@@ -79,7 +79,7 @@
                                     <?php if($p->is_checked == 0) :  ?>
                                         <tr id="tr_<?php echo $p->id_barang ?>">
                                             <td><?php echo $p->id_barang; ?> / <?php echo $p->urutan_rak ?></td>
-                                            <td class="text-wrap"><?php echo $p->nama_barang ?></td>
+                                            <td class="text-wrap"><?php echo $p->nama_barang ?> / <?php echo number_format($p->berat_jual, 2, ".", ",") ?> gr</td>
                                             <td class="text-wrap"><?php echo $p->nama_rak . " / " . $p->nama_kadar ?></td>
                                             <td class="text-wrap">
                                                 <a target="_blank" href="<?php echo base_url("adm/data_barang/ubah_data_barang/".$p->id_barang) ?>">
@@ -147,12 +147,12 @@
                             
                             var html = "";
                             html += "<tr>";
-                            html += "<td>" + jawaban.data.Id + "</td>";
-                            html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                            html += "<td>" + jawaban.data.Id + "/" + jawaban.data.urutan_rak + "</td>";
+                            html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "/" + jawaban.data.berat_jual + "</td>";
                             html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
                             html += "</tr>";
 
-                            $('#tempat_detail_barang_scan').html(html);
+                            $('#tempat_detail_barang_scan').append(html);
                         }else{
                             alert("Data tersebut tidak ada pada rak tersebut!");
 
@@ -204,12 +204,12 @@
                     $("#tr_" + jawaban.data.Id).remove();
                     var html = "";
                     html += "<tr>";
-                    html += "<td>" + jawaban.data.Id + "</td>";
-                    html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "</td>";
+                    html += "<td>" + jawaban.data.Id + "/" + jawaban.data.urutan_rak + "</td>";
+                    html += "<td class='text-wrap'>" + jawaban.data.nama_barang + "/" + jawaban.data.berat_jual + " gr</td>";
                     html += "<td class='text-wrap'>" + jawaban.data.nama_rak + " / " + jawaban.data.nama_kadar +  "</td>";
                     html += "</tr>";
 
-                    $('#tempat_detail_barang_scan').html(html);
+                    $('#tempat_detail_barang_scan').append(html);
                 }else{
                     alert("Data tersebut tidak ada pada rak tersebut!");
 

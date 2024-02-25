@@ -140,13 +140,6 @@ class Data_barang extends CI_Controller {
             }else{
                 $fileName = $this->upload->data('file_name');
             }
-        }else{
-            //Kalau Gak dimasukkan ya nendang beb
-            $this->session->set_flashdata('pesan', '<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">
-                                                Harap Memasukkan foto anda terlebih dahulu!
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            </div>');
-            redirect('adm/data_barang');
         }
 
         //Get Terakhir

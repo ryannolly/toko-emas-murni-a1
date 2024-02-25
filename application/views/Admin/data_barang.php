@@ -248,7 +248,7 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="">Foto (Maksimum Fail 10MB)</label>
-                                    <input type="file" class="form-control" name="foto" required>
+                                    <input type="file" class="form-control" name="foto">
                                 </div>
                             </div>
                         </div>
