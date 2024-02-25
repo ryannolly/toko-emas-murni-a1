@@ -885,6 +885,13 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql, array($id_rak, $kyou));
         return $query->row();
     }
+
+    function get_detail_opening_terakhir(){
+        $sql = "SELECT * FROM tr_riwayat_keuangan ORDER BY tanggal DESC LIMIT 1";
+
+        $query = $this->db->query($sql);
+        return $query->row();
+    }
 }
 
 ?>
