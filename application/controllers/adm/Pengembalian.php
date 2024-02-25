@@ -91,6 +91,41 @@ class Pengembalian extends CI_Controller {
         $this->load->view('Admin/Template_admin/footer');
     }
 
+    public function pengembalian_tanpa_barang_proses(){
+        //Cek Dulu Kalau kosong isiannya tembak keluar
+        if(empty($this->input->post("keterangan")) || empty($this->input->post("nilai_jual"))){
+            redirect("adm/pengembalian/");
+        }
+
+        //Buat Dulu ms_penjualan
+        $KdPengembalian     = $this->model_admin->create_kode_pengembalian();
+
+        //Langsung letak di tr_pengembalian
+        $data = array(
+            'KdPengembalian'        => $KdPengembalian,
+            'id_barang'             => $this->input->post("keterangan"),
+            'id_kadar'              => "",
+            'berat_terima'          => 0,
+            'uang'                  => $this->input->post("nilai_jual"),
+            'berat_asli'            => 0,
+            'Kategori'              => "",
+            'selisih_berat'         => 0,
+            'usrid'                 => $this->session->userdata("username") . " - PENGEMBALIAN TANPA BARCODE - " . date("Y-m-d H:i:s", time()),
+            'tgl_penjualan'         => date("Y-m-d", time()),
+            'tgl_real_penjualan'    => time()
+        );
+
+        $this->model_admin->tambah_data("tr_pengembalian", $data);
+
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible" role="alert" style="color:#000">
+                                                Pengembalian Barang Tanpa Barcode Berhasil Dilakukan!
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+        ');
+
+        redirect('adm/pengembalian');
+    }
+
     public function proses_pengembalian(){
         //Kalau Kosong langsung tembak keluar aja
         if(count($this->session->userdata("barang_pengembalian")) <= 0){

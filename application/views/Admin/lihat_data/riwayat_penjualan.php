@@ -44,9 +44,15 @@ function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','
                             </tr>
                             <?php foreach($detail_penjualan as $p) :  ?>
                                 <tr>
-                                    <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
-                                    <td class="text-wrap"><?php echo format_ip($p->berat_jual, 2, ".", "") ?>gr/<?php echo format_ip($p->berat_asli, 2, ".", "") ?>gr</td>
-                                    <td class="text-wrap"><?php echo "Rp".$p->nilai_barang ?></td>
+                                    <?php if(!empty($p->nama_barang)) :  ?>
+                                        <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                        <td class="text-wrap"><?php echo format_ip($p->berat_jual, 2, ".", "") ?>gr/<?php echo format_ip($p->berat_asli, 2, ".", "") ?>gr</td>
+                                        <td class="text-wrap"><?php echo "Rp".$p->nilai_barang ?></td>
+                                    <?php else:  ?>
+                                        <td class="text-wrap"><?php echo $p->id_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                        <td class="text-wrap"><?php echo format_ip($p->berat_jual, 2, ".", "") ?>gr/<?php echo format_ip($p->berat_asli, 2, ".", "") ?>gr</td>
+                                        <td class="text-wrap"><?php echo "Rp".$p->nilai_barang ?></td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

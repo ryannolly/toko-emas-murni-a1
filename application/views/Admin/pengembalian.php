@@ -7,6 +7,46 @@
 
               <?php echo $this->session->flashdata("pesan"); ?>
 
+              <div class="row mb-3">
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Pengembalian Tanpa Barcode</button>
+                </div>
+              </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="cetakQR" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Proses Pengembalian Tanpa Barcode</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="<?php echo base_url('adm/pengembalian/pengembalian_tanpa_barang_proses') ?>" method="post">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Keterangan (Isi dengan Keterangan Pengembalian/Pengeluaran)</label>
+                                    <input type="text" class="form-control" name="keterangan" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="">Nilai Pengeluaran (Harap diisi dengan angka)</label>
+                                    <input type="number" class="form-control" name="nilai_jual" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Tambahkan">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+
               <!-- Bordered Table -->
               <div class="card mb-3">
                 <h5 class="card-header">Silahkan masukkan keterangan barang yang ingin dikembalikan</h5>

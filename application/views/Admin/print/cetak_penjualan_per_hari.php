@@ -217,7 +217,7 @@ $total_harga = 0;
                     <td align="center"><?php echo $no++; ?></td>
                     <td><?php echo $b->KdPenjualan ?></td>
                     <td><?php echo date("Y-m-d H:i:s", $b->TglProses) ?></td>
-					<td><?php echo ($b->JnPembayaran == "Bank") ? $b->id_kadar : $b->nama_barang ?></td>
+					<td><?php echo ($b->JnPembayaran == "Bank") ? $b->id_barang : $b->nama_barang ?></td>
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
 					<td><?php echo format_ip($b->berat_jual, 2, ".", ""); $total_berat_jual += $b->berat_jual ?></td>
@@ -227,8 +227,8 @@ $total_harga = 0;
             <?php endforeach; ?>
             <tr>
                 <td colspan="6" align="right">Jumlah</td>
+                <td><?php echo $total_berat_jual; ?></td>
                 <td><?php echo $total_berat; ?></td>
-                <td><?php echo $total_berat_jual ?></td>
                 <td>Rp. <?php echo format_ip($total_harga, 2, ".", ",") ?></td>
             </tr>
         </tbody>

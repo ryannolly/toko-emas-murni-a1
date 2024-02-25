@@ -30,9 +30,15 @@
                             </tr>
                             <?php foreach($detail_pengembalian as $p) :  ?>
                                 <tr>
-                                    <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
-                                    <td><?php echo $p->Kategori ?></td>
-                                    <td class="text-wrap"><?php echo "Rp".$p->uang ?></td>
+                                    <?php if(!empty($p->nama_barang)) : ?>
+                                        <td class="text-wrap"><?php echo $p->nama_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                        <td><?php echo $p->Kategori ?></td>
+                                        <td class="text-wrap"><?php echo "Rp".$p->uang ?></td>
+                                    <?php else: ?>
+                                        <td class="text-wrap"><?php echo $p->id_barang."/".$p->nama_kadar."/".$p->nama_rak ?></td>
+                                        <td><?php echo $p->Kategori ?></td>
+                                        <td class="text-wrap"><?php echo "Rp".$p->uang ?></td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

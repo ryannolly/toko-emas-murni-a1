@@ -6,6 +6,8 @@
               <h4 class="fw-bold py-3 mb-3">Penjualan</h4>
 
               <?php echo $this->session->flashdata("pesan"); ?>
+              
+              <div class="alert alert-success" role="alert" style="color:#000">Menu Penjualan juga dapat dijadikan untuk uang masuk, Gunakan menu Penjualan barang tanpa barcode untuk memasukkan uang tanpa menjual barang via barcode</div>
 
               <div class="modal fade" id="penjualanKasir" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">
@@ -65,7 +67,7 @@
                         <form action="<?php echo base_url('adm/penjualan/penjualan_tanpa_barang_proses') ?>" method="post">
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="nameExLarge" class="form-label">Keterangan (Isi dengan Keterangan Penjualan)</label>
+                                    <label for="nameExLarge" class="form-label">Keterangan (Isi dengan Keterangan Penjualan/Pemasukkan)</label>
                                     <input type="text" class="form-control" name="keterangan" required>
                                 </div>
                             </div>
@@ -75,12 +77,29 @@
                                     <input type="number" class="form-control" name="nilai_jual" required>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="">Kadar</label>
+                                    <select name="id_kadar" id="" class="form-control">
+                                        <option value="">-- Tidak Ada Kadar --</option>
+                                        <?php foreach($data_kadar as $d) : ?>
+                                          <option value="<?php echo $d->id ?>"><?php echo $d->nama_kadar ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="">Berat dalam gr (Harap diisi dengan angka)</label>
+                                    <input type="number" class="form-control" name="berat" placeholder="Kosongkan jika tidak ada berat..">
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                             Close
                             </button>
-                            <input type="submit" class="btn btn-primary" value="Cetak">
+                            <input type="submit" class="btn btn-primary" value="Tambahkan">
                         </div>
                         </form>
                     </div>

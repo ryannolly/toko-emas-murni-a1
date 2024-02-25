@@ -3,7 +3,7 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-3">Penjualan</h4>
+              <h4 class="fw-bold py-3 mb-3">Checklist Barang Pada Rak</h4>
 
               <?php echo $this->session->flashdata("pesan"); ?>
 

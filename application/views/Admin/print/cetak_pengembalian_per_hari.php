@@ -217,7 +217,7 @@ $total_harga = 0;
                     <td align="center"><?php echo $no++; ?></td>
                     <td><?php echo $b->KdPengembalian ?></td>
                     <td><?php echo date("Y-m-d H:i:s", $b->TglProses) ?></td>
-                    <td><?php echo $b->nama_barang ?></td>
+                    <td><?php echo (empty($b->nama_barang)) ? $b->id_barang : $b->nama_barang ?></td>
                     <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
                     <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>

@@ -27,12 +27,12 @@ class Penjualan extends CI_Controller {
 
     public function index(){
         // $data['data_barang']        = $this->model_admin->tampil_data_barang();
-        // $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
+        $data['data_kadar']         = $this->model_admin->tampil_data("ms_kadar", "nama_kadar", "ASC")->result();
         // $data['data_rak']           = $this->model_admin->tampil_data("ms_rak", "nama_rak", "ASC")->result();
         
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
-        $this->load->view('Admin/penjualan');
+        $this->load->view('Admin/penjualan', $data);
         $this->load->view('Admin/Template_admin/footer');
     }
 
@@ -41,16 +41,21 @@ class Penjualan extends CI_Controller {
             //Masukkan terlebih dahulu ke ms penjualan
             $KdPenjualan    = $this->model_admin->create_kode_penjualan();
 
+            $berat = 0;
+            if(!empty($this->input->post("berat"))){
+                $berat = $this->input->post("berat");
+            }
+
             $data_per_biji = array(
-                'id_kadar'    => $this->input->post("keterangan"),
+                'id_barang'   => $this->input->post("keterangan"),
                 'KdPenjualan' => $KdPenjualan,
-                'berat_jual'  => 0,
-                'berat_asli'  => 0,
+                'berat_jual'  => $berat,
+                'berat_asli'  => $berat,
                 'nilai_barang'=> $this->input->post("nilai_jual"),
                 'DP_Pelunasan'=> $this->input->post("nilai_jual"),
                 'JnPembayaran'=> "Bank",
                 'id_rak'      => "",
-                'id_barang'   => "",
+                'id_kadar'    => $this->input->post("id_kadar"),
                 'usrid'       => $this->session->userdata("username"). " - " .date("Y-m-d H:i:s", time()),
                 'tgl_penjualan' => date("Y-m-d H:i:s", time()),
                 'tgl_real_penjualan'    => time()
@@ -159,7 +164,7 @@ class Penjualan extends CI_Controller {
             foreach($this->session->userdata("barang_kasir") as $p){
                 if($p->id_session_barang == $POST_id_barang[$i]){
                     $data_per_biji = array(
-                        'id_kadar'    => $p->id_rak,
+                        'id_kadar'    => $p->id_kadar,
                         'KdPenjualan' => $KdPenjualan,
                         'berat_jual'  => $p->berat_jual,
                         'berat_asli'  => (floatval($POST_berat_barang[$i]) == 0) ? $p->berat_jual : $POST_berat_barang[$i],

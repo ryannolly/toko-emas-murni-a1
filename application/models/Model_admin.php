@@ -195,7 +195,7 @@ class Model_admin extends CI_Model {
     }
     //-- Datatables Data Barang
 
-    function create_kode_penjualan($NoInvoice){
+    function create_kode_penjualan($NoInvoice = null){
         $data = array(
             'TglProses' => time(),
             'usrid'     => $this->session->userdata("username"),
@@ -365,7 +365,7 @@ class Model_admin extends CI_Model {
         $this->db->join("ms_barang barang", "penjualan.id_barang = barang.id", 'left');
         $this->db->join("ms_barang_hapus barpus", "barpus.id = penjualan.id_barang", "left");
         $this->db->join("ms_rak rak", "penjualan.id_rak = rak.id", 'left');
-        $this->db->join("ms_kadar kadar", "barang.id_kadar = kadar.id OR barpus.id_kadar = kadar.id", 'left');
+        $this->db->join("ms_kadar kadar", "barang.id_kadar = kadar.id OR barpus.id_kadar = kadar.id OR penjualan.id_kadar = kadar.id", 'left');
         $this->db->where("penjualan.KdPenjualan", $KdPenjualan);
 
         $query = $this->db->get();
@@ -752,12 +752,12 @@ class Model_admin extends CI_Model {
     //End of Riwayat Penghapusan Barang
 
     function get_rekap_penjualan($tanggal_awal, $tanggal_akhir){
-        $sql = "SELECT jual.KdPenjualan, jual.TglProses, barang.nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.berat_jual, detail.nilai_barang, detail.JnPembayaran, detail.id_kadar FROM
+        $sql = "SELECT jual.KdPenjualan, jual.TglProses, barang.nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.berat_jual, detail.nilai_barang, detail.JnPembayaran, detail.id_kadar, detail.id_barang FROM
                 ms_penjualan jual
                 LEFT JOIN tr_penjualan detail ON detail.KdPenjualan = jual.KdPenjualan
                 LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
                 LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
-                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
+                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar OR detail.id_kadar = kadar.id
                 WHERE jual.TglProses >= ? AND jual.TglProses <= ?";
 
         $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
@@ -770,8 +770,8 @@ class Model_admin extends CI_Model {
                 LEFT JOIN tr_penjualan detail ON detail.KdPenjualan = jual.KdPenjualan
                 LEFT JOIN ms_barang_hapus barang ON barang.id = detail.id_barang
                 LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
-                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
-                WHERE jual.TglProses >= ? AND jual.TglProses <= ? AND detail.JnPembayaran != 'Bank'
+                LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar OR detail.id_kadar = kadar.id
+                WHERE jual.TglProses >= ? AND jual.TglProses <= ? AND detail.id_kadar != ''
                 GROUP BY kadar.nama_kadar";
 
         $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
@@ -780,7 +780,7 @@ class Model_admin extends CI_Model {
     
     //Get Rekap Pengembalian
     function get_rekap_pengembalian($tanggal_awal, $tanggal_akhir){
-        $sql = "SELECT jual.KdPengembalian, jual.TglProses, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.uang FROM
+        $sql = "SELECT jual.KdPengembalian, jual.TglProses, IF(barang.nama_barang IS NULL, barpus.nama_barang, barang.nama_barang) AS nama_barang, kadar.nama_kadar, rak.nama_rak, detail.berat_asli, detail.uang, detail.id_barang  FROM
                 ms_pengembalian jual
                 LEFT JOIN tr_pengembalian detail ON detail.KdPengembalian = jual.KdPengembalian
                 LEFT JOIN ms_barang barang ON barang.id = detail.id_barang
@@ -800,7 +800,7 @@ class Model_admin extends CI_Model {
                 LEFT JOIN ms_barang barang ON barang.id = detail.id_barang
                 LEFT JOIN ms_rak rak ON rak.id = barang.id_rak
                 LEFT JOIN ms_kadar kadar ON kadar.id = barang.id_kadar
-                WHERE jual.TglProses >= ? AND jual.TglProses <= ?
+                WHERE jual.TglProses >= ? AND jual.TglProses <= ? AND detail.id_kadar != ''
                 GROUP BY kadar.nama_kadar";
 
         $query = $this->db->query($sql, array($tanggal_awal, $tanggal_akhir));
