@@ -205,6 +205,7 @@ table td {
 				<th>Tutup<br>Bersih</th>
                 <th>Timbang</th>
                 <th>Selisih</th>
+				<th>Selisih Bersih</th>
 			</tr>
 		</thead>
 		<tbody  Border="0">
@@ -221,8 +222,9 @@ table td {
                     <td><?php echo format_ip($b->jual, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->tutup, 2, ".", "") ?></td>
 					<td><?php echo format_ip($b->tutup_bersih, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->timbang) ?></td>
+                    <td><?php echo format_ip($b->timbang, 2, ".", "") ?></td>
                     <td><?php echo format_ip($b->tutup - $b->timbang, 2, ".", ""); ?></td>
+					<td><?php echo format_ip($b->timbang - $b->tutup_bersih - $b->jumlah_nol_persen, 2, ".", ""); ?></td>
                 </tr>
                 <tr>
                     <td><?php echo "Quantity" ?></td>
@@ -237,6 +239,7 @@ table td {
 					<td><?php echo format_ip($b->tutup_bersih_qt) ?></td>
                     <td><?php echo format_ip($b->timbang_qt) ?></td>
                     <td><?php echo format_ip($b->tutup_qt - $b->timbang_qt) ?></td>
+					<td><?php echo format_ip($b->tutup_qt - $b->timbang_qt) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

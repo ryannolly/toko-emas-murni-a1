@@ -892,6 +892,14 @@ class Model_admin extends CI_Model {
         $query = $this->db->query($sql);
         return $query->row();
     }
+
+    function get_nol_persen_pada_rak($id_rak){
+        $sql = "SELECT SUM(berat_jual) AS berat FROM ms_barang WHERE id_kadar = 1 AND id_rak = ?";
+
+        $query = $this->db->query($sql, array($id_rak));
+        $res = $query->row();
+        return $res->berat;
+    }
 }
 
 ?>

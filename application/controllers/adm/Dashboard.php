@@ -258,6 +258,10 @@ class Dashboard extends CI_Controller {
         $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
         $data['kyou']                   = $kyou;
 
+        foreach($data['big_book'] as $b){
+            $b->jumlah_nol_persen       = $this->model_admin->get_nol_persen_pada_rak($b->id_rak);
+        }
+
         $this->load->view("admin/print/print_big_book.php", $data);
     }
 

@@ -38,6 +38,11 @@ class Riwayat_big_book extends CI_Controller {
         $ashita     = date("Y-m-d", $kyou_angka+86400);
 
         $data['big_book']               = $this->model_admin->get_big_book_dashboard($kyou);
+        
+        foreach($data['big_book'] as $b){
+            $b->jumlah_nol_persen       = $this->model_admin->get_nol_persen_pada_rak($b->id_rak);
+        }
+
         $data['kyou']                   = $kyou;
 
         $this->load->view("admin/print/print_big_book.php", $data);
