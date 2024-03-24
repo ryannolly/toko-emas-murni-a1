@@ -102,6 +102,18 @@ class Riwayat_pengembalian extends CI_Controller {
         $this->load->view("Admin/print/cetak_pengembalian_per_hari", $data);
     }
 
+    public function cetak_pengembalian_range(){
+        $tanggal_awal   = strtotime($this->input->post("tgl_input_real") . " 00:00:00");
+        $tanggal_akhir  = strtotime($this->input->post("tgl_input_real_akhir") . " 00:00:00");
+
+        $data['rekap'] = $this->model_admin->get_rekap_pengembalian($tanggal_awal, $tanggal_akhir);
+        $data['rekap_per_kadar'] = $this->model_admin->get_rekap_pengembalian_per_kadar($tanggal_awal, $tanggal_akhir); 
+        $data['tanggal_mulai']  = $this->input->post("tgl_input_real");
+        $data['tanggal_akhir'] = $this->input->post("tgl_input_real_akhir");
+
+        $this->load->view("Admin/print/cetak_pengembalian_per_hari_range", $data);
+    }
+
     public function detail_pengembalian($Id = 0){
         if($Id === 0){
             $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible" role="alert" style="color:#000">

@@ -12,6 +12,9 @@
                 <div class="col-lg-2">
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR">Cetak Penjualan</button>
                 </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cetakQR2">Cetak Penjualan (Range)</button>
+                </div>
               </div>
               <?php endif;  ?>
 
@@ -29,6 +32,38 @@
                                 <div class="col mb-3">
                                     <label for="nameExLarge" class="form-label">Tanggal</label>
                                     <input type="date" class="form-control" name="tgl_input_real">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                            </button>
+                            <input type="submit" class="btn btn-primary" value="Cetak">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Extra Large Modal -->
+              <div class="modal fade" id="cetakQR2" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel4">Cetak Penjualan (Range)</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="<?php echo base_url('adm/riwayat_penjualan/cetak_penjualan_range') ?>" method="post">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="nameExLarge" class="form-label">Tanggal Awal</label>
+                                    <input type="date" class="form-control" name="tgl_input_real">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="nameExLarge" class="form-label">Tanggal Akhir</label>
+                                    <input type="date" class="form-control" name="tgl_input_real_akhir">
                                 </div>
                             </div>
                         </div>

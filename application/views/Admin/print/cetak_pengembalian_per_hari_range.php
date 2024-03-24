@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Cetak Riwayat Barang Masuk</title>
+    <title>Cetak Pengembalian Per Hari</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta name="robots" content="noindex,nofollow" />
@@ -15,7 +15,7 @@ function format_ip($number, $decimals = 0, $decPoint = '.' , $thousandsSep = ','
     $coefficient = 10 ** $decimals;
     $number = $negation * floor((string)(abs($number) * $coefficient)) / $coefficient;
     return number_format($number, $decimals, $decPoint, $thousandsSep);
-}
+  }
 
 ?>
 
@@ -184,65 +184,68 @@ table td {
 }
 </style>
 
+<?php
+
+$total_berat = 0;
+$total_berat_jual = 0;
+$total_harga = 0;
+
+?>
+
 </head>
 <body>
-	<h3 class="letter-info center" style="text-transform: uppercase;">BIG BOOK</h3>
-	<h3 class="letter-info center" style="text-transform: uppercase;">Tanggal : <?php echo $kyou; ?></h3>
+	<h3 class="letter-info center" style="text-transform: uppercase;">CETAK PENGEMBALIAN</h3>
+	<h3 class="letter-info center" style="text-transform: uppercase;">Tanggal Mulai : <?php echo $tanggal_mulai; ?></h3>
+    <h3 class="letter-info center" style="text-transform: uppercase;">Tanggal Akhir : <?php echo $tanggal_akhir; ?></h3>
     <h3 class="letter-info center" style="text-transform: uppercase;">Waktu Cetak : <?php echo date("Y-m-d H:i:s", time()); ?></h3>
-	<table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 8pt;">
+	<!-- <table  cellspacing="0" Border="1" style="width:100%;" style="font-size: 8pt;">
 		<thead style="background-color: #c3c3c3;">
 			<tr>
 				<th style="width :5%" >No</th>
-				<th>Kode</th>
-                <th>Open</th>
-				<th>Open<br>Bersih</th>
-				<th width="7%">Open<br>Timbang</th>
-				<th>Selisih</th>
-				<th>Masuk</th>
-                <th>Keluar</th>
-                <th>Jual</th>
-                <th>Tutup</th>
-				<th>Tutup<br>Bersih</th>
-                <th>Timbang</th>
-                <th>Selisih</th>
-				<th>Selisih Bersih</th>
+				<th>Kode Pengembalian</th>
+                <th>Tgl Proses</th>
+				<th>Nama Barang</th>
+                <th>Nama Kadar</th>
+                <th>Nama Rak</th>
+                <th>Berat Asli (Gram)</th>
+				<th>Nilai</th>
+				
 			</tr>
 		</thead>
 		<tbody  Border="0">
-            <?php $no = 1; foreach($big_book as $b) :  ?>
+            <?php $no = 1; foreach($rekap as $b) :  ?>
                 <tr>
-                    <td rowspan="2" align="center"><?php echo $no++; ?></td>
+                    <td align="center"><?php echo $no++; ?></td>
+                    <td><?php echo $b->KdPengembalian ?></td>
+                    <td><?php echo date("Y-m-d H:i:s", $b->TglProses) ?></td>
+                    <td><?php echo (empty($b->nama_barang)) ? $b->id_barang : $b->nama_barang ?></td>
+                    <td><?php echo $b->nama_kadar ?></td>
                     <td><?php echo $b->nama_rak ?></td>
-                    <td><?php echo format_ip($b->open, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->open_bersih, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->open_timbang, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->open_timbang - $b->open, 2, ".", ""); ?></td>
-                    <td><?php echo format_ip($b->masuk, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->keluar, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->jual, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->tutup, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->tutup_bersih, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->timbang, 2, ".", "") ?></td>
-                    <td><?php echo format_ip($b->tutup - $b->timbang, 2, ".", ""); ?></td>
-					<td><?php echo format_ip($b->tutup_bersih - $b->timbang, 2, ".", ""); ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo "Quantity" ?></td>
-                    <td><?php echo format_ip($b->open_qt) ?></td>
-					<td><?php echo format_ip($b->open_bersih_qt, 2, ".", "") ?></td>
-					<td><?php echo format_ip($b->open_timbang_qt) ?></td>
-					<td><?php echo format_ip($b->open_timbang_qt - $b->open_qt) ?></td>
-                    <td><?php echo format_ip($b->masuk_qt) ?></td>
-                    <td><?php echo format_ip($b->keluar_qt) ?></td>
-                    <td><?php echo format_ip($b->jual_qt) ?></td>
-                    <td><?php echo format_ip($b->tutup_qt) ?></td>
-					<td><?php echo format_ip($b->tutup_bersih_qt) ?></td>
-                    <td><?php echo format_ip($b->timbang_qt) ?></td>
-                    <td><?php echo format_ip($b->tutup_qt - $b->timbang_qt) ?></td>
-					<td><?php echo format_ip($b->tutup_qt - $b->timbang_qt) ?></td>
+                    <td><?php echo $b->berat_asli; $total_berat += $b->berat_asli ?></td>
+					<td>Rp <?php echo format_ip($b->uang, 2, ".", ","); $total_harga+=$b->uang ?></td>
                 </tr>
             <?php endforeach; ?>
+            <tr>
+                <td colspan="6" align="right">Jumlah</td>
+                <td><?php echo $total_berat; ?></td>
+				<td>Rp <?php echo format_ip($total_harga, 2, ".", ","); ?></td>
+            </tr>
         </tbody>
+	</table> -->
+	
+	<table  cellspacing="0" Border="1" style="width:100%;margin-top:20px;" style="font-size: 8pt;">
+		<?php foreach($rekap_per_kadar as $p) :  ?>
+            <tr>
+                <td rowspan="2">Kadar <?php echo $p->nama_kadar ?></td>
+                <td>Berat</td>
+                <td><?php echo format_ip($p->BeratAsli, 2, ".", "") ?></td>
+                <td rowspan="2">Rp. <?php echo format_ip(round((float) $p->uang / (float) $p->BeratAsli, 2, PHP_ROUND_HALF_UP), 2, ".", ",") ?></td>
+            </tr>
+            <tr>
+                <td>Nilai Jual</td>
+                <td>Rp. <?php echo format_ip($p->uang, 2, ".", ",") ?></td>
+            </tr>
+        <?php endforeach; ?>
 	</table>
 </body>
 </html>
